@@ -1,0 +1,8 @@
+// MediFlow / Admin / src / components / Navbar / Navbar.jsx
+import React from "react";
+
+const Navbar = () => {
+  return <div>Navbar</div>;
+};
+
+export default Navbar;
