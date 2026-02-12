@@ -1,0 +1,116 @@
+/* MediFlow / Client / src / components / Navbar / Navbar.css */
+@keyframes borderFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.navbar-border {
+  height: 2px;
+  background: linear-gradient(90deg, #6366f1, #3b82f6, #4f46e5, #6366f1);
+  background-size: 300% 100%;
+  animation: borderFlow 6s ease infinite;
+}
+
+.nav-item {
+  animation: slideIn 0.45s ease-out forwards;
+  position: relative;
+}
+
+.nav-item.active {
+  background: white !important;
+  color: #4f46e5 !important;
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.12);
+}
+
+.nav-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: #6366f1;
+  border-radius: 9999px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translateX(-50%) scale(1.25);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-add {
+  background-image:
+    linear-gradient(white, white),
+    linear-gradient(90deg, #6366f1, #3b82f6, #4f46e5);
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.06);
+  transform: translateZ(0);
+}
+
+.btn-add:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.12);
+}
+
+.btn-login {
+  animation: glow 2.2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(99, 102, 241, 0.22),
+      0 4px 12px rgba(99, 102, 241, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 0 32px rgba(99, 102, 241, 0.36),
+      0 6px 22px rgba(99, 102, 241, 0.18);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    height: 0;
+  }
+  to {
+    opacity: 1;
+    height: auto;
+  }
+}
+
+.mobile-menu {
+  animation: fadeIn 0.28s ease-out;
+}
