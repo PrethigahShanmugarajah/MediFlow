@@ -5,6 +5,7 @@ import {
   createAppointment,
   getAppointments,
   getAppointmentsByPatient,
+  updateAppointment,
 } from "../controllers/appointmentController.js";
 import { clerkMiddleware, requireAuth } from "@clerk/express";
 
@@ -26,5 +27,7 @@ appointmentRouter.get(
   requireAuth(),
   getAppointmentsByPatient,
 );
+
+appointmentRouter.put("/appointment-update/:id", updateAppointment);
 
 export default appointmentRouter;
