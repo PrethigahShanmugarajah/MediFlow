@@ -54,12 +54,15 @@ export async function createService(req, res) {
       data: savedService,
     });
   } catch (error) {
-    console.error("Create Service Error:", error);
+    console.error(
+      "Create Service Error:",
+      error?.stack || error?.message || error,
+    );
 
     return res.status(500).json({
       success: false,
       message: "Failed to create service.",
-      error: `Create Service Error: ${error?.message || error}`,
+      error: `Create Service Error: ${error?.stack || error?.message || error}`,
     });
   }
 }
@@ -91,12 +94,15 @@ export async function getServices(req, res) {
       data: listServices,
     });
   } catch (error) {
-    console.error("Get Services Error:", error);
+    console.error(
+      "Get Services Error:",
+      error?.stack || error?.message || error,
+    );
 
     return res.status(500).json({
       success: false,
       message: "Failed to fetch services.",
-      error: `Get Services Error: ${error?.message || error}`,
+      error: `Get Services Error: ${error?.stack || error?.message || error}`,
     });
   }
 }
@@ -119,12 +125,15 @@ export async function getServiceById(req, res) {
       data: service,
     });
   } catch (error) {
-    console.error("Get Service Error:", error);
+    console.error(
+      "Get Service Error:",
+      error?.stack || error?.message || error,
+    );
 
     return res.status(500).json({
       success: false,
       message: "Failed to fetch service.",
-      error: `Get Service Error: ${error?.message || error}`,
+      error: `Get Service Error: ${error?.stack || error?.message || error}`,
     });
   }
 }
@@ -190,12 +199,15 @@ export async function updateService(req, res) {
       data: updatedService,
     });
   } catch (error) {
-    console.error("Update Service Error:", error);
+    console.error(
+      "Update Service Error:",
+      error?.stack || error?.message || error,
+    );
 
     return res.status(500).json({
       success: false,
       message: "Failed to update service.",
-      error: `Update Service Error: ${error?.message || error}`,
+      error: `Update Service Error: ${error?.stack || error?.message || error}`,
     });
   }
 }
@@ -230,12 +242,15 @@ export async function deleteService(req, res) {
       message: "Service deleted successfully!",
     });
   } catch (error) {
-    console.error("Delete Service Error:", error);
+    console.error(
+      "Delete Service Error:",
+      error?.stack || error?.message || error,
+    );
 
     return res.status(500).json({
       success: false,
       message: "Failed to delete service.",
-      error: `Delete Service Error: ${error?.message || error}`,
+      error: `Delete Service Error: ${error?.stack || error?.message || error}`,
     });
   }
 }
