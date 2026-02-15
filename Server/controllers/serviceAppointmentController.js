@@ -738,3 +738,49 @@ export async function updateServiceAppointment(req, res) {
     });
   }
 }
+
+/* -------- Cancel Service Appointment -------- */
+export async function cancelServiceAppointment(req, res) {
+  try {
+    const { id } = req.params;
+    const appt = await ServiceAppointment.findById(id);
+
+    if (!appt) {
+      return res.status(404).json({
+        success: false,
+        message: "Service appointment not found",
+      });
+    }
+
+    if (appt.status === "Completed") {
+      return res.status(400).json({
+        success: false,
+        message: "Cannot cancel a completed appointment",
+      });
+    }
+
+    appt.status = "Canceled";
+    if (appt.payment)
+      appt.payment.status =
+        appt.payment.status === "Confirmed" ? "Canceled" : "Pending";
+
+    await appt.save();
+
+    return res.json({
+      success: true,
+      message: "Service appointment canceled successfully!",
+      data: appt,
+    });
+  } catch (error) {
+    console.error(
+      "Cancel Service Appointment Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to cancel service appointment",
+      error: `Cancel Service Appointment Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
