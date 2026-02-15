@@ -656,3 +656,38 @@ export async function updateAppointment(req, res) {
     });
   }
 }
+
+/* -------- Cancel Appointment -------- */
+export async function cancelAppointment(req, res) {
+  try {
+    const { id } = req.params;
+    const appt = await Appointment.findById(id);
+
+    if (!appt) {
+      return res.status(404).json({
+        success: false,
+        message: "Appointment not found.",
+      });
+    }
+
+    appt.status = "Canceled";
+    await appt.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Appointment cancelled successfully!",
+      appointment: appt,
+    });
+  } catch (error) {
+    console.error(
+      "Cancel Appointment Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to cancel appointment.",
+      error: `Cancel Appointment Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
