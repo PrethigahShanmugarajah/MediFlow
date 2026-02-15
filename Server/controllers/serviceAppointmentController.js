@@ -550,3 +550,56 @@ export async function confirmServiceAppointmentPayment(req, res) {
     });
   }
 }
+
+/* -------- Get Service Appointments -------- */
+export async function getServiceAppointments(req, res) {
+  try {
+    const {
+      serviceId,
+      mobile,
+      status,
+      page: pageRaw = 1,
+      limit: limitRaw = 50,
+      search = "",
+    } = req.query;
+    const limit = Math.min(200, Math.max(1, parseInt(limitRaw, 10) || 50));
+    const page = Math.max(1, parseInt(pageRaw, 10) || 1);
+    const skip = (page - 1) * limit;
+
+    const filter = {};
+    if (serviceId) filter.serviceId = serviceId;
+    if (mobile) filter.mobile = mobile;
+    if (status) filter.status = status;
+    if (search) {
+      const re = new RegExp(search, "i");
+      filter.$or = [{ patientName: re }, { mobile: re }, { notes: re }];
+    }
+
+    const appointments = await ServiceAppointment.find(filter)
+      .populate("serviceId", "name image imageUrl imageSmall")
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    const total = await ServiceAppointment.countDocuments(filter);
+
+    return res.status(200).json({
+      success: true,
+      message: "Service appointments fetched successfully!",
+      appointments,
+      meta: { page, limit, total, count: appointments.length },
+    });
+  } catch (error) {
+    console.error(
+      "Get Service Appointments Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch service appointments.",
+      error: `Get Service Appointments Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
