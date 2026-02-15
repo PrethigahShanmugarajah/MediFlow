@@ -199,3 +199,43 @@ export async function updateService(req, res) {
     });
   }
 }
+
+/* -------- Delete Service -------- */
+export async function deleteService(req, res) {
+  try {
+    const { id } = req.params;
+    const existingService = await Service.findById(id);
+    if (!existingService) {
+      return res.status(404).json({
+        success: false,
+        message: "Service not found.",
+      });
+    }
+
+    if (existingService.imagePublicId) {
+      try {
+        await deleteFromCloudinary(existingService.imagePublicId);
+      } catch (error) {
+        console.warn(
+          "Failed to delete image from Cloudinary:",
+          error?.message || error,
+        );
+      }
+    }
+
+    await existingService.deleteOne();
+
+    return res.status(200).json({
+      success: true,
+      message: "Service deleted successfully!",
+    });
+  } catch (error) {
+    console.error("Delete Service Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete service.",
+      error: `Delete Service Error: ${error?.message || error}`,
+    });
+  }
+}
