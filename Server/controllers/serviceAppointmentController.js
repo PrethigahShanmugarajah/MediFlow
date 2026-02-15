@@ -49,62 +49,176 @@ export async function createServiceAppointment(req, res) {
       serviceImagePublicId: serviceImagePublicIdFromBody,
     } = body;
 
-    if (!serviceId)
+    if (!serviceId) {
       return res.status(400).json({
         success: false,
         message: "Service ID is required",
       });
+    }
 
-    if (!patientName || !String(patientName).trim())
+    // if (!patientName || !String(patientName).trim()) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Patient name is required",
+    //   });
+    // }
+
+    if (!patientName) {
       return res.status(400).json({
         success: false,
         message: "Patient name is required",
       });
+    }
 
-    if (!mobile || !String(mobile).trim())
+    if (!String(patientName).trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Patient name cannot be empty",
+      });
+    }
+
+    // if (!mobile || !String(mobile).trim()) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Mobile number is required",
+    //   });
+    // }
+
+    if (!mobile) {
       return res.status(400).json({
         success: false,
         message: "Mobile number is required",
       });
+    }
 
-    if (!date || !String(date).trim())
+    if (!String(mobile).trim()) {
       return res.status(400).json({
         success: false,
-        message: "Date is required (YYYY-MM-DD)",
+        message: "Mobile number cannot be empty",
       });
+    }
+
+    // if (!date || !String(date).trim()) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Date is required (YYYY-MM-DD)",
+    //   });
+    // }
+
+    if (!date) {
+      return res.status(400).json({
+        success: false,
+        message: "Date is required",
+      });
+    }
+
+    if (!String(date).trim()) {
+      return res.status(400).json({
+        success: false,
+        message: "Date cannot be empty (YYYY-MM-DD)",
+      });
+    }
 
     const numericAmount = safeNumber(amountFromBody ?? feesFromBody ?? 0);
-    if (numericAmount === null || numericAmount < 0)
+    // if (numericAmount === null || numericAmount < 0) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Amount or fees must be a valid number",
+    //   });
+    // }
+
+    if (numericAmount === null) {
       return res.status(400).json({
         success: false,
-        message: "Amount or fees must be a valid number",
+        message: "Amount or fees is required and must be a number",
       });
+    }
+
+    if (numericAmount < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Amount or fees cannot be negative",
+      });
+    }
 
     let finalHour = hour !== undefined ? safeNumber(hour) : null;
     let finalMinute = minute !== undefined ? safeNumber(minute) : null;
     let finalAmpm = ampm || null;
 
-    if (time && (finalHour === null || finalHour === undefined)) {
+    // if (time && (finalHour === null || finalHour === undefined)) {
+    //   const parsed = parseTimeString(time);
+    //   if (!parsed) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: "Time string could not be parsed",
+    //     });
+    //   }
+
+    //   finalHour = parsed.hour;
+    //   finalMinute = parsed.minute;
+    //   finalAmpm = parsed.ampm;
+    // }
+
+    if (time && finalHour === null) {
       const parsed = parseTimeString(time);
-      if (!parsed)
+      if (!parsed) {
         return res.status(400).json({
           success: false,
-          message: "Time string could not be parsed",
+          message:
+            "Hour is missing and the provided time string could not be parsed",
         });
+      }
+
       finalHour = parsed.hour;
       finalMinute = parsed.minute;
       finalAmpm = parsed.ampm;
     }
 
-    if (
-      finalHour === null ||
-      finalMinute === null ||
-      (finalAmpm !== "AM" && finalAmpm !== "PM")
-    ) {
+    if (time && finalHour === undefined) {
+      const parsed = parseTimeString(time);
+      if (!parsed) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Hour is undefined and the provided time string could not be parsed",
+        });
+      }
+
+      finalHour = parsed.hour;
+      finalMinute = parsed.minute;
+      finalAmpm = parsed.ampm;
+    }
+
+    // if (
+    //   finalHour === null ||
+    //   finalMinute === null ||
+    //   (finalAmpm !== "AM" && finalAmpm !== "PM")
+    // ) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message:
+    //       "Time is missing or invalid — provide time string or hour, minute, and AM/PM.",
+    //   });
+    // }
+
+    if (finalHour === null) {
       return res.status(400).json({
         success: false,
-        message:
-          "Time is missing or invalid — provide time string or hour, minute, and AM/PM.",
+        message: "Hour is missing — provide a valid hour or time string.",
+      });
+    }
+
+    if (finalMinute === null) {
+      return res.status(400).json({
+        success: false,
+        message: "Minute is missing — provide a valid minute or time string.",
+      });
+    }
+
+    if (finalAmpm !== "AM" && finalAmpm !== "PM") {
+      return res.status(400).json({
+        success: false,
+        message: "AM/PM value is missing or invalid — provide AM or PM.",
       });
     }
 
@@ -119,14 +233,15 @@ export async function createServiceAppointment(req, res) {
         ampm: finalAmpm,
         status: { $ne: "Canceled" },
       }).lean();
-      if (existing)
+      if (existing) {
         return res.status(409).json({
           success: false,
           message:
             "You already have a booking for this service on the selected date and time.",
         });
-    } catch (chkErr) {
-      console.warn("Duplicate booking check failed:", chkErr);
+      }
+    } catch (checkError) {
+      console.warn("Duplicate booking check failed:", checkError);
     }
 
     /* ---- Fetch service snapshot (non-fatal) ---- */
