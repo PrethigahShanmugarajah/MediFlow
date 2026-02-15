@@ -60,3 +60,40 @@ export async function createService(req, res) {
     });
   }
 }
+
+/* -------- Get Services -------- */
+export async function getServices(req, res) {
+  try {
+    const listServices = await Service.find().sort({ createdAt: -1 }).lean();
+
+    if (!listServices) {
+      return res.status(404).json({
+        success: true,
+        message: "No services found.",
+        data: [],
+      });
+    }
+
+    if (listServices.length === 0) {
+      return res.status(404).json({
+        success: true,
+        message: "No services found.",
+        data: [],
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Services fetched successfully!",
+      data: listServices,
+    });
+  } catch (error) {
+    console.error("Get Services Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch services.",
+      error: `Get Services Error: ${error?.message || error}`,
+    });
+  }
+}
