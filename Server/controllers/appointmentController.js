@@ -185,18 +185,67 @@ export async function createAppointment(req, res) {
       });
     }
 
-    if (!doctorId || !patientName || !mobile || !date || !time) {
+    // if (!doctorId || !patientName || !mobile || !date || !time) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "All fields are required.",
+    //   });
+    // }
+
+    if (!doctorId) {
       return res.status(400).json({
         success: false,
-        message: "All fields are required.",
+        message: "Doctor ID is required.",
+      });
+    }
+
+    if (!patientName) {
+      return res.status(400).json({
+        success: false,
+        message: "Patient name is required.",
+      });
+    }
+
+    if (!mobile) {
+      return res.status(400).json({
+        success: false,
+        message: "Mobile number is required.",
+      });
+    }
+
+    if (!date) {
+      return res.status(400).json({
+        success: false,
+        message: "Appointment date is required.",
+      });
+    }
+
+    if (!time) {
+      return res.status(400).json({
+        success: false,
+        message: "Appointment time is required.",
       });
     }
 
     const numericFee = safeNumber(fee ?? fees ?? 0);
-    if (numericFee === null || numericFee < 0) {
+    // if (numericFee === null || numericFee < 0) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Fee must be a valid number.",
+    //   });
+    // }
+
+    if (numericFee === null) {
       return res.status(400).json({
         success: false,
-        message: "Fee must be a valid number.",
+        message: "Fee must be a number.",
+      });
+    }
+
+    if (numericFee < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Fee cannot be negative.",
       });
     }
 
@@ -296,6 +345,7 @@ export async function createAppointment(req, res) {
         payment: { method: base.payment.method, status: "Paid", amount: 0 },
         paidAt: new Date(),
       });
+
       return res.status(201).json({
         success: true,
         message: "Free appointment created successfully!",
@@ -311,6 +361,7 @@ export async function createAppointment(req, res) {
         status: "Pending",
         payment: { method: "Cash", status: "Pending", amount: numericFee },
       });
+
       return res.status(201).json({
         success: true,
         message:
