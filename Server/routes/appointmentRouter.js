@@ -5,6 +5,7 @@ import {
   confirmPayment,
   createAppointment,
   getAppointments,
+  getAppointmentsByDoctor,
   getAppointmentsByPatient,
   getStatus,
   updateAppointment,
@@ -29,6 +30,11 @@ appointmentRouter.get(
   clerkMiddleware(),
   requireAuth(),
   getAppointmentsByPatient,
+);
+
+appointmentRouter.get(
+  "/appointments-get-by-doctor/:doctorId",
+  getAppointmentsByDoctor,
 );
 
 appointmentRouter.post("/:id/appointment-cancel", cancelAppointment);
