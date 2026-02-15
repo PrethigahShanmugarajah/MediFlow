@@ -6,6 +6,7 @@ import {
   createServiceAppointment,
   getServiceAppointmentById,
   getServiceAppointments,
+  getServiceAppointmentsByPatient,
   getServiceAppointmentStats,
   updateServiceAppointment,
 } from "../controllers/serviceAppointmentController.js";
@@ -33,6 +34,13 @@ serviceAppointmentRouter.post(
   clerkMiddleware(),
   requireAuth(),
   createServiceAppointment,
+);
+
+serviceAppointmentRouter.get(
+  "/serviceAppointment-get-by-patient",
+  clerkMiddleware(),
+  requireAuth(),
+  getServiceAppointmentsByPatient,
 );
 
 serviceAppointmentRouter.get(
