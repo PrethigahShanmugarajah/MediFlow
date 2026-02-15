@@ -5,7 +5,7 @@ import {
   createDoctor,
   deleteDoctor,
   doctorLogin,
-  getDoctor,
+  getDoctorById,
   getDoctors,
   toggleAvailability,
   updateDoctor,
@@ -18,7 +18,7 @@ const doctorRouter = express.Router();
 
 doctorRouter.get("/doctors-get", getDoctors);
 doctorRouter.post("/doctor-login", doctorLogin);
-doctorRouter.get("/doctor-get/:id", getDoctor);
+doctorRouter.get("/doctor-get/:id", getDoctorById);
 doctorRouter.post("/doctor-create", upload.single("image"), createDoctor);
 doctorRouter.put(
   "/doctor-update/:id",
