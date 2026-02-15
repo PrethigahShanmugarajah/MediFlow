@@ -7,6 +7,7 @@ import {
   getAppointments,
   getAppointmentsByDoctor,
   getAppointmentsByPatient,
+  getRegisteredUserCount,
   getStatus,
   updateAppointment,
 } from "../controllers/appointmentController.js";
@@ -38,6 +39,10 @@ appointmentRouter.get(
 );
 
 appointmentRouter.post("/:id/appointment-cancel", cancelAppointment);
+appointmentRouter.get(
+  "/appointment-get-registered-usercount",
+  getRegisteredUserCount,
+);
 
 appointmentRouter.put("/appointment-update/:id", updateAppointment);
 
