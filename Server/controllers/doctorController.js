@@ -404,3 +404,63 @@ export async function deleteDoctor(req, res) {
     });
   }
 }
+
+/* -------- Toggle Availability -------- */
+export async function toggleAvailability(req, res) {
+  try {
+    const { id } = req.params;
+
+    // if (!req.doctor || String(req.doctor._id || req.doctor.id) !== String(id)) {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "Not authorized to toggle availability of this doctor.",
+    //   });
+    // }
+
+    if (!req.doctor) {
+      return res.status(403).json({
+        success: false,
+        message: "Doctor information is missing in the request.",
+      });
+    }
+
+    if (String(req.doctor._id || req.doctor.id) !== String(id)) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to toggle availability of this doctor.",
+      });
+    }
+
+    const doc = await Doctor.findById(id);
+    if (!doc) {
+      return res.status(404).json({
+        message: false,
+        message: "Doctor not found.",
+      });
+    }
+
+    if (typeof doc.availability === "boolean")
+      doc.availability = !doc.availability;
+    else
+      doc.availability =
+        doc.availability === "Available" ? "Unavailable" : "Available";
+
+    await doc.save();
+    const toggleDoctor = normalizeDocForClient(doc.toObject());
+    delete toggleDoctor.password;
+
+    return res.status(200).json({
+      success: true,
+      message: `Doctor availability changed to ${doc.availability}.`,
+      data: toggleDoctor,
+    });
+  } catch (error) {
+    console.error("Toggle Availability Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to toggle doctor availability.",
+      error: `Toggle Availability Error: ${error.message}`,
+    });
+  }
+}
