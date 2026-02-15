@@ -691,3 +691,60 @@ export async function cancelAppointment(req, res) {
     });
   }
 }
+
+/* -------- Get Status -------- */
+export async function getStatus(req, res) {
+  try {
+    const total = await Appointment.countDocuments();
+
+    if (total === null) {
+      return res.status(200).json({
+        success: true,
+        message: "No appointments found.",
+        stats: { total: 0, revenue: 0, recentLast7Days: 0 },
+      });
+    }
+
+    if (total === undefined) {
+      return res.status(200).json({
+        success: true,
+        message: "No appointments found.",
+        stats: { total: 0, revenue: 0, recentLast7Days: 0 },
+      });
+    }
+
+    if (total === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No appointments found.",
+        stats: { total: 0, revenue: 0, recentLast7Days: 0 },
+      });
+    }
+
+    const paidAgg = await Appointment.aggregate([
+      { $match: { "payment.status": "Paid" } },
+      { $group: { _id: null, total: { $sum: "$fees" } } },
+    ]);
+    const revenue = (paidAgg[0] && paidAgg[0].total) || 0;
+
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const recent = await Appointment.countDocuments({
+      createdAt: { $gte: sevenDaysAgo },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Appointment statistics fetched successfully!",
+      stats: { total, revenue, recentLast7Days: recent },
+    });
+  } catch (error) {
+    console.error("Get Status Error:", error?.stack || error?.message || error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch appointment statistics.",
+      error: `Get Status Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
