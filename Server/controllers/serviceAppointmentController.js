@@ -784,3 +784,73 @@ export async function cancelServiceAppointment(req, res) {
     });
   }
 }
+
+/* -------- Get Service Appointment Statistics -------- */
+export async function getServiceAppointmentStats(req, res) {
+  try {
+    const services = await Service.aggregate([
+      {
+        $lookup: {
+          from: "serviceappointments",
+          localField: "_id",
+          foreignField: "serviceId",
+          as: "appointments",
+        },
+      },
+      {
+        $addFields: {
+          totalAppointments: { $size: "$appointments" },
+          completed: {
+            $size: {
+              $filter: {
+                input: "$appointments",
+                as: "a",
+                cond: { $eq: ["$$a.status", "Completed"] },
+              },
+            },
+          },
+          canceled: {
+            $size: {
+              $filter: {
+                input: "$appointments",
+                as: "a",
+                cond: { $eq: ["$$a.status", "Canceled"] },
+              },
+            },
+          },
+        },
+      },
+      { $addFields: { earning: { $multiply: ["$completed", "$price"] } } },
+      {
+        $project: {
+          name: 1,
+          price: 1,
+          image: "$imageUrl",
+          totalAppointments: 1,
+          completed: 1,
+          canceled: 1,
+          earning: 1,
+        },
+      },
+      { $sort: { createdAt: -1 } },
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      message: "Service appointment statistics fetched successfully!",
+      services,
+      totalServices: services.length,
+    });
+  } catch (error) {
+    console.error(
+      "Get Service Appointment Statistics Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch Service Appointment Statistics.",
+      error: `Get Service Appointment Statistics Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
