@@ -78,3 +78,65 @@ export async function getAppointments(req, res) {
     });
   }
 }
+
+/* -------- Get Appointments By Patient -------- */
+export async function getAppointmentsByPatient(req, res) {
+  try {
+    const queryCreatedBy = req.query.createdBy || null;
+    const clearkUserId = req.auth?.userId || null;
+    const resolvedCreatedBy = queryCreatedBy || clearkUserId || null;
+
+    console.log(
+      "resolvedCreatedBy(query or req.auth.userId):",
+      resolvedCreatedBy,
+    );
+
+    if (!resolvedCreatedBy && !req.query.mobile) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication required.",
+      });
+    }
+
+    const filter = {};
+    if (resolvedCreatedBy) filter.createdBy = resolvedCreatedBy;
+    if (req.query.mobile) filter.mobile = req.query.mobile;
+
+    const appointments = await Appointment.find(filter)
+      .sort({ date: 1, time: 1 })
+      .lean();
+
+    if (!appointments) {
+      return res.status(404).json({
+        success: true,
+        message: "No appointments found.",
+        appointments: [],
+      });
+    }
+
+    if (appointments.length === 0) {
+      return res.status(404).json({
+        success: true,
+        message: "No appointments found.",
+        appointments: [],
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Appointments fetched successfully!",
+      appointments,
+    });
+  } catch (error) {
+    console.error(
+      "Get Appointments By Patient Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch appointments by Patient.",
+      error: `Get Appointments By Patient Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
