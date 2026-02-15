@@ -1,6 +1,7 @@
 // MediFlow / Server / routes / serviceAppointmentRouter.js
 import express from "express";
 import {
+  cancelServiceAppointment,
   confirmServiceAppointmentPayment,
   createServiceAppointment,
   getServiceAppointmentById,
@@ -36,6 +37,11 @@ serviceAppointmentRouter.get(
 serviceAppointmentRouter.put(
   "/serviceAppointment-update/:id",
   updateServiceAppointment,
+);
+
+serviceAppointmentRouter.post(
+  "/:id/serviceAppointment-cancel",
+  cancelServiceAppointment,
 );
 
 export default serviceAppointmentRouter;
