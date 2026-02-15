@@ -584,6 +584,24 @@ export async function getServiceAppointments(req, res) {
 
     const total = await ServiceAppointment.countDocuments(filter);
 
+    if (!appointments) {
+      return res.status(200).json({
+        success: true,
+        message: "No service appointments found.",
+        appointments: [],
+        meta: { page, limit, total: 0, count: 0 },
+      });
+    }
+
+    if (appointments.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No service appointments found.",
+        appointments: [],
+        meta: { page, limit, total: 0, count: 0 },
+      });
+    }
+
     return res.status(200).json({
       success: true,
       message: "Service appointments fetched successfully!",
