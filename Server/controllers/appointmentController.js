@@ -591,3 +591,68 @@ export async function confirmPayment(req, res) {
     });
   }
 }
+
+/* -------- Update Appointment -------- */
+export async function updateAppointment(req, res) {
+  try {
+    const { id } = req.params;
+    const body = req.body || {};
+    const appt = await Appointment.findById(id);
+
+    if (!appt) {
+      return res.status(404).json({
+        success: false,
+        message: "Appointment not found.",
+      });
+    }
+
+    const terminal = appt.status === "Completed" || appt.status === "Canceled";
+    if (terminal && body.status && body.status !== appt.status) {
+      return res.status(400).json({
+        success: false,
+        message: "Cannot change status of a completed/canceled appointment.",
+      });
+    }
+
+    const update = {};
+    if (body.status) update.status = body.status;
+    if (body.notes !== undefined) update.notes = body.notes;
+
+    if (body.date && body.time) {
+      if (appt.status === "Completed" || appt.status === "Canceled") {
+        return res.status(400).json({
+          success: false,
+          message: "Cannot reschedule a completed/canceled appointment.",
+        });
+      }
+      update.date = body.date;
+      update.time = body.time;
+      update.status = "Rescheduled";
+      update.rescheduledTo = { date: body.date, time: body.time };
+    }
+
+    const updated = await Appointment.findByIdAndUpdate(id, update, {
+      new: true,
+      runValidators: true,
+    })
+      .populate({ path: "doctorId", select: "name imageUrl" })
+      .lean();
+
+    return res.json({
+      success: true,
+      message: "Appointment updated successfully!",
+      appointment: updated,
+    });
+  } catch (error) {
+    console.error(
+      "Update Appointment Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update appointment.",
+      error: `Update Appointment Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
