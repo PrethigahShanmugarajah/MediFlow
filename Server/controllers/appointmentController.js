@@ -748,3 +748,80 @@ export async function getStatus(req, res) {
     });
   }
 }
+
+/* -------- Get Appointments By Doctor -------- */
+export async function getAppointmentsByDoctor(req, res) {
+  try {
+    const { doctorId } = req.params;
+    if (!doctorId) {
+      return res.status(400).json({
+        success: false,
+        message: "Doctor ID is required",
+      });
+    }
+
+    const {
+      mobile,
+      status,
+      search = "",
+      limit: limitRaw = 50,
+      page: pageRaw = 1,
+    } = req.query;
+    const limit = Math.min(200, Math.max(1, parseInt(limitRaw, 10) || 50));
+    const page = Math.max(1, parseInt(pageRaw, 10) || 1);
+    const skip = (page - 1) * limit;
+
+    const filter = { doctorId };
+    if (mobile) filter.mobile = mobile;
+    if (status) filter.status = status;
+    if (search) {
+      const re = new RegExp(search, "i");
+      filter.$or = [{ patientName: re }, { mobile: re }, { notes: re }];
+    }
+
+    const items = await Appointment.find(filter)
+      .sort({ date: 1, time: 1 })
+      .skip(skip)
+      .limit(limit)
+      .populate("doctorId", "name specialization owner imageUrl image")
+      .lean();
+
+    const total = await Appointment.countDocuments(filter);
+
+    if (total === null) {
+      return res.status(200).json({
+        success: true,
+        message: "No appointments found.",
+        appointments: [],
+        meta: { page, limit, total: 0, count: 0 },
+      });
+    }
+
+    if (total === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No appointments found.",
+        appointments: [],
+        meta: { page, limit, total: 0, count: 0 },
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Appointments fetched successfully!",
+      appointments: items,
+      meta: { page, limit, total, count: items.length },
+    });
+  } catch (error) {
+    console.error(
+      "Get Appointments By Doctor Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch appointments by Doctor.",
+      error: `Get Appointments By Doctor Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
