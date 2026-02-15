@@ -4,6 +4,7 @@ import multer from "multer";
 import {
   createDoctor,
   deleteDoctor,
+  doctorLogin,
   getDoctor,
   getDoctors,
   toggleAvailability,
@@ -16,6 +17,7 @@ const upload = multer({ dest: "/tmp" });
 const doctorRouter = express.Router();
 
 doctorRouter.get("/doctors-get", getDoctors);
+doctorRouter.post("/doctor-login", doctorLogin);
 doctorRouter.get("/doctor-get/:id", getDoctor);
 doctorRouter.post("/doctor-create", upload.single("image"), createDoctor);
 doctorRouter.put(
