@@ -97,3 +97,31 @@ export async function getServices(req, res) {
     });
   }
 }
+
+/* -------- Get Service By ID -------- */
+export async function getServiceById(req, res) {
+  try {
+    const { id } = req.params;
+    const service = await Service.findById(id).lean();
+    if (!service) {
+      return res.status(404).json({
+        success: false,
+        message: "Service not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Service fetched successfully!",
+      data: service,
+    });
+  } catch (error) {
+    console.error("Get Service Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch service.",
+      error: `Get Service Error: ${error?.message || error}`,
+    });
+  }
+}
