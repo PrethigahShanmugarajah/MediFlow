@@ -96,7 +96,7 @@ const Navbar = () => {
                   MediFlow
                 </h1>
                 <p className="text-xs lg:text-xs text-gray-500">
-                  Healthcare Solutions
+                  Your Health, Our Priority
                 </p>
               </div>
             </Link>
