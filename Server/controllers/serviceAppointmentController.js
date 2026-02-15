@@ -653,3 +653,88 @@ export async function getServiceAppointmentById(req, res) {
     });
   }
 }
+
+/* -------- Update Service Appointment -------- */
+export async function updateServiceAppointment(req, res) {
+  try {
+    const { id } = req.params;
+    const body = req.body || {};
+    const updates = {};
+
+    /* ---- First check wherther fill if yes then update the field ---- */
+    if (body.status !== undefined) updates.status = body.status;
+    if (body.notes !== undefined) updates.notes = body.notes;
+    if (body.payment !== undefined) updates.payment = body.payment;
+    if (body["payment.status"] !== undefined)
+      updates["payment.status"] = body["payment.status"];
+
+    if (body.rescheduledTo) {
+      const { date, time } = body.rescheduledTo || {};
+      updates.rescheduledTo = {};
+      if (date) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(date))
+          return res.status(400).json({
+            success: false,
+            message: "rescheduledTo.date must be in YYYY-MM-DD format",
+          });
+        updates.rescheduledTo.date = date;
+        updates.date = date;
+      }
+      if (time) {
+        updates.rescheduledTo.time = String(time);
+        const parsed = parseTimeString(String(time));
+        if (!parsed)
+          return res.status(400).json({
+            success: false,
+            message: "rescheduledTo.time could not be parsed",
+          });
+        updates.hour = parsed.hour;
+        updates.minute = parsed.minute;
+        updates.ampm = parsed.ampm;
+        updates.time = `${String(parsed.hour).padStart(2, "0")}:${String(parsed.minute).padStart(2, "0")} ${parsed.ampm}`;
+      }
+      if (!body.status) updates.status = "Rescheduled";
+    }
+
+    if (updates.payment) {
+      const method = updates.payment.method || updates.payment?.method;
+      if (method && String(method).toLowerCase() === "online")
+        updates.status = updates.status || "Confirmed";
+      if (updates.payment.status && updates.payment.status === "Confirmed") {
+        updates.status = "Confirmed";
+        if (updates.payment.paidAt === undefined)
+          updates.payment.paidAt = new Date();
+      }
+    }
+
+    const updated = await ServiceAppointment.findByIdAndUpdate(
+      id,
+      { $set: updates },
+      { new: true, runValidators: true },
+    );
+
+    if (!updated) {
+      return res.status(404).json({
+        success: false,
+        message: "Service appointment not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Service appointment updated successfully!",
+      data: updated,
+    });
+  } catch (error) {
+    console.error(
+      "Update Service Appointment Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update service appointment",
+      error: `Update Service Appointment Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
