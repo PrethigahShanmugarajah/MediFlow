@@ -3,6 +3,7 @@ import express from "express";
 import multer from "multer";
 import {
   createService,
+  deleteService,
   getServiceById,
   getServices,
   updateService,
@@ -16,5 +17,6 @@ serviceRouter.get("/services-get", getServices);
 serviceRouter.get("/service-get/:id", getServiceById);
 serviceRouter.post("/service-create", upload.single("image"), createService);
 serviceRouter.put("/service-update/:id", upload.single("image"), updateService);
+serviceRouter.delete("/service-delete/:id", deleteService);
 
 export default serviceRouter;
