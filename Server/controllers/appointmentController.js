@@ -471,3 +471,123 @@ export async function createAppointment(req, res) {
     });
   }
 }
+
+/* -------- Confirm Payment -------- */
+export async function confirmPayment(req, res) {
+  try {
+    const { session_id } = req.query;
+    if (!session_id) {
+      return res.status(400).json({
+        success: false,
+        message: "Session ID is required.",
+      });
+    }
+
+    if (!stripe) {
+      return res.status(500).json({
+        success: false,
+        message: "Stripe is not configured on the server.",
+      });
+    }
+
+    let session;
+    try {
+      session = await stripe.checkout.sessions.retrieve(session_id);
+    } catch (error) {
+      console.error("Stripe retrieve session error:", error);
+
+      return res.status(404).json({
+        success: false,
+        message: "Stripe session not found.",
+      });
+    }
+
+    if (!session) {
+      return res.status(404).json({
+        success: false,
+        message: "Invalid session.",
+      });
+    }
+
+    if (session.payment_status !== "paid") {
+      return res.status(400).json({
+        success: false,
+        message: "Payment has not been completed yet.",
+      });
+    }
+
+    let appt = await Appointment.findOneAndUpdate(
+      { sessionId: session_id },
+      {
+        "payment.status": "Paid",
+        "payment.providerId":
+          session.payment_intent || session.payment_intent_id || null,
+        status: "Confirmed",
+        paidAt: new Date(),
+      },
+      { new: true },
+    );
+
+    if (!appt) {
+      const meta = session.metadata || {};
+      if (meta.doctorId && meta.mobile && meta.patientName) {
+        appt = await Appointment.findOneAndUpdate(
+          {
+            doctorId: meta.doctorId,
+            mobile: meta.mobile,
+            patientName: meta.patientName,
+            fees: Math.round((session.amount_total || 0) / 100) || undefined,
+          },
+          {
+            "payment.status": "Paid",
+            "payment.providerId": session.payment_intent || null,
+            status: "Confirmed",
+            paidAt: new Date(),
+            sessionId: session_id,
+          },
+          { new: true },
+        );
+      }
+    }
+
+    if (!appt) {
+      const amount = Math.round((session.amount_total || 0) / 100);
+      const fifteenAgo = new Date(Date.now() - 1000 * 60 * 15);
+      appt = await Appointment.findOneAndUpdate(
+        { fees: amount, createdAt: { $gte: fifteenAgo } },
+        {
+          "payment.status": "Paid",
+          "payment.providerId": session.payment_intent || null,
+          status: "Confirmed",
+          paidAt: new Date(),
+          sessionId: session_id,
+        },
+        { new: true },
+      );
+    }
+
+    if (!appt) {
+      return res.status(404).json({
+        success: false,
+        message: "No appointment found for this payment session.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Payment confirmed successfully!",
+      appointment: appt,
+    });
+  } catch (error) {
+    console.error(
+      "Confirm Payment Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to confirm payment.",
+      error: `Confirm Payment Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
