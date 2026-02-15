@@ -117,3 +117,119 @@ export async function createDoctor(req, res) {
     });
   }
 }
+
+/* -------- Get Doctors -------- */
+export async function getDoctors(req, res) {
+  try {
+    const { q = "", limit: limitRaw = 200, page: pageRaw = 1 } = req.query;
+    const limit = Math.min(500, Math.max(1, parseInt(limitRaw, 10) || 200));
+    const page = Math.max(1, parseInt(pageRaw, 10) || 1);
+    const skip = (page - 1) * limit;
+
+    const match = {};
+    if (q && typeof q === "string" && q.trim()) {
+      const re = new RegExp(q.trim(), "i");
+      match.$or = [
+        { name: re },
+        { specialization: re },
+        { speciality: re },
+        { email: re },
+      ];
+    }
+
+    const docs = await Doctor.aggregate([
+      { $match: match },
+      {
+        $lookup: {
+          from: "appointments",
+          localField: "_id",
+          foreignField: "doctorId",
+          as: "appointments",
+        },
+      },
+      {
+        $addFields: {
+          appointmentsTotal: { $size: "$appointments" },
+          appointmentsCompleted: {
+            $size: {
+              $filter: {
+                input: "$appointments",
+                as: "a",
+                cond: { $in: ["$$a.status", ["Confirmed", "Completed"]] },
+              },
+            },
+          },
+          appointmentsCanceled: {
+            $size: {
+              $filter: {
+                input: "$appointments",
+                as: "a",
+                cond: { $eq: ["$$a.status", "Canceled"] },
+              },
+            },
+          },
+          earnings: {
+            $sum: {
+              $map: {
+                input: {
+                  $filter: {
+                    input: "$appointments",
+                    as: "a",
+                    cond: { $in: ["$$a.status", ["Confirmed", "Completed"]] },
+                  },
+                },
+                as: "p",
+                in: { $ifNull: ["$$p.fees", 0] },
+              },
+            },
+          },
+        },
+      },
+      { $project: { appointments: 0 } },
+      { $sort: { name: 1 } },
+      { $skip: skip },
+      { $limit: limit },
+    ]);
+
+    const normalized = docs.map((d) => ({
+      _id: d._id,
+      id: d._id,
+      name: d.name || "",
+      specialization: d.specialization || d.speciality || "",
+      fee: d.fee ?? d.fees ?? d.consultationFee ?? 0,
+      imageUrl: d.imageUrl || d.image || d.avatar || null,
+      appointmentsTotal: d.appointmentsTotal || 0,
+      appointmentsCompleted: d.appointmentsCompleted || 0,
+      appointmentsCanceled: d.appointmentsCanceled || 0,
+      earnings: d.earnings || 0,
+      availability: d.availability ?? "Available",
+      schedule: d.schedule && typeof d.schedule === "object" ? d.schedule : {},
+      patients: d.patients ?? "",
+      rating: d.rating ?? 0,
+      about: d.about ?? "",
+      experience: d.experience ?? "",
+      qualifications: d.qualifications ?? "",
+      location: d.location ?? "",
+      success: d.success ?? "",
+      raw: d,
+    }));
+
+    const total = await Doctor.countDocuments(match);
+
+    return res.json({
+      success: true,
+      message: "Doctors fetched successfully!",
+      data: normalized,
+      doctors: normalized,
+      meta: { page, limit, total },
+    });
+  } catch (error) {
+    console.error("Get Doctors Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch doctors.",
+      error: `Get Doctors Error: ${error.message}`,
+    });
+  }
+}
