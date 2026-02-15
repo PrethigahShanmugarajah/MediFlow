@@ -6,6 +6,7 @@ import {
   createServiceAppointment,
   getServiceAppointmentById,
   getServiceAppointments,
+  getServiceAppointmentStats,
   updateServiceAppointment,
 } from "../controllers/serviceAppointmentController.js";
 import { clerkMiddleware, requireAuth } from "@clerk/express";
@@ -20,6 +21,11 @@ serviceAppointmentRouter.get(
 serviceAppointmentRouter.get(
   "/serviceAppointment-confirm-payment",
   confirmServiceAppointmentPayment,
+);
+
+serviceAppointmentRouter.get(
+  "/serviceAppointment-get-stats/summary",
+  getServiceAppointmentStats,
 );
 
 serviceAppointmentRouter.post(
