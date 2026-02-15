@@ -111,12 +111,15 @@ export async function createDoctor(req, res) {
       token,
     });
   } catch (error) {
-    console.error("Create Doctor Error:", error);
+    console.error(
+      "Create Doctor Error:",
+      error.stack || error.message || error,
+    );
 
     return res.status(500).json({
       success: false,
       message: "Failed to create doctor.",
-      error: `Create Doctor Error: ${error.message}`,
+      error: `Create Doctor Error: ${error.stack || error.message || error}`,
     });
   }
 }
@@ -219,6 +222,26 @@ export async function getDoctors(req, res) {
 
     const total = await Doctor.countDocuments(match);
 
+    if (!normalized) {
+      return res.status(404).json({
+        success: true,
+        message: "No doctors found.",
+        data: [],
+        doctors: [],
+        meta: { page, limit, total },
+      });
+    }
+
+    if (normalized.length === 0) {
+      return res.status(404).json({
+        success: true,
+        message: "No doctors found.",
+        data: [],
+        doctors: [],
+        meta: { page, limit, total },
+      });
+    }
+
     return res.status(200).json({
       success: true,
       message: "Doctors fetched successfully!",
@@ -227,18 +250,18 @@ export async function getDoctors(req, res) {
       meta: { page, limit, total },
     });
   } catch (error) {
-    console.error("Get Doctors Error:", error);
+    console.error("Get Doctors Error:", error.stack || error.message || error);
 
     return res.status(500).json({
       success: false,
       message: "Failed to fetch doctors.",
-      error: `Get Doctors Error: ${error.message}`,
+      error: `Get Doctors Error: ${error.stack || error.message || error}`,
     });
   }
 }
 
-/* -------- Get Doctor -------- */
-export async function getDoctor(req, res) {
+/* -------- Get Doctor By ID -------- */
+export async function getDoctorById(req, res) {
   try {
     const { id } = req.params;
     const doc = await Doctor.findById(id).select("-password").lean();
@@ -255,12 +278,12 @@ export async function getDoctor(req, res) {
       data: normalizeDocForClient(doc),
     });
   } catch (error) {
-    console.error("Get Doctor Error:", error);
+    console.error("Get Doctor Error:", error.stack || error.message || error);
 
     return res.status(500).json({
       success: false,
       message: "Failed to fetch doctor.",
-      error: `Get Doctor Error: ${error.message}`,
+      error: `Get Doctor Error: ${error.stack || error.message || error}`,
     });
   }
 }
@@ -359,12 +382,15 @@ export async function updateDoctor(req, res) {
       data: updateDoctor,
     });
   } catch (error) {
-    console.error("Update Doctor Error:", error);
+    console.error(
+      "Update Doctor Error:",
+      error.stack || error.message || error,
+    );
 
     return res.status(500).json({
       success: false,
       message: "Failed to update doctor.",
-      error: `Update Doctor Error: ${error.message}`,
+      error: `Update Doctor Error: ${error.stack || error.message || error}`,
     });
   }
 }
@@ -395,12 +421,15 @@ export async function deleteDoctor(req, res) {
       message: "Doctor removed successfully!",
     });
   } catch (error) {
-    console.error("Delete Doctor Error:", error);
+    console.error(
+      "Delete Doctor Error:",
+      error.stack || error.message || error,
+    );
 
     return res.status(500).json({
       success: false,
       message: "Failed to delete doctor.",
-      error: `Delete Doctor Error: ${error.message}`,
+      error: `Delete Doctor Error: ${error.stack || error.message || error}`,
     });
   }
 }
@@ -455,12 +484,15 @@ export async function toggleAvailability(req, res) {
       data: toggleDoctor,
     });
   } catch (error) {
-    console.error("Toggle Availability Error:", error);
+    console.error(
+      "Toggle Availability Error:",
+      error.stack || error.message || error,
+    );
 
     return res.status(500).json({
       success: false,
       message: "Failed to toggle doctor availability.",
-      error: `Toggle Availability Error: ${error.message}`,
+      error: `Toggle Availability Error: ${error.stack || error.message || error}`,
     });
   }
 }
@@ -536,12 +568,12 @@ export async function doctorLogin(req, res) {
       data: loginDoctor,
     });
   } catch (error) {
-    console.error("Doctor Login Error:", error);
+    console.error("Doctor Login Error:", error.stack || error.message || error);
 
     return res.status(500).json({
       success: false,
       message: "Failed to login doctor.",
-      error: `Doctor Login Error: ${error.message}`,
+      error: `Doctor Login Error: ${error.stack || error.message || error}`,
     });
   }
 }
