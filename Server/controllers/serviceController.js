@@ -1,6 +1,9 @@
 // MediFlow / Server / controllers / serviceController.js
 import Service from "../models/Service.js";
-import { uploadToCloudinary } from "../utils/cloudinary.js";
+import {
+  deleteFromCloudinary,
+  uploadToCloudinary,
+} from "../utils/cloudinary.js";
 import {
   normalizeSlotsToMap,
   parseAvailability,
@@ -122,6 +125,77 @@ export async function getServiceById(req, res) {
       success: false,
       message: "Failed to fetch service.",
       error: `Get Service Error: ${error?.message || error}`,
+    });
+  }
+}
+
+/* -------- Update Service -------- */
+export async function updateService(req, res) {
+  try {
+    const { id } = req.params;
+    const existingService = await Service.findById(id);
+
+    if (!existingService) {
+      return res.status(404).json({
+        success: false,
+        message: "Service not found.",
+      });
+    }
+
+    const b = req.body || {};
+    const updateData = {};
+
+    if (b.name !== undefined) updateData.name = b.name;
+    if (b.about !== undefined) updateData.about = b.about;
+    if (b.shortDescription !== undefined)
+      updateData.shortDescription = b.shortDescription;
+    if (b.price !== undefined) updateData.price = sanitizePrice(b.price);
+    if (b.availability !== undefined)
+      updateData.available = parseAvailability(b.availability);
+    if (b.instructions !== undefined)
+      updateData.instructions = parseJsonArrayField(b.instructions);
+    if (b.slots !== undefined)
+      updateData.slots = normalizeSlotsToMap(parseJsonArrayField(b.slots));
+
+    if (req.file) {
+      try {
+        const up = await uploadToCloudinary(req.file.path, "services");
+        if (up?.secure_url) {
+          updateData.imageUrl = up.secure_url;
+          updateData.imagePublicId = up.public_id || null;
+          if (existingService.imagePublicId) {
+            try {
+              await deleteFromCloudinary(existingService.imagePublicId);
+            } catch (error) {
+              console.warn(
+                "Cloudinary delete failed:",
+                error?.message || error,
+              );
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Cloudinary upload error:", error);
+      }
+    }
+
+    const updatedService = await Service.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Service updated successfully!",
+      data: updatedService,
+    });
+  } catch (error) {
+    console.error("Update Service Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update service.",
+      error: `Update Service Error: ${error?.message || error}`,
     });
   }
 }
