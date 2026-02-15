@@ -1,1 +1,341 @@
 // MediFlow / Server / controllers / serviceAppointmentController.js
+import Stripe from "stripe";
+import {
+  buildFrontendBase,
+  parseTimeString,
+  resolveClerkUserId,
+  safeNumber,
+} from "../utils/serviceAppointmentHelper.js";
+import ServiceAppointment from "../models/ServiceAppointment.js";
+import Service from "../models/Service.js";
+
+const stripeKey = process.env.STRIPE_SECRET_KEY || null;
+const stripe = stripeKey
+  ? new Stripe(stripeKey, { apiVersion: "2022-11-15" })
+  : null;
+
+/* -------- Create Service Appointment -------- */
+export async function createServiceAppointment(req, res) {
+  try {
+    const body = req.body || {};
+    const clerkUserId = resolveClerkUserId(req);
+
+    if (!clerkUserId) {
+      return res.status(401).json({
+        success: false,
+        message: "Authentication is required to create a service appointment.",
+      });
+    }
+
+    const {
+      serviceId,
+      serviceName: serviceNameFromBody,
+      patientName,
+      mobile,
+      age,
+      gender,
+      date,
+      time,
+      hour,
+      minute,
+      ampm,
+      paymentMethod = "Online",
+      amount: amountFromBody,
+      fees: feesFromBody,
+      email,
+      meta = {},
+      notes = "",
+      serviceImageUrl: serviceImageUrlFromBody,
+      serviceImagePublicId: serviceImagePublicIdFromBody,
+    } = body;
+
+    if (!serviceId)
+      return res.status(400).json({
+        success: false,
+        message: "Service ID is required",
+      });
+
+    if (!patientName || !String(patientName).trim())
+      return res.status(400).json({
+        success: false,
+        message: "Patient name is required",
+      });
+
+    if (!mobile || !String(mobile).trim())
+      return res.status(400).json({
+        success: false,
+        message: "Mobile number is required",
+      });
+
+    if (!date || !String(date).trim())
+      return res.status(400).json({
+        success: false,
+        message: "Date is required (YYYY-MM-DD)",
+      });
+
+    const numericAmount = safeNumber(amountFromBody ?? feesFromBody ?? 0);
+    if (numericAmount === null || numericAmount < 0)
+      return res.status(400).json({
+        success: false,
+        message: "Amount or fees must be a valid number",
+      });
+
+    let finalHour = hour !== undefined ? safeNumber(hour) : null;
+    let finalMinute = minute !== undefined ? safeNumber(minute) : null;
+    let finalAmpm = ampm || null;
+
+    if (time && (finalHour === null || finalHour === undefined)) {
+      const parsed = parseTimeString(time);
+      if (!parsed)
+        return res.status(400).json({
+          success: false,
+          message: "Time string could not be parsed",
+        });
+      finalHour = parsed.hour;
+      finalMinute = parsed.minute;
+      finalAmpm = parsed.ampm;
+    }
+
+    if (
+      finalHour === null ||
+      finalMinute === null ||
+      (finalAmpm !== "AM" && finalAmpm !== "PM")
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Time is missing or invalid — provide time string or hour, minute, and AM/PM.",
+      });
+    }
+
+    /* ---- Duplicate Booking Check ---- */
+    try {
+      const existing = await ServiceAppointment.findOne({
+        serviceId: String(serviceId),
+        createdBy: clerkUserId,
+        date: String(date),
+        hour: Number(finalHour),
+        minute: Number(finalMinute),
+        ampm: finalAmpm,
+        status: { $ne: "Canceled" },
+      }).lean();
+      if (existing)
+        return res.status(409).json({
+          success: false,
+          message:
+            "You already have a booking for this service on the selected date and time.",
+        });
+    } catch (chkErr) {
+      console.warn("Duplicate booking check failed:", chkErr);
+    }
+
+    /* ---- Fetch service snapshot (non-fatal) ---- */
+    let svc = null;
+    try {
+      svc = await Service.findById(serviceId).lean();
+    } catch (e) {
+      console.warn("Service lookup failed:", e?.message || e);
+    }
+
+    let resolvedServiceName =
+      serviceNameFromBody || (svc && (svc.name || svc.title)) || "Service";
+
+    const svcImageUrlFromDB =
+      svc &&
+      (String(
+        svc.imageUrl ||
+          svc.image ||
+          svc.image?.url ||
+          svc.profileImage?.url ||
+          "",
+      ).trim() ||
+        "");
+
+    const svcImagePublicIdFromDB =
+      svc &&
+      (String(
+        svc.imagePublicId ||
+          svc.image?.publicId ||
+          svc.profileImage?.publicId ||
+          "",
+      ).trim() ||
+        "");
+
+    const finalServiceImageUrl =
+      svcImageUrlFromDB && svcImageUrlFromDB.length
+        ? svcImageUrlFromDB
+        : (serviceImageUrlFromBody && String(serviceImageUrlFromBody).trim()) ||
+          "";
+
+    const finalServiceImagePublicId =
+      svcImagePublicIdFromDB && svcImagePublicIdFromDB.length
+        ? svcImagePublicIdFromDB
+        : (serviceImagePublicIdFromBody &&
+            String(serviceImagePublicIdFromBody).trim()) ||
+          "";
+
+    const base = {
+      serviceId,
+      serviceName: resolvedServiceName,
+      serviceImage: {
+        url: finalServiceImageUrl,
+        publicId: finalServiceImagePublicId,
+      },
+      patientName: String(patientName).trim(),
+      mobile: String(mobile).trim(),
+      age: age ? Number(age) : undefined,
+      gender: gender || "",
+      date: String(date),
+      hour: Number(finalHour),
+      minute: Number(finalMinute),
+      ampm: finalAmpm,
+      fees: numericAmount,
+      createdBy: clerkUserId,
+      notes: notes || "",
+    };
+
+    /* ---- Free appointment ---- */
+    if (numericAmount === 0) {
+      const created = await ServiceAppointment.create({
+        ...base,
+        status: "Pending",
+        payment: {
+          method: "Cash",
+          status: "Pending",
+          amount: 0,
+          paidAt: new Date(),
+        },
+      });
+
+      return res.status(201).json({
+        success: true,
+        message: "Free service appointment created successfully!",
+        appointment: created,
+      });
+    }
+
+    /* ---- Cash booking ---- */
+    if (paymentMethod === "Cash") {
+      const created = await ServiceAppointment.create({
+        ...base,
+        status: "Pending",
+        payment: {
+          method: "Cash",
+          status: "Pending",
+          amount: numericAmount,
+          meta,
+        },
+      });
+
+      return res.status(201).json({
+        success: true,
+        message:
+          "Service appointment created successfully. Pay with cash at the hospital.",
+        appointment: created,
+        checkoutUrl: null,
+      });
+    }
+
+    /* ---- Online booking (Stripe) ---- */
+    if (!stripe)
+      return res.status(500).json({
+        success: false,
+        message: "Stripe is not configured on the server",
+      });
+
+    const frontendBase = buildFrontendBase(req);
+    if (!frontendBase)
+      return res.status(500).json({
+        success: false,
+        message:
+          "Frontend base URL not available. Set FRONTEND_URL environment variable or provide Origin header.",
+      });
+
+    const successUrl = `${frontendBase}/service-appointment/success?session_id={CHECKOUT_SESSION_ID}`;
+    const cancelUrl = `${frontendBase}/service-appointment/cancel`;
+
+    let session;
+    try {
+      session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        mode: "payment",
+        customer_email: email ? String(email) : undefined,
+        line_items: [
+          {
+            price_data: {
+              currency: "inr",
+              product_data: {
+                name: `Service: ${String(resolvedServiceName).slice(0, 60)}`,
+                description: `Appointment on ${base.date} ${base.hour}:${String(base.minute).padStart(2, "0")} ${base.ampm}`,
+              },
+              unit_amount: Math.round(numericAmount * 100),
+            },
+            quantity: 1,
+          },
+        ],
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        metadata: {
+          serviceId: String(serviceId),
+          serviceName: String(resolvedServiceName).slice(0, 200),
+          patientName: base.patientName,
+          mobile: base.mobile,
+          clerkUserId: base.createdBy || "",
+          serviceImageUrl: finalServiceImageUrl
+            ? String(finalServiceImageUrl).slice(0, 200)
+            : "",
+        },
+      });
+    } catch (stripeError) {
+      console.error("Stripe create session error:", stripeError);
+      const message =
+        stripeError?.raw?.message || stripeError?.message || "Stripe error";
+      return res.status(502).json({
+        success: false,
+        message: `Payment provider error: ${message}`,
+      });
+    }
+
+    try {
+      const created = await ServiceAppointment.create({
+        ...base,
+        status: "Confirmed",
+        payment: {
+          method: "Online",
+          status: "Pending",
+          amount: numericAmount,
+          sessionId: session.id || "",
+        },
+      });
+
+      return res.status(201).json({
+        success: true,
+        message:
+          "Service appointment created successfully. Proceed to online payment.",
+        appointment: created,
+        checkoutUrl: session.url || null,
+      });
+    } catch (dbError) {
+      console.error(
+        "DB error saving service appointment after stripe session:",
+        dbError,
+      );
+
+      return res.status(500).json({
+        success: false,
+        message: "Failed to create service appointment record",
+      });
+    }
+  } catch (error) {
+    console.error(
+      "Create Service Appointment Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to create service appointment.",
+      error: `Create Service Appointment Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
