@@ -1,6 +1,9 @@
 // MediFlow / Server / controllers / doctorController.js
 import Doctor from "../models/Doctor.js";
-import { uploadToCloudinary } from "../utils/cloudinary.js";
+import {
+  deleteFromCloudinary,
+  uploadToCloudinary,
+} from "../utils/cloudinary.js";
 import {
   normalizeDocForClient,
   parseScheduleInput,
@@ -257,7 +260,111 @@ export async function getDoctor(req, res) {
     return res.status(500).json({
       success: false,
       message: "Failed to fetch doctor.",
-      error: `Get Doctor Error: ${error}`,
+      error: `Get Doctor Error: ${error.message}`,
+    });
+  }
+}
+
+/* -------- Update Doctor -------- */
+export async function updateDoctor(req, res) {
+  try {
+    const { id } = req.params;
+    const body = req.body || {};
+
+    // if (!req.doctor || String(req.doctor._id || req.doctor.id) !== String(id)) {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "Not authorized to update this doctor.",
+    //   });
+    // }
+
+    if (!req.doctor) {
+      return res.status(403).json({
+        success: false,
+        message: "Doctor information is missing in the request.",
+      });
+    }
+
+    if (String(req.doctor._id || req.doctor.id) !== String(id)) {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to update this doctor.",
+      });
+    }
+
+    const existing = await Doctor.findById(id);
+    if (!existing)
+      return res.status(404).json({
+        success: false,
+        message: "Doctor not found.",
+      });
+
+    if (req.file?.path) {
+      const uploaded = await uploadToCloudinary(req.file.path, "doctors");
+      if (uploaded) {
+        const previousPublicId = existing.imagePublicId;
+        existing.imageUrl =
+          uploaded.secure_url || uploaded.url || existing.imageUrl;
+        existing.imagePublicId =
+          uploaded.public_id || uploaded.publicId || existing.imagePublicId;
+        if (previousPublicId && previousPublicId !== existing.imagePublicId) {
+          deleteFromCloudinary(previousPublicId).catch((e) =>
+            console.warn("deleteFromCloudinary warning:", e?.message || e),
+          );
+        }
+      }
+    } else if (body.imageUrl) {
+      existing.imageUrl = body.imageUrl;
+    }
+
+    if (body.schedule) existing.schedule = parseScheduleInput(body.schedule);
+
+    const updatable = [
+      "name",
+      "specialization",
+      "experience",
+      "qualifications",
+      "location",
+      "about",
+      "fee",
+      "availability",
+      "success",
+      "patients",
+      "rating",
+    ];
+    updatable.forEach((k) => {
+      if (body[k] !== undefined) existing[k] = body[k];
+    });
+
+    if (body.email && body.email !== existing.email) {
+      const other = await Doctor.findOne({ email: body.email.toLowerCase() });
+      if (other && other._id.toString() !== id)
+        return res.status(409).json({
+          success: false,
+          message: "Email is already in use.",
+        });
+      existing.email = body.email.toLowerCase();
+    }
+
+    if (body.password) existing.password = body.password;
+
+    await existing.save();
+
+    const updateDoctor = normalizeDocForClient(existing.toObject());
+    delete updateDoctor.password;
+
+    return res.status(200).json({
+      success: true,
+      message: "Doctor updated successfully.",
+      data: updateDoctor,
+    });
+  } catch (error) {
+    console.error("Update Doctor Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update doctor.",
+      error: `Update Doctor Error: ${error.message}`,
     });
   }
 }
