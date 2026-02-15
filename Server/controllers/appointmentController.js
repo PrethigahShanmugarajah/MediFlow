@@ -8,6 +8,7 @@ import {
   safeNumber,
 } from "../utils/appointmentHelper.js";
 import Doctor from "../models/Doctor.js";
+import { clerkClient } from "@clerk/express";
 
 dotenv.config();
 
@@ -822,6 +823,30 @@ export async function getAppointmentsByDoctor(req, res) {
       success: false,
       message: "Failed to fetch appointments by Doctor.",
       error: `Get Appointments By Doctor Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
+
+/* -------- Get Register User Count -------- */
+export async function getRegisteredUserCount(req, res) {
+  try {
+    const totalUsers = await clerkClient.users.getCount();
+
+    return res.status(200).json({
+      success: true,
+      message: "Registered users fetched successfully!",
+      totalUsers,
+    });
+  } catch (error) {
+    console.error(
+      "Get Register User Count Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch registered users.",
+      error: `Get Register User Count Error: ${error?.stack || error?.message || error}`,
     });
   }
 }
