@@ -1,6 +1,7 @@
 // MediFlow / Server / routes / appointmentRouter.js
 import express from "express";
 import {
+  confirmPayment,
   createAppointment,
   getAppointments,
   getAppointmentsByPatient,
@@ -10,6 +11,7 @@ import { clerkMiddleware, requireAuth } from "@clerk/express";
 const appointmentRouter = express.Router();
 
 appointmentRouter.get("/appointments-get", getAppointments);
+appointmentRouter.get("/appointment-confirm-payment", confirmPayment);
 
 appointmentRouter.post(
   "/appointment-create",
