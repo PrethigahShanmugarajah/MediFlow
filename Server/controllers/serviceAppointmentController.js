@@ -854,3 +854,53 @@ export async function getServiceAppointmentStats(req, res) {
     });
   }
 }
+
+/* -------- Get Service Appointments for Patient -------- */
+export async function getServiceAppointmentsByPatient(req, res) {
+  try {
+    const clerkUserId = resolveClerkUserId(req);
+    const { createdBy, mobile } = req.query;
+    const resolvedCreatedBy = createdBy || clerkUserId || null;
+
+    if (!resolvedCreatedBy && !mobile) {
+      return res.json({
+        success: true,
+        message: "No service appointments found for the patient",
+        data: [],
+      });
+    }
+
+    const filter = {};
+    if (resolvedCreatedBy) filter.createdBy = resolvedCreatedBy;
+    if (mobile) filter.mobile = mobile;
+
+    const list = await ServiceAppointment.find(filter)
+      .sort({ createdAt: -1 })
+      .lean();
+
+    if (!list || list.length === 0) {
+      return res.status(200).json({
+        success: true,
+        message: "No service appointments found for the patient",
+        data: [],
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Service appointments fetched successfully!",
+      data: list,
+    });
+  } catch (error) {
+    console.error(
+      "Get Service Appointments for Patient Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch service appointments for the patient",
+      error: `Get Service Appointments for Patient Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
