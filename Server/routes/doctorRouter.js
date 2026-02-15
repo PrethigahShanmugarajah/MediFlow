@@ -6,6 +6,7 @@ import {
   deleteDoctor,
   getDoctor,
   getDoctors,
+  toggleAvailability,
   updateDoctor,
 } from "../controllers/doctorController.js";
 import doctorAuth from "../middlewares/doctorAuth.js";
@@ -22,6 +23,11 @@ doctorRouter.put(
   doctorAuth,
   upload.single("image"),
   updateDoctor,
+);
+doctorRouter.post(
+  "/:id/doctor-toggle-availability",
+  doctorAuth,
+  toggleAvailability,
 );
 doctorRouter.delete("/doctor-delete/:id", deleteDoctor);
 
