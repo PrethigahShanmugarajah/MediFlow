@@ -103,7 +103,7 @@ export async function createDoctor(req, res) {
 
     return res.status(201).json({
       success: true,
-      message: "Doctor created successfully.",
+      message: "Doctor created successfully!",
       data: newDoctor,
       token,
     });
@@ -216,7 +216,7 @@ export async function getDoctors(req, res) {
 
     const total = await Doctor.countDocuments(match);
 
-    return res.json({
+    return res.status(200).json({
       success: true,
       message: "Doctors fetched successfully!",
       data: normalized,
@@ -230,6 +230,34 @@ export async function getDoctors(req, res) {
       success: false,
       message: "Failed to fetch doctors.",
       error: `Get Doctors Error: ${error.message}`,
+    });
+  }
+}
+
+/* -------- Get Doctor -------- */
+export async function getDoctor(req, res) {
+  try {
+    const { id } = req.params;
+    const doc = await Doctor.findById(id).select("-password").lean();
+    if (!doc) {
+      return res.status(404).json({
+        success: false,
+        message: "Doctor not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Doctor fetched successfully!",
+      data: normalizeDocForClient(doc),
+    });
+  } catch (error) {
+    console.error("Get Doctor Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch doctor.",
+      error: `Get Doctor Error: ${error}`,
     });
   }
 }
