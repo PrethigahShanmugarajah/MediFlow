@@ -464,3 +464,84 @@ export async function toggleAvailability(req, res) {
     });
   }
 }
+
+/* -------- Doctor Login -------- */
+export async function doctorLogin(req, res) {
+  try {
+    const { email, password } = req.body || {};
+    // if (!email || !password) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Email and password are required.",
+    //   });
+    // }
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Email is required.",
+      });
+    }
+
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        message: "Password is required.",
+      });
+    }
+
+    const doc = await Doctor.findOne({ email: email.toLowerCase() }).select(
+      "+password",
+    );
+
+    if (!doc) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password.",
+      });
+    }
+
+    if (doc.password !== password) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password.",
+      });
+    }
+
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      return res.status(500).json({
+        success: false,
+        message: "Server misconfigured: JWT secret not defined.",
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        id: doc._id.toString(),
+        email: doc.email,
+        role: "doctor",
+      },
+      secret,
+      { expiresIn: process.env.JWT_EXPIRES_IN },
+    );
+
+    const loginDoctor = doc.toObject();
+    delete loginDoctor.password;
+
+    return res.status(200).json({
+      success: true,
+      message: `${doc.name} logged in successfully!`,
+      token,
+      data: loginDoctor,
+    });
+  } catch (error) {
+    console.error("Doctor Login Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to login doctor.",
+      error: `Doctor Login Error: ${error.message}`,
+    });
+  }
+}
