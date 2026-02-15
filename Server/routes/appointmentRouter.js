@@ -1,6 +1,7 @@
 // MediFlow / Server / routes / appointmentRouter.js
 import express from "express";
 import {
+  cancelAppointment,
   confirmPayment,
   createAppointment,
   getAppointments,
@@ -27,6 +28,8 @@ appointmentRouter.get(
   requireAuth(),
   getAppointmentsByPatient,
 );
+
+appointmentRouter.post("/:id/appointment-cancel", cancelAppointment);
 
 appointmentRouter.put("/appointment-update/:id", updateAppointment);
 
