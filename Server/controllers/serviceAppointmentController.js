@@ -454,3 +454,99 @@ export async function createServiceAppointment(req, res) {
     });
   }
 }
+
+/* -------- Confirm Service Appointment Payment -------- */
+export async function confirmServiceAppointmentPayment(req, res) {
+  try {
+    const { session_id } = req.query;
+    if (!session_id) {
+      return res.status(400).json({
+        success: false,
+        message: "Session ID is required.",
+      });
+    }
+
+    if (!stripe) {
+      return res.status(500).json({
+        success: false,
+        message: "Stripe is not configured.",
+      });
+    }
+
+    let session;
+    try {
+      session = await stripe.checkout.sessions.retrieve(session_id);
+    } catch (error) {
+      console.error("Stripe Error:", error);
+      return res.status(404).json({
+        success: false,
+        message: "Stripe session not found.",
+      });
+    }
+
+    if (!session) {
+      return res.status(404).json({
+        success: false,
+        message: "Invalid Stripe session.",
+      });
+    }
+
+    if (session.payment_status !== "paid") {
+      return res.status(400).json({
+        success: false,
+        message: "Payment has not been completed.",
+      });
+    }
+
+    let appt = await ServiceAppointment.findOneAndUpdate(
+      { "payment.sessionId": session_id },
+      {
+        $set: {
+          "payment.status": "Confirmed",
+          "payment.providerId": session.payment_intent || "",
+          "payment.paidAt": new Date(),
+          status: "Confirmed",
+        },
+      },
+      { new: true },
+    );
+
+    if (!appt && session.metadata?.appointmentId) {
+      appt = await ServiceAppointment.findOneAndUpdate(
+        { _id: session.metadata.appointmentId },
+        {
+          $set: {
+            "payment.status": "Confirmed",
+            "payment.providerId": session.payment_intent || "",
+            "payment.paidAt": new Date(),
+            status: "Confirmed",
+          },
+        },
+        { new: true },
+      );
+    }
+
+    if (!appt)
+      return res.status(404).json({
+        success: false,
+        message: "Service appointment not found.",
+      });
+
+    return res.json({
+      success: true,
+      message: "Service appointment payment confirmed successfully!",
+      appointment: appt,
+    });
+  } catch (error) {
+    console.error(
+      "Confirm Service Appointment Payment Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to confirm service appointment payment.",
+      error: `Confirm Service Appointment Payment Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
