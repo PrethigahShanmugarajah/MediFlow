@@ -3,6 +3,7 @@ import express from "express";
 import {
   confirmServiceAppointmentPayment,
   createServiceAppointment,
+  getServiceAppointmentById,
   getServiceAppointments,
 } from "../controllers/serviceAppointmentController.js";
 import { clerkMiddleware, requireAuth } from "@clerk/express";
@@ -24,6 +25,11 @@ serviceAppointmentRouter.post(
   clerkMiddleware(),
   requireAuth(),
   createServiceAppointment,
+);
+
+serviceAppointmentRouter.get(
+  "/serviceAppointment-get/:id",
+  getServiceAppointmentById,
 );
 
 export default serviceAppointmentRouter;
