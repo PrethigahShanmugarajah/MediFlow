@@ -6,6 +6,7 @@ import {
   createAppointment,
   getAppointments,
   getAppointmentsByPatient,
+  getStatus,
   updateAppointment,
 } from "../controllers/appointmentController.js";
 import { clerkMiddleware, requireAuth } from "@clerk/express";
@@ -14,6 +15,7 @@ const appointmentRouter = express.Router();
 
 appointmentRouter.get("/appointments-get", getAppointments);
 appointmentRouter.get("/appointment-confirm-payment", confirmPayment);
+appointmentRouter.get("/appointment-get-status/summary", getStatus);
 
 appointmentRouter.post(
   "/appointment-create",
