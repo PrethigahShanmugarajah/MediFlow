@@ -5,6 +5,7 @@ import {
   createServiceAppointment,
   getServiceAppointmentById,
   getServiceAppointments,
+  updateServiceAppointment,
 } from "../controllers/serviceAppointmentController.js";
 import { clerkMiddleware, requireAuth } from "@clerk/express";
 
@@ -30,6 +31,11 @@ serviceAppointmentRouter.post(
 serviceAppointmentRouter.get(
   "/serviceAppointment-get/:id",
   getServiceAppointmentById,
+);
+
+serviceAppointmentRouter.put(
+  "/serviceAppointment-update/:id",
+  updateServiceAppointment,
 );
 
 export default serviceAppointmentRouter;
