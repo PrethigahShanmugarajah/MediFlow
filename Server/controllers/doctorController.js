@@ -368,3 +368,39 @@ export async function updateDoctor(req, res) {
     });
   }
 }
+
+/* -------- Delete Doctor -------- */
+export async function deleteDoctor(req, res) {
+  try {
+    const { id } = req.params;
+    const existing = await Doctor.findById(id);
+    if (!existing) {
+      return res.status(404).json({
+        message: false,
+        message: "Doctor not found.",
+      });
+    }
+
+    if (existing.imagePublicId) {
+      try {
+        await deleteFromCloudinary(existing.imagePublicId);
+      } catch (error) {
+        console.warn("Delete From Cloudinary warning:", error.message || error);
+      }
+    }
+
+    await Doctor.findByIdAndDelete(id);
+    return res.status(200).json({
+      success: true,
+      message: "Doctor removed successfully!",
+    });
+  } catch (error) {
+    console.error("Delete Doctor Error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete doctor.",
+      error: `Delete Doctor Error: ${error.message}`,
+    });
+  }
+}
