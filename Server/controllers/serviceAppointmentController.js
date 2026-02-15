@@ -603,3 +603,35 @@ export async function getServiceAppointments(req, res) {
     });
   }
 }
+
+/* -------- Get Service Appointment By ID-------- */
+export async function getServiceAppointmentById(req, res) {
+  try {
+    const { id } = req.params;
+    const appt = await ServiceAppointment.findById(id).lean();
+
+    if (!appt) {
+      return res.status(404).json({
+        success: false,
+        message: "Service appointment not found.",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Service appointment fetched successfully!",
+      data: appt,
+    });
+  } catch (error) {
+    console.error(
+      "Get Service Appointment By ID Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch service appointment.",
+      error: `Get Service Appointment By ID Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
