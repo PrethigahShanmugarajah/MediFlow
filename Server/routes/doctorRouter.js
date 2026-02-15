@@ -3,6 +3,7 @@ import express from "express";
 import multer from "multer";
 import {
   createDoctor,
+  deleteDoctor,
   getDoctor,
   getDoctors,
   updateDoctor,
@@ -22,5 +23,6 @@ doctorRouter.put(
   upload.single("image"),
   updateDoctor,
 );
+doctorRouter.delete("/doctor-delete/:id", deleteDoctor);
 
 export default doctorRouter;
