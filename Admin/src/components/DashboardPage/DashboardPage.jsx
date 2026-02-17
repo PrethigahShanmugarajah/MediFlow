@@ -9,15 +9,13 @@ import {
   Users,
   XCircle,
 } from "lucide-react";
-import api from "../../api/axios";
-import API_ROUTES from "../../api/api_route";
-import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { useForm } from "react-hook-form";
 import { InputField } from "../FormField/FormField";
-import { normalizeDoctor, safeNumber } from "./Services";
+import { calculateTotals, filterDoctors, normalizeDoctor } from "./Services";
 import MobileDoctorCard from "./components/MobileDoctorCard";
 import StatCard from "./components/StatCard";
+import { fetchDoctors, fetchPatientCount } from "../../services/fetch";
 
 const DashboardPage = () => {
   const [doctors, setDoctors] = useState([]);
@@ -43,57 +41,25 @@ const DashboardPage = () => {
       setError(null);
 
       try {
-        const response1 = await api.get(API_ROUTES.DOCTORS.DOCTORS_GET);
+        const data1 = await fetchDoctors({ limit: 200 });
 
-        console.log("Fetch Doctors API Response:", response1);
+        let list = [];
 
-        const data1 = response1.data;
-
-        if (data1?.success) {
-          let list = [];
-          if (Array.isArray(data1)) list = data1;
-          else if (Array.isArray(data1.doctors)) list = data1.doctors;
-          else if (Array.isArray(data1.data)) list = data1.data;
-          else if (Array.isArray(data1.items)) list = data1.items;
-          else {
-            const firstArray = Object.values(data1).find((v) =>
-              Array.isArray(v),
-            );
-            if (firstArray) list = firstArray;
-          }
-
-          const normalized = list.map((d) => normalizeDoctor(d));
-          if (mounted) setDoctors(normalized);
-
-          // toast.success(data1?.message || "Doctors loaded successfully");
-          console.log("Fetch Doctors Success:", data1?.message);
-        } else {
-          let list = [];
-          if (Array.isArray(data1)) list = data1;
-          else if (Array.isArray(data1.doctors)) list = data1.doctors;
-          else if (Array.isArray(data1.data)) list = data1.data;
-          else if (Array.isArray(data1.items)) list = data1.items;
-          else {
-            const firstArray = Object.values(data1).find((v) =>
-              Array.isArray(v),
-            );
-            if (firstArray) list = firstArray;
-          }
-
-          const normalized = list.map((d) => normalizeDoctor(d));
-          if (mounted) setDoctors(normalized);
-
-          toast.warn(data1?.message || "Doctors fetched with warnings");
-          console.warn("Fetch Doctors Warning:", data1?.message);
+        if (Array.isArray(data1)) list = data1;
+        else if (Array.isArray(data1.doctors)) list = data1.doctors;
+        else if (Array.isArray(data1.data)) list = data1.data;
+        else if (Array.isArray(data1.items)) list = data1.items;
+        else {
+          const firstArray = Object.values(data1 || {}).find((v) =>
+            Array.isArray(v),
+          );
+          if (firstArray) list = firstArray;
         }
-      } catch (error1) {
-        toast.error(
-          error1?.response?.data?.message ||
-            error1?.message ||
-            "Failed to load doctors",
-        );
-        console.error("Fetch Doctors Error:", error1);
 
+        const normalized = list.map((d) => normalizeDoctor(d));
+
+        if (mounted) setDoctors(normalized);
+      } catch (error1) {
         if (mounted) {
           setError(error1.message || "Failed to load doctors");
           setDoctors([]);
@@ -120,39 +86,10 @@ const DashboardPage = () => {
       setPatientCountLoading(true);
 
       try {
-        const response2 = await api.get(
-          API_ROUTES.APPOINTMENT.APPOINTMENT_GET_REGISTERED_USERCOUNT,
-        );
+        const count = await fetchPatientCount();
 
-        console.log("Fetch Appointments User Count API Response:", response2);
-
-        const data2 = response2.data;
-
-        if (data2?.success) {
-          // toast.success(data2?.message);
-          console.log("Fetch Appointments User Count Success:", data2?.message);
-
-          let count = Number(
-            data2?.count ?? data2?.totalUsers ?? data2?.data ?? 0,
-          );
-          if (isNaN(count)) count = 0;
-
-          if (mounted) setPatientCount(count);
-        } else {
-          toast.warn(data2?.message || "Patient count fetched with warning");
-          console.warn(
-            "Fetch Appointments User Count Warning:",
-            data2?.message,
-          );
-        }
+        if (mounted) setPatientCount(count);
       } catch (error2) {
-        toast.error(
-          error2?.response?.data?.message ||
-            error2?.message ||
-            "Failed to load patient count",
-        );
-        console.error("Fetch Appointments User Count Error:", error2);
-
         if (mounted) setPatientCount(0);
       } finally {
         if (mounted) setPatientCountLoading(false);
@@ -166,50 +103,15 @@ const DashboardPage = () => {
     };
   }, []);
 
-  const totals = useMemo(() => {
-    const totalDoctors = doctors.length;
-    const totalAppointments = doctors.reduce(
-      (s, d) => s + safeNumber(d.appointments?.total, 0),
-      0,
-    );
-    const totalEarnings = doctors.reduce(
-      (s, d) => s + safeNumber(d.earnings, 0),
-      0,
-    );
-    const completed = doctors.reduce(
-      (s, d) => s + safeNumber(d.appointments?.completed, 0),
-      0,
-    );
-    const canceled = doctors.reduce(
-      (s, d) => s + safeNumber(d.appointments?.canceled, 0),
-      0,
-    );
-    const totalLoginPatients =
-      doctors.reduce((s, d) => s + (d.raw?.loginPatientsCount ?? 0), 0) || 0;
-    return {
-      totalDoctors,
-      totalAppointments,
-      totalEarnings,
-      completed,
-      canceled,
-      totalLoginPatients,
-    };
-  }, [doctors]);
+  const totals = useMemo(() => calculateTotals(doctors), [doctors]);
 
-  const filteredDoctors = useMemo(() => {
-    if (!query) return doctors;
-    const q = query.trim().toLowerCase();
-    const qNum = Number(q);
-    return doctors.filter((d) => {
-      if (d.name.toLowerCase().includes(q)) return true;
-      if ((d.specialization || "").toLowerCase().includes(q)) return true;
-      if (d.fee.toString().includes(q)) return true;
-      if (!Number.isNaN(qNum) && d.fee <= qNum) return true;
-      return false;
-    });
-  }, [doctors, query]);
+  const filteredDoctors = useMemo(
+    () => filterDoctors(doctors, query),
+    [doctors, query],
+  );
 
   const INITIAL_COUNT = 8;
+
   const visibleDoctors = showAll
     ? filteredDoctors
     : filteredDoctors.slice(0, INITIAL_COUNT);
@@ -400,7 +302,7 @@ const DashboardPage = () => {
                 </tr>
               </thead>
 
-              <tbody className="bg-white divide-y divide-blue-50">
+              <tbody className="bg-white divide-y divide-blue-50 cursor-pointer">
                 {visibleDoctors.map((d, idx) => (
                   <tr
                     key={d.id}
