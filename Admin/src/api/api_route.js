@@ -9,6 +9,9 @@ const API_ROUTES = {
   },
   APPOINTMENT: {
     APPOINTMENT_GET_REGISTERED_USERCOUNT: `${BASE_URL}/api/appointments/appointment-get-registered-usercount`,
+    APPOINTMENT_GET: `${BASE_URL}/api/appointments/appointments-get`,
+    APPOINTMENT_CANCEL: (id) =>
+      `${BASE_URL}/api/appointments/${id}/appointment-cancel`,
   },
 };
 
