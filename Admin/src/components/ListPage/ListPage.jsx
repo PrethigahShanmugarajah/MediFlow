@@ -138,7 +138,7 @@ const ListPage = () => {
                 Find a Doctor
               </h1>
               <p className="text-sm sm:text-md text-indigo-600">
-                Search by name or specialization
+                Look up by name or specialty
               </p>
             </div>
           </div>
