@@ -76,7 +76,7 @@ export async function getAppointments(req, res) {
     return res.status(200).json({
       success: true,
       message: "Appointments fetched successfully!",
-      appointments: totalAppointments,
+      appointments: items,
       meta: { page, limit, total: totalAppointments, count: items.length },
     });
   } catch (error) {
