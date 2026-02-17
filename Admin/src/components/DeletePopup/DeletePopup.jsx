@@ -8,7 +8,22 @@ function cleanDoctorName(name = "") {
     .trim();
 }
 
-const DeletePopup = ({ onClose, onDelete, loading, name }) => {
+const DeletePopup = ({
+  onClose,
+  onDelete,
+  loading,
+  name,
+  title = "Are you sure?",
+  message,
+  confirmText = "Delete",
+}) => {
+  const finalMessage = message ?? (
+    <>
+      Do you really want to delete <b>Dr. {cleanDoctorName(name)}</b>? <br />
+      This action cannot be undone.
+    </>
+  );
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
       <div className="bg-white p-6 rounded-xl w-96 relative shadow-lg border border-gray-300">
@@ -22,14 +37,10 @@ const DeletePopup = ({ onClose, onDelete, loading, name }) => {
 
         <div className="text-center mt-4">
           <h4 className="mb-2 text-lg font-semibold text-indigo-600">
-            Are you sure?
+            {title}
           </h4>
 
-          <p className="text-black text-sm">
-            Do you really want to delete <b>Dr. {cleanDoctorName(name)}</b>?{" "}
-            <br />
-            This action cannot be undone.
-          </p>
+          <p className="text-black text-sm">{finalMessage}</p>
 
           <div className="flex justify-center mt-5 gap-3">
             <button
@@ -37,7 +48,7 @@ const DeletePopup = ({ onClose, onDelete, loading, name }) => {
               disabled={loading}
               className="px-4 py-2 rounded-lg text-black bg-white border border-gray-300 transition cursor-pointer"
             >
-              Cancel
+              Close
             </button>
 
             <button
@@ -49,7 +60,7 @@ const DeletePopup = ({ onClose, onDelete, loading, name }) => {
                   : "bg-indigo-600 hover:bg-indigo-700 text-white"
               }`}
             >
-              {loading ? <ClipLoader size={18} color="#3B82F6" /> : "Delete"}
+              {loading ? <ClipLoader size={18} color="#3B82F6" /> : confirmText}
             </button>
           </div>
         </div>
