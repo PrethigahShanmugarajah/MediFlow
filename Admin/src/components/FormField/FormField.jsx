@@ -111,8 +111,15 @@ export const InputField = ({
   inputClassName = "",
   labelClassName = "",
   errorClassName = "",
+  unstyled = false,
   ...rest
 }) => {
+  const baseInput =
+    "p-3 rounded-full border border-indigo-100 bg-white shadow-sm w-full focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100";
+
+  const unstyledInput =
+    "w-full bg-transparent p-0 border-0 shadow-none rounded-none outline-none focus:outline-none focus:ring-0";
+
   return (
     <div className={`w-full ${className}`}>
       {label && (
@@ -133,14 +140,9 @@ export const InputField = ({
               {...field}
               type={type}
               placeholder={placeholder}
-              className={`
-                p-3 rounded-full border border-indigo-100 bg-white shadow-sm w-full
-                focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100
-                ${inputClassName}
-              `}
+              className={`${unstyled ? unstyledInput : baseInput} ${inputClassName}`}
               {...rest}
             />
-
             {fieldState.error && (
               <p className={`text-red-500 text-sm mt-1 ${errorClassName}`}>
                 {fieldState.error.message}
