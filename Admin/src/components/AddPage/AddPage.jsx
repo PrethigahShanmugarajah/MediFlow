@@ -20,7 +20,13 @@ import {
   X,
 } from "lucide-react";
 import { ClipLoader } from "react-spinners";
-import { formatDateISO, timeStringToMinutes } from "./Services";
+import {
+  formatDateISO,
+  getFlatSlots,
+  getHourOptions,
+  getMinuteOptions,
+  timeStringToMinutes,
+} from "./Services";
 
 const AddPage = () => {
   const [doctorList, setDoctorList] = useState([]);
@@ -69,15 +75,8 @@ const AddPage = () => {
     return local.toISOString().split("T")[0];
   });
 
-  const hourOptions = Array.from({ length: 12 }).map((_, i) => ({
-    value: String(i + 1),
-    label: String(i + 1),
-  }));
-
-  const minuteOptions = Array.from({ length: 60 }).map((_, i) => {
-    const v = String(i).padStart(2, "0");
-    return { value: v, label: v };
-  });
+  const hourOptions = getHourOptions();
+  const minuteOptions = getMinuteOptions();
 
   function addSlotToForm() {
     if (!slotDate || !slotHour) {
@@ -127,16 +126,6 @@ const AddPage = () => {
       if (!sched[date].length) delete sched[date];
       return { ...f, schedule: sched };
     });
-  }
-
-  function getFlatSlots(s) {
-    const arr = [];
-    Object.keys(s)
-      .sort()
-      .forEach((d) => {
-        s[d].forEach((t) => arr.push({ date: d, time: t }));
-      });
-    return arr;
   }
 
   function validate() {
