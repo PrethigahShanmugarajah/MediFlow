@@ -1,10 +1,11 @@
 // MediFlow / Admin / src / pages / List / List.jsx
-import React from "react";
 import ListPage from "../../components/ListPage/ListPage";
+import Navbar from "../../components/Navbar/Navbar";
 
 const List = () => {
   return (
-    <div>
+    <div className="bg-indigo-50">
+      <Navbar />
       <ListPage />
     </div>
   );
