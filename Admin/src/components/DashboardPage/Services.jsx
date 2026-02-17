@@ -1,10 +1,13 @@
 // MediFlow / Admin / src / components / DashboardPage / Services.jsx
 
+/* -------- Convert a value to a number, use fallback if not a valid number -------- */
 export const safeNumber = (v, fallback = 0) => {
   const n = Number(v);
   return Number.isFinite(n) ? n : fallback;
 };
 
+/* -------- Standardize doctor object with id, name, specialization, fee, image, appointments, earnings
+ -------- */
 export function normalizeDoctor(doc) {
   const id = doc._id || doc.id || String(Math.random()).slice(2);
   const name =
@@ -65,5 +68,55 @@ export function normalizeDoctor(doc) {
     appointments,
     earnings,
     raw: doc,
+  };
+}
+
+/* -------- Filter doctors by name or specialization matching query -------- */
+export function filterDoctors(doctors, query) {
+  if (!query) return doctors;
+
+  const q = query.toLowerCase();
+
+  return doctors.filter(
+    (d) =>
+      d.name.toLowerCase().includes(q) ||
+      (d.specialization || "").toLowerCase().includes(q),
+  );
+}
+
+/* -------- Calculate totals for doctors: total, appointments, earnings, completed, canceled, login patients -------- */
+export function calculateTotals(doctors) {
+  const totalDoctors = doctors.length;
+
+  const totalAppointments = doctors.reduce(
+    (s, d) => s + safeNumber(d.appointments?.total, 0),
+    0,
+  );
+
+  const totalEarnings = doctors.reduce(
+    (s, d) => s + safeNumber(d.earnings, 0),
+    0,
+  );
+
+  const completed = doctors.reduce(
+    (s, d) => s + safeNumber(d.appointments?.completed, 0),
+    0,
+  );
+
+  const canceled = doctors.reduce(
+    (s, d) => s + safeNumber(d.appointments?.canceled, 0),
+    0,
+  );
+
+  const totalLoginPatients =
+    doctors.reduce((s, d) => s + (d.raw?.loginPatientsCount ?? 0), 0) || 0;
+
+  return {
+    totalDoctors,
+    totalAppointments,
+    totalEarnings,
+    completed,
+    canceled,
+    totalLoginPatients,
   };
 }
