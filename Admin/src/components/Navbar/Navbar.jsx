@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import Logo from "../../assets/Logo.png";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Calendar,
   CalendarDays,
@@ -23,6 +23,8 @@ import {
   X,
 } from "lucide-react";
 import { useAuth, useClerk, useUser } from "@clerk/clerk-react";
+import MobileItem from "./components/MobileItem";
+import CenterNavItem from "./components/CenterNavItem";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -378,45 +380,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-function CenterNavItem({ to, icon, label }) {
-  return (
-    <NavLink
-      to={to}
-      end
-      className={({ isActive }) =>
-        `nav-item ${
-          isActive ? "active" : ""
-        } 'relative flex flex-col lg:text-xs lg:-mx-2 xl:text-md items-center gap-1 px-3 py-2 rounded-lg transition-all text-sm' ${
-          isActive
-            ? "text-indigo-400 font-semibold"
-            : "text-black hover:text-indigo-600"
-        }`
-      }
-    >
-      <span>{icon}</span>
-      <span className="font-medium">{label}</span>
-    </NavLink>
-  );
-}
-
-function MobileItem({ to, icon, label, onClick }) {
-  return (
-    <NavLink
-      to={to}
-      onClick={onClick}
-      end
-      className={({ isActive }) =>
-        `flex items-center gap-3 px-2 py-2 rounded-md ${
-          isActive
-            ? "bg-indigo-50 text-indigo-600"
-            : "hover:bg-gray-50 text-black"
-        }
-        `
-      }
-    >
-      {icon}
-      <span className="font-medium text-sm">{label}</span>
-    </NavLink>
-  );
-}
