@@ -3,7 +3,7 @@ const BASE_URL = import.meta.env.VITE_BASEURL;
 
 const API_ROUTES = {
   DOCTORS: {
-    DOCTORS_GET: `${BASE_URL}/api/doctors/doctors-get?limit=200`,
+    DOCTORS_GET: `${BASE_URL}/api/doctors/doctors-get`,
     DOCTORS_CREATE: `${BASE_URL}/api/doctors/doctor-create`,
   },
   APPOINTMENT: {
