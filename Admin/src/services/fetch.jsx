@@ -6,6 +6,8 @@ import api from "../api/axios";
 export async function fetchDoctors(params = {}) {
   try {
     const response1 = await api.get(API_ROUTES.DOCTORS.DOCTORS_GET, { params });
+
+    console.log("Fetch Doctors API Response:", response1);
     const data1 = response1.data;
 
     if (data1?.success) {
@@ -31,6 +33,7 @@ export async function fetchPatientCount() {
       API_ROUTES.APPOINTMENT.APPOINTMENT_GET_REGISTERED_USERCOUNT,
     );
 
+    console.log("Fetch Patient Count API Response:", response2);
     const data2 = response2.data;
 
     if (data2?.success) {
@@ -51,5 +54,31 @@ export async function fetchPatientCount() {
     console.error("Fetch Patient Count Error:", error2);
 
     throw error2;
+  }
+}
+
+export async function fetchAppointments(params = {}) {
+  try {
+    const response3 = await api.get(API_ROUTES.APPOINTMENT.APPOINTMENT_GET, {
+      params,
+    });
+
+    console.log("Fetch Appointments API Response:", response3);
+    const data3 = response3.data;
+
+    if (data3?.success) {
+      // toast.success(data3?.message);
+      console.log("Fetch Appointments Success:", data3?.message);
+    } else {
+      toast.warn(data3?.message || "Patient count fetched with warning");
+      console.warn("Fetch Appointments Warning:", data3?.message);
+    }
+
+    return data3;
+  } catch (error3) {
+    toast.error(error3?.response?.data?.message || error3?.message);
+    console.error("Fetch Appointments Error:", error3);
+
+    throw error3;
   }
 }
