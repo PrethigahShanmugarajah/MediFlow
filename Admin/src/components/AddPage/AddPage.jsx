@@ -1,5 +1,5 @@
 // MediFlow / Admin / src / components / AddPage / AddPage.jsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   FileInputField,
@@ -56,7 +56,21 @@ const AddPage = () => {
   });
 
   const imageFiles = watch("doctorImage");
+
   const selectedFile = imageFiles?.[0] || null;
+  const [previewUrl, setPreviewUrl] = useState("");
+
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreviewUrl("");
+      return;
+    }
+
+    const url = URL.createObjectURL(selectedFile);
+    setPreviewUrl(url);
+
+    return () => URL.revokeObjectURL(url);
+  }, [selectedFile]);
 
   const [form, setForm] = useState({
     schedule: {},
@@ -276,27 +290,39 @@ const AddPage = () => {
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           <div className="md:col-span-2">
-            <FileInputField
-              control={control}
-              label="Upload Profile Image"
-              name="doctorImage"
-              rules={{ required: "Profile image is required" }}
-              accept="image/*"
-            />
+            <label className="block text-sm font-medium mb-2">
+              Upload Profile Image
+            </label>
 
-            {selectedFile && (
-              <div className="relative inline-block mt-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setValue("doctorImage", null);
-                  }}
-                  className="absolute -top-25 -right-68 bg-red-500 text-white rounded-full p-1"
-                >
-                  <X size={14} />
-                </button>
+            <div className="flex items-center gap-4">
+              <div className="w-fit">
+                <FileInputField
+                  control={control}
+                  name="doctorImage"
+                  rules={{ required: "Profile image is required" }}
+                  accept="image/*"
+                  inputClassName="w-64"
+                />
               </div>
-            )}
+
+              {selectedFile && (
+                <div className="relative">
+                  <img
+                    src={previewUrl}
+                    alt="Preview"
+                    className="h-24 w-24 rounded-full object-cover border-2 border-indigo-200 shadow"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => setValue("doctorImage", null)}
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 shadow"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           <InputField
