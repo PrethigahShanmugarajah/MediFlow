@@ -110,3 +110,29 @@ export async function fetchServiceAppointmentsStats() {
     throw error4;
   }
 }
+
+export async function fetchServiceById(id) {
+  if (!id) throw new Error("Service id is required");
+
+  try {
+    const response5 = await api.get(API_ROUTES.SERVICE.SERVICE_GET(id));
+
+    console.log("Fetch Service API Response:", response5);
+    const data5 = response5.data;
+
+    if (data5?.success) {
+      // toast.success(data5?.message);
+      console.log("Fetch Service Success:", data5?.message);
+    } else {
+      toast.warn(data5?.message || "Fetch Service with warning");
+      console.warn("Fetch Service Warning:", data5?.message);
+    }
+
+    return data5;
+  } catch (error5) {
+    toast.error(error5?.response?.data?.message || error5?.message);
+    console.error("Fetch Service Error:", error5);
+
+    throw error5;
+  }
+}
