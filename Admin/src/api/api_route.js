@@ -13,6 +13,9 @@ const API_ROUTES = {
     APPOINTMENT_CANCEL: (id) =>
       `${BASE_URL}/api/appointments/${id}/appointment-cancel`,
   },
+  SERVICEAPPOINTMENT: {
+    SERVICEAPPOINTMENT_GET_STATS: `${BASE_URL}/api/serviceAppointments/serviceAppointment-get-stats/summary`,
+  },
 };
 
 export default API_ROUTES;
