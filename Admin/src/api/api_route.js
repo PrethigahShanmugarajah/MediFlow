@@ -13,6 +13,12 @@ const API_ROUTES = {
     APPOINTMENT_CANCEL: (id) =>
       `${BASE_URL}/api/appointments/${id}/appointment-cancel`,
   },
+  SERVICE: {
+    SERVICES_GET: `${BASE_URL}/api/services/services-get`,
+    SERVICE_GET: (id) => `${BASE_URL}/api/services/service-get/${id}`,
+    SERVICE_CREATE: `${BASE_URL}/api/services/service-create`,
+    SERVICE_UPDATE: (id) => `${BASE_URL}/api/services/service-update/${id}`,
+  },
   SERVICEAPPOINTMENT: {
     SERVICEAPPOINTMENT_GET_STATS: `${BASE_URL}/api/serviceAppointments/serviceAppointment-get-stats/summary`,
   },
