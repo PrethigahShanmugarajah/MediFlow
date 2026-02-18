@@ -25,7 +25,7 @@ app.use(
       return callback(new Error("Not allowed by CORS."));
     },
     credentials: true,
-    methods: ["GET", "POST", "POST", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
@@ -34,7 +34,6 @@ app.use(
 connectDB();
 
 /* -------- MIDDLEWARE CONFIGURATION -------- */
-app.use(cors());
 app.use(clerkMiddleware());
 app.use(express.json({ limit: "20mb" }));
 app.use(express.urlencoded({ limit: "20mb", extended: true }));
