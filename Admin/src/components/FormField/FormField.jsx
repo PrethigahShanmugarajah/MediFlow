@@ -1,6 +1,6 @@
 // MediFlow / Admin / src / components / FormField / FormField.jsx
 import { X } from "lucide-react";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Controller } from "react-hook-form";
 import Select from "react-select";
 import { components } from "react-select";
@@ -16,6 +16,10 @@ export const FileInputField = ({
   previewClassName = "",
   labelClassName = "",
   errorClassName = "",
+  trigger = false,
+  triggerText,
+  TriggerIcon = null,
+  triggerClassName = "",
   ...rest
 }) => {
   return (
@@ -38,22 +42,11 @@ export const FileInputField = ({
 
           const inputRef = useRef(null);
 
-          const previewUrl = useMemo(() => {
-            if (!file) return "";
-            return URL.createObjectURL(file);
-          }, [file]);
-
           useEffect(() => {
             if (!field.value && inputRef.current) {
               inputRef.current.value = "";
             }
           }, [field.value]);
-
-          useEffect(() => {
-            return () => {
-              if (previewUrl) URL.revokeObjectURL(previewUrl);
-            };
-          }, [previewUrl]);
 
           return (
             <>
@@ -66,24 +59,23 @@ export const FileInputField = ({
                     const files = e.target.files;
                     field.onChange(files && files.length ? files : null);
                   }}
-                  className={`
-                    w-44 border border-indigo-100 rounded-full p-2 text-sm bg-white
-                    focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100
-                    cursor-pointer
-                    ${inputClassName}
-                  `}
+                  className={
+                    trigger
+                      ? "hidden"
+                      : `w-44 border border-indigo-100 rounded-full p-2 text-sm bg-white focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 cursor-pointer ${inputClassName}`
+                  }
                   {...rest}
                 />
 
-                {previewUrl && (
-                  <img
-                    src={previewUrl}
-                    alt="Preview"
-                    className={`
-                      h-20 w-20 rounded-full object-cover border border-indigo-200 shadow
-                      ${previewClassName}
-                    `}
-                  />
+                {trigger && (
+                  <button
+                    type="button"
+                    onClick={() => inputRef.current?.click()}
+                    className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white border border-indigo-200 hover:shadow transition-shadow ${triggerClassName}`}
+                  >
+                    {TriggerIcon ? <TriggerIcon className="w-4 h-4" /> : null}
+                    {triggerText}
+                  </button>
                 )}
               </div>
 
@@ -352,34 +344,119 @@ export const SelectInput = ({
 
 export const TextAreaField = ({
   control,
+  label,
   name,
   rules,
-  placeholder,
+  placeholder = "",
   rows = 3,
   className = "",
+  textareaClassName = "",
+  labelClassName = "",
+  errorClassName = "",
+  ...rest
 }) => {
+  return (
+    <div className={`w-full ${className}`}>
+      {label && (
+        <label
+          className={`block text-sm font-medium mb-1 text-black ${labelClassName}`}
+        >
+          {label}
+        </label>
+      )}
+
+      <Controller
+        name={name}
+        control={control}
+        rules={rules}
+        render={({ field, fieldState }) => (
+          <>
+            <textarea
+              {...field}
+              rows={rows}
+              placeholder={placeholder}
+              className={`
+                p-3 rounded-xl border border-indigo-100 bg-white
+                placeholder:text-gray-400 shadow-sm w-full
+                focus:outline-none focus:border-indigo-400
+                focus:ring-0 focus:ring-indigo-100
+                transition-all resize-none
+                ${textareaClassName}
+              `}
+              {...rest}
+            />
+
+            {fieldState.error && (
+              <p className={`text-red-500 text-sm mt-1 ${errorClassName}`}>
+                {fieldState.error.message}
+              </p>
+            )}
+          </>
+        )}
+      />
+    </div>
+  );
+};
+
+export const CheckboxField = ({
+  control,
+  name,
+  label,
+  rules,
+  labelPosition,
+  className = "",
+  labelClassName = "",
+  checkboxClassName = "",
+  errorClassName = "",
+  ...rest
+}) => {
+  const isVertical = labelPosition === "top" || labelPosition === "bottom";
+
+  const containerDir =
+    labelPosition === "left"
+      ? "flex-row-reverse"
+      : labelPosition === "top"
+        ? "flex-col-reverse"
+        : labelPosition === "bottom"
+          ? "flex-col"
+          : "flex-row";
+
   return (
     <Controller
       name={name}
       control={control}
       rules={rules}
       render={({ field, fieldState }) => (
-        <div className={`w-full ${className}`}>
-          <textarea
-            {...field}
-            rows={rows}
-            placeholder={placeholder}
-            className="
-              p-3 rounded-xl border border-indigo-100 bg-white
-              placeholder:text-gray-400 shadow-sm w-full
-              focus:outline-none focus:border-indigo-400
-              focus:ring-2 focus:ring-indigo-100
-              transition-all resize-none
-            "
-          />
+        <div className={`${className}`}>
+          <div
+            className={`
+              flex items-center gap-2 cursor-pointer
+              ${containerDir}
+              ${isVertical ? "items-start" : "items-center"}
+            `}
+            onClick={() => field.onChange(!field.value)}
+          >
+            <input
+              type="checkbox"
+              checked={!!field.value}
+              onChange={(e) => field.onChange(e.target.checked)}
+              onClick={(e) => e.stopPropagation()}
+              className={`
+                w-4 h-4 rounded border border-indigo-200
+                text-indigo-600 focus:ring-indigo-200
+                cursor-pointer
+                ${checkboxClassName}
+              `}
+              {...rest}
+            />
+
+            {label && (
+              <span className={`text-sm ${labelClassName}`}>{label}</span>
+            )}
+          </div>
 
           {fieldState.error && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className={`text-red-500 text-sm mt-1 ${errorClassName}`}>
               {fieldState.error.message}
             </p>
           )}
