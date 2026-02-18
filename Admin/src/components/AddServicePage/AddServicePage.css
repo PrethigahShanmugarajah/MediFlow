@@ -1,0 +1,29 @@
+/* MediFlow / Admin / src / components / AddServicePage / AddServicePage.css */
+@keyframes slideIn {
+  from {
+    transform: translateX(12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 300ms ease both;
+}
+
+.max-h-44::-webkit-scrollbar,
+.max-h-36::-webkit-scrollbar,
+.overflow-auto::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.max-h-44::-webkit-scrollbar-thumb,
+.max-h-36::-webkit-scrollbar-thumb,
+.overflow-auto::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 9999px;
+}
