@@ -82,3 +82,31 @@ export async function fetchAppointments(params = {}) {
     throw error3;
   }
 }
+
+export async function fetchServiceAppointmentsStats() {
+  try {
+    const response4 = await api.get(
+      API_ROUTES.SERVICEAPPOINTMENT.SERVICEAPPOINTMENT_GET_STATS,
+    );
+
+    console.log("Fetch Service Appointments Stat API Response:", response4);
+    const data4 = response4.data;
+
+    if (data4?.success) {
+      // toast.success(data4?.message);
+      console.log("Fetch Service Appointments Stat Success:", data4?.message);
+    } else {
+      toast.warn(
+        data4?.message || "Fetch Service Appointments Stat with warning",
+      );
+      console.warn("Fetch Service Appointments Stat Warning:", data4?.message);
+    }
+
+    return data4;
+  } catch (error4) {
+    toast.error(error4?.response?.data?.message || error4?.message);
+    console.error("Fetch Service Appointments Stat Error:", error4);
+
+    throw error4;
+  }
+}
