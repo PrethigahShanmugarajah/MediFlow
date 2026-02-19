@@ -401,7 +401,7 @@ const AddServicePage = ({ serviceId }) => {
   }
 
   return (
-    <div className="min-h-screen font-serif bg-linear-to-br from-indigo-50 via-indigo-100 to-fuchsia-50 relative flex items-center justify-center p-4 sm:p-6 overflow-x-hidden">
+    <div className="min-h-screen font-serif bg-linear-to-br from-blue-50 via-blue-100 to-white relative flex items-center justify-center p-4 sm:p-6 overflow-x-hidden">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-5xl bg-white/90 backdrop-blur-sm rounded-3xl p-6 sm:p-8 shadow-2xl border border-indigo-100/50 box-border"
