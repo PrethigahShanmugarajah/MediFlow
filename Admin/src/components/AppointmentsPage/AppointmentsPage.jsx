@@ -148,7 +148,7 @@ const AppointmentsPage = () => {
   }
 
   return (
-    <div className="min-h-screen font-serif bg-indigo-50 p-3 sm:p-4 md:p-6 lg:p-8">
+    <div className="min-h-screen font-serif bg-linear-to-br from-blue-50 via-blue-100 to-white p-3 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-350 mx-auto">
         <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <div className="w-full sm:w-auto">
@@ -303,7 +303,7 @@ const AppointmentsPage = () => {
                               : a.status?.toLowerCase() === "canceled" ||
                                   a.status?.toLowerCase() === "cancelled"
                                 ? "bg-red-50 text-red-700 border border-red-100"
-                                : "bg-teal-50 text-teal-700 border border-teal-100"
+                                : "bg-pink-50 text-pink-700 border border-pink-100"
                       }`}
                     >
                       {a.status ? a.status.toUpperCase() : "PENDING"}
