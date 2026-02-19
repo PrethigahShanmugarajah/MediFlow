@@ -19,8 +19,8 @@ function RequireAuth({ children }) {
   if (!isLoaded) return null;
   if (!isSignedIn)
     return (
-      <div className="min-h-screen font-mono flex items-center justify-center bg-linear-to-b from-indigo-50 via-blue-50 to-indigo-100 px-4">
-        <div className="text-center">
+      <div className="min-h-screen font-mono flex items-center justify-center bg-linear-to-br from-blue-50 via-blue-100 to-white px-4">
+        <div className="text-center -mt-80">
           <p className="text-indigo-800 font-semibold text-lg sm:text-2xl mb-4 animate-fade-in">
             Please sign in to view this page
           </p>
