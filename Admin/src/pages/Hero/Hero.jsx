@@ -1,16 +1,11 @@
 // MediFlow / Admin / src / pages / Hero / Hero.jsx
-import React from "react";
-// import { heroStyles } from "../../assets/dummyStyles";
-import Navbar from "../../components/Navbar/Navbar";
 import Logo from "../../assets/Logo.png";
 
 const Hero = ({ role = "admin", userName = "Doctor" }) => {
   const isDoctor = role === "doctor";
 
   return (
-    <div className="min-h-screen font-sans bg-linear-to-b from-indigo-50 to-white">
-      <Navbar />
-
+    <div className="min-h-screen font-sans bg-linear-to-br from-blue-50 via-blue-100 to-white">
       <main className="flex items-center pt-28 justify-center px-6 py-16">
         <section className="w-full max-w-4xl">
           <div className="relative">
