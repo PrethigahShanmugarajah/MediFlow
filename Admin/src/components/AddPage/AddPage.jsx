@@ -271,7 +271,7 @@ const AddPage = () => {
   }
 
   return (
-    <div className="min-h- font-serif bg-linear-to-br from-indigo-50 via-white to-blue-50 p-4 sm:p-6">
+    <div className="min-h- font-serif bg-linear-to-br from-blue-50 via-blue-100 to-white p-4 sm:p-6">
       <div className="max-w-6xl mx-auto text-center mb-12">
         <div className="flex flex-col sm:flex-row justify-center items-center gap-3 mb-4">
           <div className="p-3 bg-indigo-500 rounded-full shadow-lg">
