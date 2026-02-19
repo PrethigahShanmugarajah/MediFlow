@@ -18,9 +18,15 @@ const API_ROUTES = {
     SERVICE_GET: (id) => `${BASE_URL}/api/services/service-get/${id}`,
     SERVICE_CREATE: `${BASE_URL}/api/services/service-create`,
     SERVICE_UPDATE: (id) => `${BASE_URL}/api/services/service-update/${id}`,
+    SERVICE_DELETE: (id) => `${BASE_URL}/api/services/service-delete/${id}`,
   },
   SERVICEAPPOINTMENT: {
     SERVICEAPPOINTMENT_GET_STATS: `${BASE_URL}/api/serviceAppointments/serviceAppointment-get-stats/summary`,
+    SERVICEAPPOINTMENTS_GET: `${BASE_URL}/api/serviceAppointments/serviceAppointments-get`,
+    SERVICEAPPOINTMENTS_UPDATE: (id) =>
+      `${BASE_URL}/api/serviceAppointments/serviceAppointment-update/${id}`,
+    SERVICEAPPOINTMENTS_CANCEL: (id) =>
+      `${BASE_URL}/api/serviceAppointments/${id}/serviceAppointment-cancel`,
   },
 };
 
