@@ -136,3 +136,59 @@ export async function fetchServiceById(id) {
     throw error5;
   }
 }
+
+export async function fetchServiceAppointment(params = {}) {
+  try {
+    const response6 = await api.get(
+      API_ROUTES.SERVICEAPPOINTMENT.SERVICEAPPOINTMENTS_GET,
+      { params },
+    );
+
+    console.log("Fetch Service Appointment API Response:", response6);
+    const data6 = response6.data;
+
+    if (data6?.success) {
+      // toast.success(data6?.message);
+      console.log("Fetch Service Appointment Success:", data6?.message);
+    } else {
+      toast.warn(
+        data6?.message || "Fetch Service Appointment with warning",
+      );
+      console.warn(
+        "Fetch Service Appointment Warning:",
+        data6?.message,
+      );
+    }
+
+    return data6;
+  } catch (error6) {
+    toast.error(error6?.response?.data?.message || error6?.message);
+    console.error("Fetch Service Appointment Error:", error6);
+
+    throw error6;
+  }
+}
+
+export async function fetchServices() {
+  try {
+    const response6 = await api.get(API_ROUTES.SERVICE.SERVICES_GET);
+
+    console.log("Fetch Services API Response:", response6);
+    const data6 = response6.data;
+
+    if (data6?.success) {
+      // toast.success(data6?.message);
+      console.log("Fetch Services Success:", data6?.message);
+    } else {
+      toast.warn(data6?.message || "Fetch Services with warning");
+      console.warn("Fetch Services Warning:", data6?.message);
+    }
+
+    return data6;
+  } catch (error6) {
+    toast.error(error6?.response?.data?.message || error6?.message);
+    console.error("Fetch Services Error:", error6);
+
+    throw error6;
+  }
+}
