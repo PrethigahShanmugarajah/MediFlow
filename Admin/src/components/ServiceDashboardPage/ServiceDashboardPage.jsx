@@ -167,7 +167,7 @@ const ServiceDashboardPage = ({ services: servicesProp = null }) => {
   }
 
   return (
-    <div className="min-h-screen font-serif p-4 sm:p-6 bg-linear-to-b from-indigo-50 via-indigo-25 to-white">
+    <div className="min-h-screen font-serif p-4 sm:p-6 bg-linear-to-br from-blue-50 via-blue-100 to-white">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row items-start sm:items-center md:items-center justify-between mb-6 gap-3 md:gap-6 lg:gap-3">
           <div>
