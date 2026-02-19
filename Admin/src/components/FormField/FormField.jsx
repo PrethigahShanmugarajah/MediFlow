@@ -147,20 +147,33 @@ export const InputField = ({
   );
 };
 
-const BeforeClearSeparator = () => (
-  <div
-    style={{
-      width: "1px",
-      height: "22px",
-      backgroundColor: "#E0E7FF",
-      margin: "0 10px",
-      flexShrink: 0,
-    }}
-  />
-);
+const BeforeClearSeparator = ({ selectProps }) => {
+  const isSmall = String(selectProps.className || "")
+    .split(" ")
+    .includes("status-small");
+
+  return (
+    <div
+      style={{
+        width: "1px",
+        height: isSmall ? "14px" : "22px",
+        backgroundColor: "#E0E7FF",
+        margin: isSmall ? "0 0px" : "0 10px",
+        flexShrink: 0,
+      }}
+    />
+  );
+};
 
 const ClearIndicator = (props) => {
-  const { innerProps, clearValue, hasValue } = props;
+  const { innerProps, clearValue, hasValue, selectProps } = props;
+
+  const isMutedDisabled =
+    selectProps.isDisabled && selectProps.disabledVariant === "muted";
+
+  const isSmall = String(selectProps.className || "")
+    .split(" ")
+    .includes("status-small");
 
   if (!hasValue) return null;
 
@@ -168,11 +181,13 @@ const ClearIndicator = (props) => {
     <div
       {...innerProps}
       onMouseDown={(e) => {
+        if (isMutedDisabled) return;
         e.preventDefault();
         e.stopPropagation();
         clearValue();
       }}
       onTouchEnd={(e) => {
+        if (isMutedDisabled) return;
         e.preventDefault();
         e.stopPropagation();
         clearValue();
@@ -180,23 +195,29 @@ const ClearIndicator = (props) => {
       style={{
         display: "flex",
         alignItems: "center",
-        padding: "0 6px",
-        cursor: "pointer",
+        padding: isSmall ? "0 0px" : "0 6px",
+        cursor: isMutedDisabled ? "not-allowed" : "pointer",
+        color: isMutedDisabled ? "#9CA3AF" : "#111827",
       }}
-      className="hover:text-indigo-600"
+      className={!isMutedDisabled ? "hover:text-indigo-600" : ""}
       aria-label="Clear selected value"
     >
-      <X size={16} />
+      <X size={isSmall ? 12 : 16} />
     </div>
   );
 };
 
 const IndicatorsContainer = (props) => {
-  const { hasValue } = props;
+  const { hasValue, selectProps } = props;
+
+  const isSmall = String(selectProps?.className || "")
+    .split(" ")
+    .includes("status-small");
 
   return (
     <components.IndicatorsContainer {...props}>
-      <BeforeClearSeparator />
+      {/* {!isSmall && <BeforeClearSeparator selectProps={selectProps} />} */}
+      <BeforeClearSeparator selectProps={selectProps} />
       {hasValue && <ClearIndicator {...props} />}
       <components.DropdownIndicator {...props} />
     </components.IndicatorsContainer>
@@ -214,6 +235,7 @@ export const SelectInput = ({
   labelClassName = "",
   selectClassName = "",
   errorClassName = "",
+  disabledVariant = "default",
   ...rest
 }) => {
   return (
@@ -235,6 +257,10 @@ export const SelectInput = ({
             <Select
               {...field}
               isClearable
+              isDisabled={rest.isDisabled}
+              disabledVariant={disabledVariant}
+              className={selectClassName}
+              classNamePrefix="react-select"
               components={{
                 IndicatorsContainer,
                 DropdownIndicator: components.DropdownIndicator,
@@ -251,26 +277,54 @@ export const SelectInput = ({
                 field.onChange(value);
                 rest?.onChange?.(opt);
               }}
-              className={selectClassName}
               styles={{
-                control: (base, state) => ({
-                  ...base,
-                  cursor: "pointer",
-                  backgroundColor: "white",
-                  borderRadius: "9999px",
-                  minHeight: "48px",
-                  height: "48px",
-                  paddingLeft: "12px",
-                  borderWidth: "1px",
-                  borderColor: state.isFocused ? "#818CF8" : "#E0E7FF",
-                  boxShadow: state.isFocused ? "0 0 0 2px #E0E7FF" : "none",
-                  "&:hover": { borderColor: "#818CF8" },
-                }),
+                control: (base, state) => {
+                  const isMutedDisabled =
+                    state.isDisabled && disabledVariant === "muted";
+                  const isSmall = String(state.selectProps?.className || "")
+                    .split(" ")
+                    .includes("status-small");
 
-                singleValue: (base) => ({
-                  ...base,
-                  color: "#000000",
-                }),
+                  return {
+                    ...base,
+                    cursor: state.isDisabled ? "not-allowed" : "pointer",
+                    backgroundColor: isMutedDisabled ? "#F9FAFB" : "white",
+                    borderRadius: "9999px",
+
+                    minHeight: isSmall ? "32px" : "48px",
+                    height: isSmall ? "32px" : "48px",
+                    paddingLeft: isSmall ? "8px" : "12px",
+
+                    borderWidth: "1px",
+                    borderColor: isMutedDisabled
+                      ? "#E5E7EB"
+                      : state.isFocused
+                        ? "#818CF8"
+                        : "#E0E7FF",
+                    boxShadow:
+                      state.isFocused && !state.isDisabled
+                        ? "0 0 0 2px #E0E7FF"
+                        : "none",
+                    "&:hover": {
+                      borderColor: isMutedDisabled ? "#E5E7EB" : "#818CF8",
+                    },
+                  };
+                },
+
+                singleValue: (base, state) => {
+                  const isSmall = String(state.selectProps?.className || "")
+                    .split(" ")
+                    .includes("status-small");
+
+                  return {
+                    ...base,
+                    fontSize: isSmall ? "13px" : base.fontSize,
+                    color:
+                      state.isDisabled && disabledVariant === "muted"
+                        ? "#9CA3AF"
+                        : "#000000",
+                  };
+                },
 
                 input: (base) => ({
                   ...base,
@@ -282,17 +336,30 @@ export const SelectInput = ({
                   padding: "0",
                 }),
 
-                indicatorsContainer: (base) => ({
-                  ...base,
-                  height: "48px",
-                  paddingRight: "10px",
-                }),
+                indicatorsContainer: (base, state) => {
+                  const isSmall = String(state.selectProps?.className || "")
+                    .split(" ")
+                    .includes("status-small");
 
-                dropdownIndicator: (base) => ({
-                  ...base,
-                  padding: "0 2px",
-                  cursor: "pointer",
-                }),
+                  return {
+                    ...base,
+                    height: isSmall ? "32px" : "48px",
+                    paddingRight: isSmall ? "2px" : "10px",
+                    gap: isSmall ? "2px" : base.gap,
+                  };
+                },
+
+                dropdownIndicator: (base, state) => {
+                  const isSmall = String(state.selectProps?.className || "")
+                    .split(" ")
+                    .includes("status-small");
+
+                  return {
+                    ...base,
+                    padding: isSmall ? "0 1px" : "0 2px",
+                    cursor: "pointer",
+                  };
+                },
 
                 clearIndicator: (base) => ({
                   ...base,
