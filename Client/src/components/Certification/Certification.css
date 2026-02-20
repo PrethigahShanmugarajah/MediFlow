@@ -1,0 +1,14 @@
+/* MediFlow / Client / src / components / Certification / Certification.css */
+
+@keyframes marquee-single {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-marquee-single {
+  animation: marquee-single 60s linear infinite;
+}
