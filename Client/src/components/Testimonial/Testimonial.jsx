@@ -28,9 +28,9 @@ const Testimonial = () => {
   });
 
   return (
-    <div className="min-h-[70vh] bg-linear-to-br from-slate-50 to-blue-50 py-10 px-4 relative overflow-hidden">
+    <div className="min-h-[70vh] bg-linear-to-br from-slate-50 to-green-50 py-10 px-4 relative overflow-hidden">
       <div className="max-w-6xl font-serif mx-auto text-center mb-8 sm:mb-12">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-linear-to-br from-blue-600 to-green-600 mb-3">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-linear-to-br from-green-600 to-blue-600 mb-3">
           Voice of Trust
         </h2>
 
@@ -46,8 +46,8 @@ const Testimonial = () => {
         onMouseLeave={() => setIsPaused(false)}
       >
         {/* -------- Left Side -------- */}
-        <div className="relative font-serif border-2 rounded-2xl overflow-hidden bg-white/60 backdrop-blur-sm border-blue-200">
-          <div className="py-2 font-semibold text-md sm:text-lg rounded-t-2xl text-center bg-blue-100 text-blue-700">
+        <div className="relative font-serif border-2 rounded-2xl overflow-hidden bg-white/60 backdrop-blur-sm border-green-200">
+          <div className="py-2 font-semibold text-md sm:text-lg rounded-t-2xl text-center bg-green-100 text-green-700">
             👩‍⚕️ Medical Professionals
           </div>
 
@@ -68,8 +68,8 @@ const Testimonial = () => {
         </div>
 
         {/* -------- Right Side -------- */}
-        <div className="relative font-serif border-2 rounded-2xl overflow-hidden bg-white/60 backdrop-blur-sm border-green-200">
-          <div className="py-2 font-semibold text-md sm:text-lg rounded-t-2xl text-center bg-green-100 text-green-700">
+        <div className="relative font-serif border-2 rounded-2xl overflow-hidden bg-white/60 backdrop-blur-sm border-blue-200">
+          <div className="py-2 font-semibold text-md sm:text-lg rounded-t-2xl text-center bg-blue-100 text-blue-700">
             🧑‍💼 Patients
           </div>
 
