@@ -1,0 +1,19 @@
+/* MediFlow / Client / src / components / Footer / Footer.css */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.activity-delay-3s {
+  animation-delay: 3s;
+}
