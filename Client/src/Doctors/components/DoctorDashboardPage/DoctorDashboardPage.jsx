@@ -1,8 +1,11 @@
 // MediFlow / Client / src / Doctors / components / DoctorDashboardPage / DoctorDashboardPage.jsx
-import React from "react";
 
 const DoctorDashboardPage = () => {
-  return <div>DoctorDashboardPage</div>;
+  return (
+    <div>
+      <h1>DoctorDashboardPage</h1>
+    </div>
+  );
 };
 
 export default DoctorDashboardPage;

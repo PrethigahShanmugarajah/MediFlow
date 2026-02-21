@@ -3,6 +3,19 @@ import Select, { components } from "react-select";
 import { X } from "lucide-react";
 
 const SIZE_CONFIG = {
+  xxs: {
+    height: 26,
+    fontSize: 11,
+    icon: 11,
+    paddingLeft: 6,
+    indicatorPadding: "0 4px",
+    separatorHeight: 10,
+    separatorMargin: "0 6px",
+    indicatorsPaddingRight: 6,
+    indicatorsGap: 2,
+    optionPadding: "8px 12px",
+  },
+
   xs: {
     height: 28,
     fontSize: 12,
@@ -15,6 +28,7 @@ const SIZE_CONFIG = {
     indicatorsGap: 2,
     optionPadding: "10px 14px",
   },
+
   sm: {
     height: 32,
     fontSize: 13,
@@ -27,6 +41,7 @@ const SIZE_CONFIG = {
     indicatorsGap: 3,
     optionPadding: "11px 15px",
   },
+
   md: {
     height: 40,
     fontSize: 14,
@@ -39,6 +54,7 @@ const SIZE_CONFIG = {
     indicatorsGap: 4,
     optionPadding: "12px 16px",
   },
+
   lg: {
     height: 48,
     fontSize: 15,
@@ -51,6 +67,7 @@ const SIZE_CONFIG = {
     indicatorsGap: 5,
     optionPadding: "12px 16px",
   },
+
   xl: {
     height: 56,
     fontSize: 16,
@@ -63,12 +80,38 @@ const SIZE_CONFIG = {
     indicatorsGap: 6,
     optionPadding: "14px 18px",
   },
+
+  xxl: {
+    height: 64,
+    fontSize: 18,
+    icon: 22,
+    paddingLeft: 18,
+    indicatorPadding: "0 10px",
+    separatorHeight: 30,
+    separatorMargin: "0 14px",
+    indicatorsPaddingRight: 16,
+    indicatorsGap: 8,
+    optionPadding: "16px 20px",
+  },
+
+  xxxl: {
+    height: 72,
+    fontSize: 20,
+    icon: 24,
+    paddingLeft: 22,
+    indicatorPadding: "0 12px",
+    separatorHeight: 34,
+    separatorMargin: "0 16px",
+    indicatorsPaddingRight: 20,
+    indicatorsGap: 10,
+    optionPadding: "18px 22px",
+  },
 };
 
 const getSize = (sizeKey) => {
   if (!sizeKey || !SIZE_CONFIG[sizeKey]) {
     console.warn(
-      `[SelectInput] "size" prop is required. Use size="xs|sm|md|lg|xl". Received:`,
+      `[SelectInput] "size" prop is required. Use xxs|xs|sm|md|lg|xl|xxl|xxxl. Received:`,
       sizeKey,
     );
     return SIZE_CONFIG.md;
@@ -161,7 +204,6 @@ export const SelectInput = ({
   ...rest
 }) => {
   const s = getSize(size);
-
   const selectedOption = options.find((o) => o.value === value) || null;
 
   return (
@@ -204,11 +246,9 @@ export const SelectInput = ({
               cursor: state.isDisabled ? "not-allowed" : "pointer",
               backgroundColor: isMutedDisabledNow ? "#F9FAFB" : "white",
               borderRadius: "9999px",
-
               minHeight: s.height,
               height: s.height,
               paddingLeft: s.paddingLeft,
-
               borderWidth: "1px",
               borderColor: isMutedDisabledNow
                 ? "#E5E7EB"
@@ -239,6 +279,7 @@ export const SelectInput = ({
           placeholder: (base, state) => {
             const isMutedDisabledNow =
               state.isDisabled && disabledVariant === "muted";
+
             return {
               ...base,
               fontSize: `${s.fontSize}px`,

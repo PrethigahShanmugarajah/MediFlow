@@ -1,0 +1,88 @@
+// MediFlow / Client / src / components / FormField / TextAreaField.jsx
+
+const SIZE_CONFIG = {
+  xxxs: { fontSize: 10, px: "8px", py: "6px", radius: "10px" },
+  xxs: { fontSize: 11, px: "10px", py: "7px", radius: "12px" },
+  xs: { fontSize: 12, px: "12px", py: "8px", radius: "14px" },
+  s: { fontSize: 13, px: "14px", py: "9px", radius: "16px" },
+  m: { fontSize: 14, px: "16px", py: "10px", radius: "18px" },
+  l: { fontSize: 15, px: "18px", py: "12px", radius: "20px" },
+  xl: { fontSize: 16, px: "20px", py: "14px", radius: "22px" },
+  xxl: { fontSize: 18, px: "22px", py: "16px", radius: "24px" },
+  xxxl: { fontSize: 20, px: "24px", py: "18px", radius: "26px" },
+};
+
+const getSize = (sizeKey) => {
+  if (!sizeKey || !SIZE_CONFIG[sizeKey]) {
+    console.warn(
+      `[TextAreaField] "size" prop is required. Use xxxs|xxs|xs|s|m|l|xl|xxl|xxxl`,
+    );
+    return SIZE_CONFIG.m;
+  }
+  return SIZE_CONFIG[sizeKey];
+};
+
+export const TextAreaField = ({
+  label,
+  labelPosition,
+  name,
+  placeholder,
+  rows,
+  className = "",
+  textareaClassName = "",
+  labelClassName = "",
+  errorClassName = "",
+  size,
+  value,
+  onChange,
+  onBlur,
+  error,
+  ...rest
+}) => {
+  const s = getSize(size);
+
+  const wrapperClass =
+    labelPosition === "left" || labelPosition === "right"
+      ? "flex items-start gap-3"
+      : labelPosition === "top" || labelPosition === "bottom"
+        ? "flex flex-col gap-2"
+        : "";
+
+  const renderLabel = label ? (
+    <span className={labelClassName}>{label}</span>
+  ) : null;
+
+  return (
+    <div className={`${wrapperClass} ${className}`}>
+      {labelPosition === "top" && renderLabel}
+      {labelPosition === "left" && renderLabel}
+
+      <div className="w-full">
+        <textarea
+          id={name}
+          name={name}
+          rows={rows}
+          placeholder={placeholder}
+          className={`border border-indigo-100 bg-white shadow-sm w-full focus:outline-none focus:border-indigo-400 transition-all resize-none ${textareaClassName}`}
+          style={{
+            fontSize: `${s.fontSize}px`,
+            paddingLeft: s.px,
+            paddingRight: s.px,
+            paddingTop: s.py,
+            paddingBottom: s.py,
+            borderRadius: s.radius,
+          }}
+          {...(value !== undefined ? { value } : {})}
+          onChange={(e) => onChange?.(e.target.value, e)}
+          onBlur={(e) => onBlur?.(e.target.value, e)}
+          {...rest}
+        />
+
+        {!!error && <p className={errorClassName}>{error}</p>}
+      </div>
+
+      {labelPosition === "right" && renderLabel}
+      {labelPosition === "bottom" && renderLabel}
+    </div>
+  );
+};

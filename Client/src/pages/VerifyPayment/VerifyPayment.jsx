@@ -1,6 +1,5 @@
 // MediFlow / Client / src / pages / VerifyPayment / VerifyPayment.jsx
-import React from "react";
-import VerifyPaymentPage from "../../components/VerifyPaymentPage/VerfyPaymentPage";
+import VerifyPaymentPage from "../../components/VerifyPaymentPage/VerifyPaymentPage";
 
 const VerifyPayment = () => {
   return (

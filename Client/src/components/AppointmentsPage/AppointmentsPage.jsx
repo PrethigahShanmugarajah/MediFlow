@@ -1,8 +1,11 @@
 // MediFlow / Client / src / components / AppointmentsPage / AppointmentsPage.jsx
-import React from "react";
 
 const AppointmentsPage = () => {
-  return <div>AppointmentsPage</div>;
+  return (
+    <div>
+      <h1>AppointmentsPage</h1>
+    </div>
+  );
 };
 
 export default AppointmentsPage;

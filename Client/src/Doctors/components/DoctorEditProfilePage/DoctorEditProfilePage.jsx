@@ -1,8 +1,11 @@
 // MediFlow / Client / src / Doctors / components / DoctorEditProfilePage / DoctorEditProfilePage.jsx
-import React from "react";
 
 const DoctorEditProfilePage = () => {
-  return <div>DoctorEditProfilePage</div>;
+  return (
+    <div>
+      <h1>DoctorEditProfilePage</h1>
+    </div>
+  );
 };
 
 export default DoctorEditProfilePage;

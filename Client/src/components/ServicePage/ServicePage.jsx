@@ -1,8 +1,11 @@
 // MediFlow / Client / src / components / ServicePage / ServicePage.jsx
-import React from "react";
 
 const ServicePage = () => {
-  return <div>ServicePage</div>;
+  return (
+    <div>
+      <h1>ServicePage</h1>
+    </div>
+  );
 };
 
 export default ServicePage;

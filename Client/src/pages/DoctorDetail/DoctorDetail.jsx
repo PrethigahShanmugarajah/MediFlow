@@ -1,8 +1,11 @@
 // MediFlow / Client / src / pages / DoctorDetail / DoctorDetail.jsx
-import React from "react";
 
 const DoctorDetail = () => {
-  return <div>DoctorDetail</div>;
+  return (
+    <div>
+      <h1>DoctorDetail</h1>
+    </div>
+  );
 };
 
 export default DoctorDetail;
