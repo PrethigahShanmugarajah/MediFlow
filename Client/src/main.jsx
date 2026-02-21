@@ -12,7 +12,23 @@ if (!PUBLISHABLE_KEY) {
 }
 
 createRoot(document.getElementById("root")).render(
-  <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+  <ClerkProvider
+    publishableKey={PUBLISHABLE_KEY}
+    appearance={{
+      variables: {
+        colorPrimary: "#6366F1",
+        colorForeground: "#000000",
+        colorBackground: "#FFFFFF",
+        colorDanger: "#EF4444",
+      },
+      elements: {
+        badge: {
+          backgroundColor: "#6366F1",
+          color: "#FFFFFF",
+        },
+      },
+    }}
+  >
     <BrowserRouter>
       <App />
     </BrowserRouter>
