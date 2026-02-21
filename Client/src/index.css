@@ -20,3 +20,64 @@ button {
   color: #000000;
   opacity: 1;
 }
+
+.cl-userButtonPopoverMain .cl-userPreviewMainIdentifierText {
+  color: #000000 !important;
+}
+
+.cl-userButtonPopoverMain .cl-userPreviewSecondaryIdentifier {
+  color: #000000 !important;
+}
+
+.cl-userButtonPopoverMain .cl-userButtonPopoverActionButton {
+  color: #000000 !important;
+}
+
+.cl-userButtonPopoverMain .cl-userButtonPopoverActionButtonIcon {
+  color: #000000 !important;
+  fill: #000000 !important;
+}
+
+.cl-userProfileFooter,
+.cl-userButtonPopoverFooter {
+  display: none !important;
+}
+
+p[data-localization-key="userProfile.footer.developmentMode"],
+p:has(> a[href*="go.clerk.com/components"]) + p {
+  display: none !important;
+}
+
+a[href*="go.clerk.com/components"] {
+  display: none !important;
+}
+
+p:has-text("Secured by"),
+p:has-text("Development mode") {
+  display: none !important;
+}
+
+p[data-variant="buttonSmall"][data-color="inherit"] {
+  display: none !important;
+}
+
+p[data-variant="body"][data-color="inherit"] {
+  display: none !important;
+}
+
+[data-color="secondary"] {
+  color: #000000 !important;
+}
+
+[data-color="neutral"] {
+  color: #000000 !important;
+}
+
+.cl-navbar {
+  background: #ffffff !important;
+  background-image: none !important;
+}
+
+.cl-navbar [class*="cl-internal"] {
+  background-image: none !important;
+}
