@@ -15,8 +15,8 @@ const PatientForm = ({
   onMobilePaste,
 }) => {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-emerald-100 shadow-sm">
-      <h3 className="text-lg font-semibold text-emerald-700 mb-4">
+    <div className="bg-white rounded-2xl p-6 border border-indigo-100 shadow-sm">
+      <h3 className="text-lg font-semibold text-indigo-700 mb-4">
         Patient Details
       </h3>
 
@@ -27,7 +27,7 @@ const PatientForm = ({
           placeholder="Full Name"
           value={formData.name}
           onChange={(val) => setFormData((prev) => ({ ...prev, name: val }))}
-          inputClassName="border border-emerald-200"
+          inputClassName="border border-indigo-200"
         />
 
         <InputField
@@ -36,7 +36,7 @@ const PatientForm = ({
           placeholder="Age"
           value={formData.age}
           onChange={(val) => setFormData((prev) => ({ ...prev, age: val }))}
-          inputClassName="border border-emerald-200"
+          inputClassName="border border-indigo-200"
         />
 
         <InputField
