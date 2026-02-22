@@ -142,7 +142,7 @@ const Navbar = () => {
     }
 
     clerk.openSignIn();
-    navigate("/home");
+    navigate("/dashboard");
   };
 
   const handleSignOut = async () => {
@@ -165,7 +165,7 @@ const Navbar = () => {
   };
 
   const NAV_ITEMS = [
-    { to: "/home", label: "Dashboard", icon: Home },
+    { to: "/dashboard", label: "Dashboard", icon: Home },
     { to: "/add-doctor", label: "Add Doctor", icon: UserPlus },
     { to: "/list-doctors", label: "List Doctors", icon: Users },
     { to: "/appointments", label: "Appointments", icon: Calendar },
