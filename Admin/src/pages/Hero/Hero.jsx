@@ -23,7 +23,7 @@ const Hero = ({ role = "admin", userName = "Doctor" }) => {
   ];
 
   return (
-    <div className="min-h-screen font-sans bg-linear-to-br from-indigo-50 via-white to-blue-100">
+    <div className="min-h-screen font-sans from-indigo-100 via-white to-blue-100">
       <main className="flex items-center pt-28 justify-center px-6 py-16">
         <section className="w-full max-w-4xl">
           <div className="relative">
