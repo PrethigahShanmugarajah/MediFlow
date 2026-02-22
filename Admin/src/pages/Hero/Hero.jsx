@@ -1,6 +1,6 @@
 // MediFlow / Admin / src / pages / Hero / Hero.jsx
 import Logo from "../../assets/Logo.png";
-import InfoCard from "./components/InfoCard";
+import InfoCard from "./Components/InfoCard";
 
 const Hero = ({ role = "admin", userName = "Doctor" }) => {
   const isDoctor = role === "doctor";
