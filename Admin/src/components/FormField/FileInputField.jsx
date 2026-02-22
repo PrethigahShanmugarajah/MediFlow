@@ -61,7 +61,10 @@ export const FileInputField = ({
         : "";
 
   const renderLabel = label ? (
-    <span className={labelClassName}>{label}</span>
+    <label htmlFor={name} className={`block ${labelClassName}`}>
+      {label}
+      {rest.required && <span className="text-red-500 ml-1">*</span>}
+    </label>
   ) : null;
 
   const renderInput = (
@@ -79,13 +82,14 @@ export const FileInputField = ({
         className={
           trigger
             ? "hidden"
-            : `border border-indigo-100 rounded-full bg-white focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 cursor-pointer ${inputClassName}`
+            : `border border-indigo-100 rounded-full bg-white focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-100 cursor-pointer flex items-center ${inputClassName}`
         }
         style={{
           height: s.height,
           fontSize: `${s.fontSize}px`,
           paddingLeft: s.px,
           paddingRight: s.px,
+          lineHeight: `${s.height}px`,
         }}
         {...rest}
       />
