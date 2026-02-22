@@ -49,7 +49,10 @@ export const TextAreaField = ({
         : "";
 
   const renderLabel = label ? (
-    <span className={labelClassName}>{label}</span>
+    <label htmlFor={name} className={`block ${labelClassName}`}>
+      {label}
+      {rest.required && <span className="text-red-500 ml-1">*</span>}
+    </label>
   ) : null;
 
   return (
