@@ -52,7 +52,7 @@ export const InputField = ({
       htmlFor={name}
       className={`block font-medium text-black ${labelClassName}`}
     >
-      {label}
+      {label} {rest.required && <span className="text-red-500 ml-1">*</span>}
     </label>
   ) : null;
 
