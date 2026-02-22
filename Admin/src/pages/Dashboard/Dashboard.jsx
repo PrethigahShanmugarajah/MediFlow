@@ -86,7 +86,7 @@ const Dashboard = () => {
     : filteredDoctors.slice(0, INITIAL_COUNT);
 
   return (
-    <div className="min-h-screen font-serif p-4 sm:p-6 bg-linear-to-br from-indigo-50 via-white to-blue-100">
+    <div className="min-h-screen font-serif p-4 sm:p-6 from-indigo-100 via-white to-blue-100">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
