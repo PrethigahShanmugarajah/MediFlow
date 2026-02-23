@@ -8,6 +8,7 @@ const API_ROUTES = {
   DOCTORS: {
     DOCTORS_GET: `${BASE_URL}/api/doctors/doctors-get`,
     DOCTOR_CREATE: `${BASE_URL}/api/doctors/doctor-create`,
+    DOCTOR_DELETE: (id) => `${BASE_URL}/api/doctors/doctor-delete/${id}`,
   },
 };
 
