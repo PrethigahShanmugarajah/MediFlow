@@ -17,7 +17,7 @@ import AppointmentCard from "./Components/AppointmentCard";
 import DeletePopup from "../../components/DeletePopup";
 import { ClipLoader } from "react-spinners";
 import AppointmentsHeader from "./Components/AppointmentsHeader";
-import ShowMoreButton from "../../components/ShowMoreButton ";
+import ShowMoreButton from "../../components/ShowMoreButton";
 
 const Appointments = () => {
   const isAdmin = true;

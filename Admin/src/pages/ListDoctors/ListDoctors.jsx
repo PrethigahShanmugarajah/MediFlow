@@ -12,7 +12,7 @@ import {
 import { ClipLoader } from "react-spinners";
 import DoctorCard from "./Components/DoctorCard";
 import DeletePopup from "../../components/DeletePopup";
-import ShowMoreButton from "../../components/ShowMoreButton ";
+import ShowMoreButton from "../../components/ShowMoreButton";
 
 const ListDoctors = () => {
   const [doctors, setDoctors] = useState([]);

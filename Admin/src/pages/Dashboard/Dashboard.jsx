@@ -15,7 +15,7 @@ import { BeatLoader, ScaleLoader } from "react-spinners";
 import MobileDoctorCard from "./Components/MobileDoctorCard";
 import StatsSection from "./Components/StatsSection";
 import DoctorsTable from "./Components/DoctorsTable";
-import ShowMoreButton from "../../components/ShowMoreButton ";
+import ShowMoreButton from "../../components/ShowMoreButton";
 
 const Dashboard = () => {
   const [doctors, setDoctors] = useState([]);
