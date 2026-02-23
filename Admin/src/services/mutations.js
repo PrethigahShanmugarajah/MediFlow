@@ -34,3 +34,31 @@ export const createDoctor = async (formData) => {
     throw error1;
   }
 };
+
+/* -------- Delete Doctor -------- */
+export const deleteDoctor = async (id) => {
+  try {
+    const response2 = await api.delete(API_ROUTES.DOCTORS.DOCTOR_DELETE(id));
+
+    const data2 = response2.data;
+    console.log("Delete Doctor API Response:", data2);
+
+    if (data2?.success) {
+      toast.success(data2?.message);
+      console.log("Delete Doctor Success:", data2?.message);
+    } else {
+      toast.warn(data2?.message || "Delete doctor with warning");
+      console.warn(
+        "Delete Doctor Warning:",
+        data2?.message || "Delete doctor with warning",
+      );
+    }
+
+    return data2;
+  } catch (error2) {
+    toast.error(error2?.response?.data?.message || error2?.message);
+    console.error("Delete Doctor Error:", error2);
+
+    throw error2;
+  }
+};
