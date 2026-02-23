@@ -56,7 +56,7 @@ export async function getAppointments(req, res) {
     const totalAppointments = await Appointment.countDocuments(filter);
 
     if (!items) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: true,
         message: "No appointments found.",
         appointments: [],
@@ -65,7 +65,7 @@ export async function getAppointments(req, res) {
     }
 
     if (items.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: true,
         message: "No appointments found.",
         appointments: [],
@@ -121,7 +121,7 @@ export async function getAppointmentsByPatient(req, res) {
       .lean();
 
     if (!appointments) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: true,
         message: "No appointments found.",
         appointments: [],
@@ -129,7 +129,7 @@ export async function getAppointmentsByPatient(req, res) {
     }
 
     if (appointments.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: true,
         message: "No appointments found.",
         appointments: [],

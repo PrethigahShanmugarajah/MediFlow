@@ -73,7 +73,7 @@ export async function getServices(req, res) {
     const listServices = await Service.find().sort({ createdAt: -1 }).lean();
 
     if (!listServices) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: true,
         message: "No services found.",
         data: [],
@@ -81,7 +81,7 @@ export async function getServices(req, res) {
     }
 
     if (listServices.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: true,
         message: "No services found.",
         data: [],

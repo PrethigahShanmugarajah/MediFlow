@@ -223,7 +223,7 @@ export async function getDoctors(req, res) {
     const total = await Doctor.countDocuments(match);
 
     if (!normalized) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: true,
         message: "No doctors found.",
         data: [],
@@ -233,7 +233,7 @@ export async function getDoctors(req, res) {
     }
 
     if (normalized.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: true,
         message: "No doctors found.",
         data: [],
