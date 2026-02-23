@@ -15,12 +15,12 @@ export const fetchRegisteredUserCount = async () => {
 
     if (data1?.success) {
       // toast.success(data1?.message);
-      console.log("Get RegisteredUser Count Success:", data1);
+      console.log("Get RegisteredUser Count Success:", data1?.message);
     } else {
       toast.warn(data1?.message || "Fetch registered user count with warning");
       console.warn(
         "Fetch RegisteredUser Count Warning:",
-        data1?.message || " Fetch registered user count with warning",
+        data1?.message || " Fetch Registered User Count with warning",
       );
     }
 
@@ -43,9 +43,9 @@ export const fetchDoctors = async (params) => {
 
     if (data2?.success) {
       // toast.success(data2?.message);
-      console.log("Fetch Doctors Success:", data2);
+      console.log("Fetch Doctors Success:", data2?.message);
     } else {
-      toast.warn(data2?.message || "Fetch Doctors with warning");
+      toast.warn(data2?.message || "Fetch doctors with warning");
       console.warn(
         "Fetch Doctors Warning:",
         data2?.message || "Fetch Doctors with warning",
@@ -58,5 +58,35 @@ export const fetchDoctors = async (params) => {
     console.error("Fetch Doctors Error:", error2);
 
     throw error2;
+  }
+};
+
+/* -------- Fetch Appointments -------- */
+export const fetchAppointments = async (params) => {
+  try {
+    const response3 = await api.get(API_ROUTES.APPOINTMENTS.APPOINTMENTS_GET, {
+      params,
+    });
+
+    const data3 = response3.data;
+    console.log("Fetch Doctors API Response:", data3);
+
+    if (data3?.success) {
+      // toast.success(data3?.message);
+      console.log("Fetch Doctors Success:", data3?.message);
+    } else {
+      toast.warn(data3?.message || "Fetch Doctors with warning");
+      console.warn(
+        "Fetch Doctors Warning:",
+        data3?.message || "Fetch Doctors with warning",
+      );
+    }
+
+    return data3;
+  } catch (error3) {
+    toast.error(error3?.response?.data?.message || error3?.message);
+    console.error("Fetch Doctors Error:", error3);
+
+    throw error3;
   }
 };
