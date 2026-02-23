@@ -22,7 +22,7 @@ export const createDoctor = async (formData) => {
       toast.warn(data1?.message || "Create doctor with warning");
       console.warn(
         "Create Doctor Warning:",
-        data1?.message || "Create doctor with warning",
+        data1?.message || "Create Doctor with warning",
       );
     }
 
@@ -50,7 +50,7 @@ export const deleteDoctor = async (id) => {
       toast.warn(data2?.message || "Delete doctor with warning");
       console.warn(
         "Delete Doctor Warning:",
-        data2?.message || "Delete doctor with warning",
+        data2?.message || "Delete Doctor with warning",
       );
     }
 
@@ -60,5 +60,35 @@ export const deleteDoctor = async (id) => {
     console.error("Delete Doctor Error:", error2);
 
     throw error2;
+  }
+};
+
+/* -------- Appointment Cancel -------- */
+export const cancelAppointment = async (id) => {
+  try {
+    const response3 = await api.post(
+      API_ROUTES.APPOINTMENTS.APPOINTMENT_CANCEL(id),
+    );
+
+    const data3 = response3.data;
+    console.log("Cancel Appointment API Response:", data3);
+
+    if (data3?.success) {
+      toast.success(data3?.message);
+      console.log("Cancel Appointment Success:", data3?.message);
+    } else {
+      toast.warn(data3?.message || "Cancel appointment with warning");
+      console.warn(
+        "Cancel Appointment Warning:",
+        data3?.message || "Cancel Appointment with warning",
+      );
+    }
+
+    return data3;
+  } catch (error3) {
+    toast.error(error3?.response?.data?.message || error3?.message);
+    console.error(error3);
+
+    throw error3;
   }
 };
