@@ -90,3 +90,33 @@ export const fetchAppointments = async (params) => {
     throw error3;
   }
 };
+
+/* -------- Fetch Service Appointments Stats -------- */
+export const fetchServiceAppointmentsStats = async () => {
+  try {
+    const response4 = await api.get(
+      API_ROUTES.SERVICEAPPOINTMENTS.SERVICEAPPOINTMENTS_GET_STATS,
+    );
+
+    const data4 = response4.data;
+    console.log("Fetch Service Appointments API Response:", data4);
+
+    if (data4?.success) {
+      // toast.success(data4?.message);
+      console.log("Fetch Service Appointments Success:", data4?.message);
+    } else {
+      toast.warn(data4?.message || "Fetch service appointments with warning");
+      console.warn(
+        "Fetch Service Appointments Warning:",
+        data4?.message || "Fetch Service Appointments with warning",
+      );
+    }
+
+    return data4;
+  } catch (error4) {
+    toast.error(error4?.response?.data?.message || error4?.message);
+    console.error("Fetch Service Appointments Error:", error4);
+
+    throw error4;
+  }
+};
