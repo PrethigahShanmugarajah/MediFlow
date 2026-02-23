@@ -15,6 +15,7 @@ import { BeatLoader, ScaleLoader } from "react-spinners";
 import MobileDoctorCard from "./Components/MobileDoctorCard";
 import StatsSection from "./Components/StatsSection";
 import DoctorsTable from "./Components/DoctorsTable";
+import ShowMoreButton from "../../components/ShowMoreButton ";
 
 const Dashboard = () => {
   const [doctors, setDoctors] = useState([]);
@@ -184,18 +185,14 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {filteredDoctors.length > INITIAL_COUNT && (
-            <div className="px-6 py-4 border-t border-blue-50 flex justify-center">
-              <button
-                onClick={() => setShowAll((s) => !s)}
-                className="px-4 py-2 rounded-full bg-white border border-blue-200 shadow-sm hover:bg-blue-50 transition"
-              >
-                {showAll
-                  ? "Show less"
-                  : `Show more (${filteredDoctors.length - INITIAL_COUNT})`}
-              </button>
-            </div>
-          )}
+          <ShowMoreButton
+            id="doctors-show-more"
+            total={filteredDoctors.length}
+            limit={INITIAL_COUNT}
+            showAll={showAll}
+            onToggle={() => setShowAll((s) => !s)}
+            showIcon
+          />
         </div>
       </div>
     </div>
