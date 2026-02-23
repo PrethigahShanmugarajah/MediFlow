@@ -13,6 +13,9 @@ const API_ROUTES = {
     DOCTOR_CREATE: `${BASE_URL}/api/doctors/doctor-create`,
     DOCTOR_DELETE: (id) => `${BASE_URL}/api/doctors/doctor-delete/${id}`,
   },
+  SERVICEAPPOINTMENTS: {
+    SERVICEAPPOINTMENTS_GET_STATS: `${BASE_URL}/api/serviceAppointments/serviceAppointment-get-stats/summary`,
+  },
 };
 
 export default API_ROUTES;
