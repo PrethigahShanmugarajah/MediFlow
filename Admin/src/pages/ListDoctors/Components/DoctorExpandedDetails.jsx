@@ -12,14 +12,9 @@ const DoctorExpandedDetails = ({ doc, isMobileScreen }) => {
 
   return (
     <div
-      className="px-4 md:px-5 bg-white overflow-auto sm:overflow-visible"
-      style={{
-        maxHeight: isMobileScreen ? 320 : 600,
-        transition:
-          "max-height 420ms cubic-bezier(.2,.9,.2,1), padding 220ms ease",
-        paddingTop: 16,
-        paddingBottom: 16,
-      }}
+      className={`px-4 md:px-5 bg-white transition-all duration-500 ease-out ${
+        isMobileScreen ? "max-h-80" : "max-h-150"
+      } overflow-y-auto scrollbar-none py-4`}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <div className="col-span-2">
