@@ -12,6 +12,8 @@ import StatsSection from "./Components/StatsSection";
 import ServiceTable from "./Components/ServiceTable";
 import ShowMoreButton from "../../components/ShowMoreButton";
 import { InputField } from "../../components/FormField/InputField";
+import Title from "../../components/Title";
+import SearchField from "../../components/SearchField";
 
 const ServiceDashboard = ({ services: servicesProp = null }) => {
   const [services, setServices] = useState(
@@ -148,15 +150,10 @@ const ServiceDashboard = ({ services: servicesProp = null }) => {
     <div className="min-h-screen font-serif p-4 sm:p-6 from-indigo-100 via-white to-blue-100">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row items-start sm:items-center md:items-center justify-between mb-6 gap-3 md:gap-6 lg:gap-3">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-semibold text-indigo-800">
-              Service Dashboard
-            </h1>
-
-            <p className="text-sm text-gray-600">
-              Overview of services, appointments and earnings
-            </p>
-          </div>
+          <Title
+            title="Service Dashboard"
+            subtitle="Overview of services, appointments and earnings"
+          />
 
           <RefreshBlock
             loading={loading}
@@ -172,25 +169,27 @@ const ServiceDashboard = ({ services: servicesProp = null }) => {
         <StatsSection totals={totals} />
 
         <div className="mb-6 flex justify-start">
-          <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-sm border border-indigo-200 w-full sm:w-64">
-            <Search size={16} className="text-indigo-600" />
-            <InputField
-              name="service-search"
-              type="text"
-              placeholder="Search services..."
-              size="s"
+          <div className="relative w-full sm:w-64">
+            <SearchField
               value={searchQuery}
               onChange={(val) => setSearchQuery(val)}
-              unstyled
-              inputClassName="text-sm"
+              placeholder="Search services..."
+              size="s"
+              widthClass=""
+              className=""
+              inputClassName=""
+              unstyled={false}
             />
 
             {searchQuery.length > 0 && (
-              <X
-                size={24}
-                className="text-rose-500 cursor-pointer"
+              <button
+                type="button"
                 onClick={() => setSearchQuery("")}
-              />
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-rose-500"
+                aria-label="Clear search"
+              >
+                <X size={20} />
+              </button>
             )}
           </div>
         </div>
