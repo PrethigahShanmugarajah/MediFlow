@@ -16,6 +16,11 @@ const API_ROUTES = {
   SERVICEAPPOINTMENTS: {
     SERVICEAPPOINTMENTS_GET_STATS: `${BASE_URL}/api/serviceAppointments/serviceAppointment-get-stats/summary`,
   },
+  SERVICES: {
+    SERVICE_GET: (id) => `${BASE_URL}/api/services/service-get/${id}`,
+    SERVICE_UPDATE: (id) => `${BASE_URL}/api/services/service-update/${id}`,
+    SERVICE_CREATE: `${BASE_URL}/api/services/service-create`,
+  },
 };
 
 export default API_ROUTES;
