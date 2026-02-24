@@ -20,6 +20,8 @@ const API_ROUTES = {
     SERVICE_GET: (id) => `${BASE_URL}/api/services/service-get/${id}`,
     SERVICE_UPDATE: (id) => `${BASE_URL}/api/services/service-update/${id}`,
     SERVICE_CREATE: `${BASE_URL}/api/services/service-create`,
+    SERVICES_GET: `${BASE_URL}/api/services/services-get`,
+    SERVICE_DELETE: (id) => `${BASE_URL}/api/services/service-delete/${id}`,
   },
 };
 
