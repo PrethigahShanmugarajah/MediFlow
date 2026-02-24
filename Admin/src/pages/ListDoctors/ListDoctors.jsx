@@ -1,6 +1,5 @@
 // MediFlow / Admin / src / pages / ListDoctors / ListDoctors.jsx
 import { useEffect, useMemo, useState } from "react";
-import { Search, Stethoscope } from "lucide-react";
 import {
   ensureDoctorPrefix,
   filterDoctors,
@@ -13,6 +12,7 @@ import { ClipLoader } from "react-spinners";
 import DoctorCard from "./Components/DoctorCard";
 import DeletePopup from "../../components/DeletePopup";
 import ShowMoreButton from "../../components/ShowMoreButton";
+import Header from "./Components/Header";
 
 const ListDoctors = () => {
   const [doctors, setDoctors] = useState([]);
@@ -103,73 +103,19 @@ const ListDoctors = () => {
   }
 
   return (
-    <div className="min-h-screen font-serif from-indigo-100 via-white to-blue-100 p-4 sm:p-6 md:p-8">
-      <header className="max-w-6xl mx-auto mb-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <div className="p-2 rounded-full bg-white shadow-sm transform transition">
-              <Stethoscope size={20} className="text-indigo-600" />
-            </div>
-
-            <div>
-              <h1 className="text-base sm:text-lg font-semibold text-indigo-800">
-                Find a Doctor
-              </h1>
-              <p className="text-sm sm:text-md text-indigo-600">
-                Search by name or specialization
-              </p>
-            </div>
-          </div>
-
-          <div className="w-full sm:w-auto mt-3 sm:mt-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-            <div className="flex items-center w-full sm:w-96 bg-white rounded-full px-3 py-2 shadow-sm">
-              <Search size={16} className="text-indigo-400" />
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search Doctors, specialization"
-                className="ml-3 w-full outline-none text-indigo-700 placeholder-indigo-400 bg-transparent"
-              />
-            </div>
-
-            <button
-              onClick={() => {
-                setQuery("");
-                setExpanded(null);
-                setShowAll(false);
-                setFilterStatus("all");
-              }}
-              className="px-3 py-2 cursor-pointer rounded-full bg-indigo-600 text-white shadow hover:opacity-95 transition w-full sm:w-auto"
-            >
-              Clear
-            </button>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap gap-2 pt-5">
-          <button
-            onClick={() => applyStatusFilter("available")}
-            className={`text-xs px-3 py-1 rounded-full transition border cursor-pointer ${
-              filterStatus === "available"
-                ? "bg-indigo-600 text-white border-indigo-600"
-                : "bg-white text-indigo-700 border-indigo-200"
-            }`}
-          >
-            Available
-          </button>
-
-          <button
-            onClick={() => applyStatusFilter("unavailable")}
-            className={`text-xs px-3 py-1 rounded-full transition border ${
-              filterStatus === "unavailable"
-                ? "bg-red-600 text-white border-red-600"
-                : "bg-white text-red-600 border-red-100"
-            } cursor-pointer`}
-          >
-            Unavailable
-          </button>
-        </div>
-      </header>
+    <div className="p-4 sm:p-6 max-w-6xl font-serif mx-auto min-h-screen from-indigo-100 via-white to-blue-100">
+      <Header
+        query={query}
+        setQuery={setQuery}
+        filterStatus={filterStatus}
+        applyStatusFilter={applyStatusFilter}
+        onClear={() => {
+          setQuery("");
+          setExpanded(null);
+          setShowAll(false);
+          setFilterStatus("all");
+        }}
+      />
 
       <main className="max-w-6xl grid xl:grid-cols-2 lg:grid-cols-2 lg:gap-3 xl:gap-4 mx-auto space-y-4">
         {loading && (
@@ -202,16 +148,16 @@ const ListDoctors = () => {
             />
           );
         })}
-
-        <ShowMoreButton
-          id="filtered-show-more"
-          total={filtered.length}
-          limit={6}
-          showAll={showAll}
-          onToggle={() => setShowAll((s) => !s)}
-          showIcon
-        />
       </main>
+
+      <ShowMoreButton
+        id="filtered-show-more"
+        total={filtered.length}
+        limit={6}
+        showAll={showAll}
+        onToggle={() => setShowAll((s) => !s)}
+        showIcon
+      />
 
       {deleteTarget && (
         <DeletePopup
