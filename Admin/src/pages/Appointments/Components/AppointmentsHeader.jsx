@@ -1,6 +1,8 @@
 // MediFlow / Admin / src / pages / Appointments / Components / AppointmentsHeader.jsx
 import { useMemo } from "react";
-import { Calendar, Search } from "lucide-react";
+import Title from "../../../components/Title";
+import SearchField from "../../../components/SearchField";
+import { Calendar } from "lucide-react";
 import { InputField } from "../../../components/FormField/InputField";
 import { SelectInput } from "../../../components/FormField/SelectInput";
 
@@ -25,29 +27,24 @@ const AppointmentsHeader = ({
 
   return (
     <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-      <div className="w-full sm:w-auto">
-        <h1 className="text-xl sm:text-2xl font-semibold text-indigo-800">
-          Appointments
-        </h1>
-        <p className="text-xs sm:text-sm text-indigo-600">
-          Manage and search upcoming patient appointments
-        </p>
-      </div>
+      <Title
+        title="Appointments"
+        subtitle="Manage and search upcoming patient appointments"
+        wrapperClassName="w-full sm:w-auto mb-0"
+      />
 
       <div className="w-full sm:w-auto">
         <div className="flex flex-col md:flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-          <div className="flex items-center bg-white rounded-full px-3 py-2 shadow-sm w-full sm:w-72 gap-2">
-            <Search size={16} className="text-indigo-500" />
-            <InputField
-              name="appointments_search"
-              type="text"
-              placeholder="Search doctor, patient, speciality or mobile"
-              size="xs"
-              unstyled
-              value={query}
-              onChange={(val) => setQuery(val)}
-            />
-          </div>
+          <SearchField
+            value={query}
+            onChange={(val) => setQuery(val)}
+            placeholder="Search doctor, patient, speciality or mobile"
+            size="s"
+            widthClass="sm:w-72"
+            className=""
+            inputClassName="bg-transparent"
+            unstyled={false}
+          />
 
           <div className="flex items-center flex-col md:flex-row lg:flex-row gap-2 w-full sm:w-auto">
             <div className="bg-white rounded-full px-3 py-2 shadow-sm flex items-center gap-2 w-full sm:w-auto">
