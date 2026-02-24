@@ -122,7 +122,7 @@ export const fetchServiceAppointmentsStats = async () => {
 };
 
 /* -------- Fetch Service By ID -------- */
-export const fetchServicesByID = async (id) => {
+export const fetchServiceByID = async (id) => {
   try {
     const response5 = await api.get(API_ROUTES.SERVICES.SERVICE_GET(id));
 
@@ -130,7 +130,7 @@ export const fetchServicesByID = async (id) => {
     console.log("Fetch Service API Response:", data5);
 
     if (data5?.success) {
-      toast.success(data5?.message);
+      // toast.success(data5?.message);
       console.log("Fetch Service Success:", data5?.message);
     } else {
       toast.warn(data5?.message || "Fetch service with warning");
@@ -146,5 +146,33 @@ export const fetchServicesByID = async (id) => {
     console.error("Fetch Service Error:", error5);
 
     throw error5;
+  }
+};
+
+/* -------- Fetch Service -------- */
+export const fetchServices = async () => {
+  try {
+    const response6 = await api.get(API_ROUTES.SERVICES.SERVICES_GET);
+
+    const data6 = response6.data;
+    console.log("Fetch Services API Response:", data6);
+
+    if (data6?.success) {
+      // toast.success(data6?.message);
+      console.log("Fetch Services Success:", data6?.message);
+    } else {
+      toast.warn(data6?.message || "Fetch services with warning");
+      console.warn(
+        "Fetch Services Warning:",
+        data6?.message || "Fetch Services with warning",
+      );
+    }
+
+    return data6;
+  } catch (error6) {
+    toast.error(error6?.response?.data?.message || error6?.message);
+    console.error("Fetch Services Error:", error6);
+
+    throw error6;
   }
 };
