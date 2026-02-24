@@ -88,7 +88,7 @@ const AddService = ({ serviceId }) => {
   useEffect(() => {
     let mounted = true;
 
-    async function fetchServicesByIDService() {
+    async function fetchServiceByIDService() {
       if (!serviceId) return;
 
       try {
@@ -108,7 +108,7 @@ const AddService = ({ serviceId }) => {
         console.error("Fetch Service By ID error:", error);
       }
     }
-    fetchServicesByIDService();
+    fetchServiceByIDService();
     return () => {
       mounted = false;
     };
