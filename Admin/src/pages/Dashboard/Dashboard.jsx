@@ -155,7 +155,7 @@ const Dashboard = () => {
 
           {error && (
             <div className="px-6 py-4 border-b border-blue-50 text-sm text-rose-600">
-              Error loading doctors: {error}
+              {error}
             </div>
           )}
 
