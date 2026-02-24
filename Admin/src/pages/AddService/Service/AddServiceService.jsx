@@ -1,5 +1,5 @@
 // MediFlow / Admin / src / pages / AddService / Service / AddServiceService.jsx
-import { fetchServicesByID } from "../../../services/fetch";
+import { fetchServiceByID } from "../../../services/fetch";
 import { createService, updateService } from "../../../services/mutations";
 import {
   buildServiceFormData,
@@ -7,7 +7,7 @@ import {
 } from "../../../utils/addServiceUtils";
 
 export async function getServiceByIDApi(serviceId) {
-  const payload = await fetchServicesByID(serviceId);
+  const payload = await fetchServiceByID(serviceId);
   const data = payload?.data || payload;
   return getServiceFormStateFromApi(data);
 }
