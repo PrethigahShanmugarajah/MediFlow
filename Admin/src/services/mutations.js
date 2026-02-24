@@ -154,3 +154,31 @@ export const createService = async (formData) => {
     throw error5;
   }
 };
+
+/* -------- Delete Service -------- */
+export const deleteService = async (id) => {
+  try {
+    const response6 = await api.delete(API_ROUTES.SERVICES.SERVICE_DELETE(id));
+
+    const data6 = response6.data;
+    console.log("Delete Service API Response:", data6);
+
+    if (data6?.success) {
+      toast.success(data6?.message);
+      console.log("Delete Service Success:", data6?.message);
+    } else {
+      toast.warn(data6?.message || "Delete service with warning");
+      console.warn(
+        "Delete Service Warning:",
+        data6?.message || "Delete Service with warning",
+      );
+    }
+
+    return data6;
+  } catch (error6) {
+    toast.error(error6?.response?.data?.message || error6?.message);
+    console.error("Delete Service Error:", error6);
+
+    throw error6;
+  }
+};
