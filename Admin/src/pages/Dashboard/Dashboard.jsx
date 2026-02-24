@@ -1,6 +1,7 @@
 // MediFlow / Admin / src / pages / Dashboard / Dashboard.jsx
 import { useEffect, useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import Title from "../../components/Title";
+import SearchField from "../../components/SearchField";
 import {
   computeDashboardTotals,
   filterDoctors,
@@ -10,7 +11,6 @@ import {
   getDoctorsForDashboard,
   getRegisteredUserCount,
 } from "./Service/DashboardService";
-import { InputField } from "../../components/FormField/InputField";
 import { BeatLoader, ScaleLoader } from "react-spinners";
 import MobileDoctorCard from "./Components/MobileDoctorCard";
 import StatsSection from "./Components/StatsSection";
@@ -89,16 +89,10 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen font-serif p-4 sm:p-6 from-indigo-100 via-white to-blue-100">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 uppercase">
-              Dashboard
-            </h1>
-            <p className="text-sm text-slate-600 mt-1">
-              Overview of doctors & appointments
-            </p>
-          </div>
-        </div>
+        <Title
+          title="Dashboard"
+          subtitle="Overview of doctors & appointments"
+        />
 
         <StatsSection
           totals={totals}
@@ -112,19 +106,15 @@ const Dashboard = () => {
             Search Doctors
           </label>
           <div className="flex items-center gap-3 max-w-md">
-            <div className="relative flex-1">
-              <InputField
-                name="search"
-                type="text"
-                placeholder="Search name / Specialization / fee"
-                size="s"
-                value={query}
-                onChange={(value) => setQuery(value)}
-                unstyled={false}
-                inputClassName="pl-10"
-              />
-              <Search className="absolute left-3 top-3 w-5 h-5 text-blue-500" />
-            </div>
+            <SearchField
+              value={query}
+              onChange={(val) => setQuery(val)}
+              placeholder="Search name / Specialization / fee"
+              size="s"
+              widthClass=""
+              className="flex-1"
+              unstyled={false}
+            />
 
             <button
               onClick={() => {
