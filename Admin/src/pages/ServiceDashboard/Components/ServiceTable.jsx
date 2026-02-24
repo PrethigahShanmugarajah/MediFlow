@@ -1,4 +1,5 @@
-import { ClipLoader } from "react-spinners";
+// MediFlow / Admin / src / pages / ServiceDashboard / Components / ServiceTable.jsx
+import { ScaleLoader } from "react-spinners";
 import ServiceRowTablet from "./ServiceRowTablet";
 import ServiceRowDesktop from "./ServiceRowDesktop";
 import ServiceRowMobile from "./ServiceRowMobile";
@@ -34,7 +35,7 @@ const ServiceTable = ({ loading, error, services }) => {
       <div className="divide-y divide-transparent min-w-full">
         {loading ? (
           <div className="px-4 py-6 text-center text-gray-500">
-            <ClipLoader size={50} color="#6366F1" />
+            <ScaleLoader height={28} width={4} color="#6366F1" />
           </div>
         ) : error ? (
           <div className="px-4 py-6 text-center text-red-600">{error}</div>
