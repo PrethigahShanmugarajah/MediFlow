@@ -63,7 +63,7 @@ export const deleteDoctor = async (id) => {
   }
 };
 
-/* -------- Appointment Cancel -------- */
+/* -------- Cancel Appointment -------- */
 export const cancelAppointment = async (id) => {
   try {
     const response3 = await api.post(
@@ -90,5 +90,67 @@ export const cancelAppointment = async (id) => {
     console.error(error3);
 
     throw error3;
+  }
+};
+
+/* -------- Update Service -------- */
+export const updateService = async (id, formData) => {
+  try {
+    const response4 = await api.put(
+      API_ROUTES.SERVICES.SERVICE_UPDATE(id),
+      formData,
+    );
+
+    const data4 = response4.data;
+    console.log("Update Service API Response:", data4);
+
+    if (data4?.success) {
+      toast.success(data4?.message);
+      console.log("Update Service Success:", data4?.message);
+    } else {
+      toast.warn(data4?.message || "Update service with warning");
+      console.warn(
+        "Update Service Warning:",
+        data4?.message || "Update Service with warning",
+      );
+    }
+
+    return data4;
+  } catch (error4) {
+    toast.error(error4?.response?.data?.message || error4?.message);
+    console.error(error4);
+
+    throw error4;
+  }
+};
+
+/* -------- Create Service -------- */
+export const createService = async (formData) => {
+  try {
+    const response5 = await api.post(
+      API_ROUTES.SERVICES.SERVICE_CREATE,
+      formData,
+    );
+
+    const data5 = response5.data;
+    console.log("Create Service API Response:", data5);
+
+    if (data5?.success) {
+      toast.success(data5?.message);
+      console.log("Create Service Success:", data5?.message);
+    } else {
+      toast.warn(data5?.message || "Create service with warning");
+      console.warn(
+        "Create Service Warning:",
+        data5?.message || "Create Service with warning",
+      );
+    }
+
+    return data5;
+  } catch (error5) {
+    toast.error(error5?.response?.data?.message || error5?.message);
+    console.error(error5);
+
+    throw error5;
   }
 };
