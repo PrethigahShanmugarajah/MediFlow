@@ -232,7 +232,6 @@ export const availabilityOptions = [
 
 /* -------- Hour options for time picker -------- */
 export const hourOptions = [
-  { value: "", label: "Hour" },
   ...Array.from({ length: 12 }).map((_, i) => ({
     value: String(i + 1),
     label: String(i + 1),
@@ -250,3 +249,21 @@ export const ampmOptions = [
   { value: "AM", label: "AM" },
   { value: "PM", label: "PM" },
 ];
+
+/* -------- Get current time (rounded) in 12-hour format -------- */
+export function getCurrentTimeNow() {
+  const d = new Date();
+
+  let hour24 = d.getHours();
+  const minute = d.getMinutes();
+  const ampm = hour24 >= 12 ? "PM" : "AM";
+
+  let hour12 = hour24 % 12;
+  if (hour12 === 0) hour12 = 12;
+
+  return {
+    hour: String(hour12),
+    minute: String(minute).padStart(2, "0"),
+    ampm,
+  };
+}
