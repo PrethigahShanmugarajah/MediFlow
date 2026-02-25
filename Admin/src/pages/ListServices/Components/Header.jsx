@@ -2,7 +2,7 @@
 import FilterToolbar from "../../../components/FilterToolbar";
 import Title from "../../../components/Title";
 
-const Header = ({ search, setSearch, filterMode, setFilterMode }) => {
+const Header = ({ search, setSearch, filterMode, setFilterMode, onClear }) => {
   return (
     <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
       <Title
@@ -23,6 +23,8 @@ const Header = ({ search, setSearch, filterMode, setFilterMode }) => {
           onSearchChange={setSearch}
           placeholder="Search services..."
           containerClassName="md:items-end"
+          showClearButton
+          onClear={onClear}
         />
       </div>
     </div>
