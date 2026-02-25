@@ -152,6 +152,14 @@ const ListServices = () => {
         setSearch={setSearch}
         filterMode={filterMode}
         setFilterMode={setFilterMode}
+        onClear={() => {
+          setSearch("");
+          setFilterMode("all");
+          setShowAll(false);
+          setOpenDetails({});
+          setEditingId(null);
+          setEditForm(null);
+        }}
       />
 
       {/* -------- Grid -------- */}
