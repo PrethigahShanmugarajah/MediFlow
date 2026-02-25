@@ -8,7 +8,7 @@ import {
   getAppointmentTimestamp,
 } from "../../utils/serviceAppointmentsUtils";
 import { toast } from "react-toastify";
-import { BeatLoader } from "react-spinners";
+import { ClipLoader } from "react-spinners";
 import {
   cancelAppointmentApi,
   changeAppointmentStatusApi,
@@ -147,7 +147,7 @@ const ServiceAppointments = () => {
   }, [filtered, showAll]);
 
   return (
-    <div className="p-4 sm:p-6 md:p-6 font-serif">
+    <div className="min-h-screen p-4 sm:p-6 md:p-6 font-serif">
       <Header
         search={search}
         setSearch={setSearch}
@@ -158,17 +158,19 @@ const ServiceAppointments = () => {
       />
 
       {loading ? (
-        <div className="col-span-full rounded-2xl p-8 bg-white/90 border border-indigo-50 shadow-sm flex items-center justify-center gap-3">
-          <BeatLoader size={6} color="#6366F1" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4 px-8 py-6">
+            <ClipLoader size={50} color="#6366F1" />
+          </div>
         </div>
       ) : error ? (
-        <div className="col-span-full rounded-2xl p-4 text-red-700">
+        <div className="col-span-full text-center text-red-600 py-6 rounded-lg">
           {error}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 items-stretch">
           {displayList.length === 0 ? (
-            <div className="col-span-full rounded-2xl p-8 bg-white/90 border border-indigo-50 shadow-sm flex items-center justify-center flex-col gap-3">
+            <div className="col-span-full rounded-2xl p-8 flex items-center justify-center flex-col gap-3">
               <div className="text-3xl text-indigo-300">
                 <Search />
               </div>
