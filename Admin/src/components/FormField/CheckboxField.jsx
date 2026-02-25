@@ -1,4 +1,5 @@
 // MediFlow / Admin / src / components / FormField / CheckboxField.jsx
+import { useEffect, useMemo, useState } from "react";
 
 const SIZE_CONFIG = {
   xxxs: { box: 12, fontSize: 10, gap: 6 },
@@ -23,7 +24,6 @@ const getSize = (sizeKey) => {
 };
 
 /* -------- Single Checkbox -------- */
-
 export const SingleCheckboxField = ({
   name,
   label,
@@ -39,7 +39,51 @@ export const SingleCheckboxField = ({
   error,
   ...rest
 }) => {
-  const s = getSize(size);
+  const BP_MIN = { base: 0, sm: 640, md: 768, lg: 1024, xl: 1280, "2xl": 1536 };
+
+  const rules = useMemo(() => {
+    if (!size) return [{ bp: "base", value: "m" }];
+
+    const tokens = String(size).trim().split(/\s+/);
+
+    if (!tokens.some((t) => t.includes(":"))) {
+      return [{ bp: "base", value: size }];
+    }
+
+    const out = [{ bp: "base", value: tokens[0] }];
+
+    tokens.forEach((t) => {
+      if (!t.includes(":")) return;
+      const [bp, val] = t.split(":");
+      if (!(bp in BP_MIN) || !val) return;
+      out.push({ bp, value: val });
+    });
+
+    return out;
+  }, [size]);
+
+  const hasResponsive = rules.some((r) => r.bp !== "base");
+
+  const [vw, setVw] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth : 1024,
+  );
+
+  useEffect(() => {
+    if (!hasResponsive) return;
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [hasResponsive]);
+
+  const resolvedSize = useMemo(() => {
+    let picked = rules[0]?.value || "m";
+    rules.forEach((r) => {
+      if (vw >= (BP_MIN[r.bp] ?? 0)) picked = r.value;
+    });
+    return picked;
+  }, [rules, vw]);
+
+  const s = getSize(resolvedSize);
 
   const isVertical = labelPosition === "top" || labelPosition === "bottom";
 
@@ -90,7 +134,6 @@ export const SingleCheckboxField = ({
 };
 
 /* -------- Multi Checkbox -------- */
-
 const toggleValue = (arr, val) => {
   const list = Array.isArray(arr) ? arr : [];
   return list.some((x) => String(x) === String(val))
@@ -115,7 +158,51 @@ export const MultiCheckboxField = ({
   isDisabled = false,
   error,
 }) => {
-  const s = getSize(size);
+  const BP_MIN = { base: 0, sm: 640, md: 768, lg: 1024, xl: 1280, "2xl": 1536 };
+
+  const rules = useMemo(() => {
+    if (!size) return [{ bp: "base", value: "m" }];
+
+    const tokens = String(size).trim().split(/\s+/);
+
+    if (!tokens.some((t) => t.includes(":"))) {
+      return [{ bp: "base", value: size }];
+    }
+
+    const out = [{ bp: "base", value: tokens[0] }];
+
+    tokens.forEach((t) => {
+      if (!t.includes(":")) return;
+      const [bp, val] = t.split(":");
+      if (!(bp in BP_MIN) || !val) return;
+      out.push({ bp, value: val });
+    });
+
+    return out;
+  }, [size]);
+
+  const hasResponsive = rules.some((r) => r.bp !== "base");
+
+  const [vw, setVw] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth : 1024,
+  );
+
+  useEffect(() => {
+    if (!hasResponsive) return;
+    const onResize = () => setVw(window.innerWidth);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [hasResponsive]);
+
+  const resolvedSize = useMemo(() => {
+    let picked = rules[0]?.value || "m";
+    rules.forEach((r) => {
+      if (vw >= (BP_MIN[r.bp] ?? 0)) picked = r.value;
+    });
+    return picked;
+  }, [rules, vw]);
+
+  const s = getSize(resolvedSize);
 
   const wrapperClass =
     labelPosition === "left" || labelPosition === "right"
