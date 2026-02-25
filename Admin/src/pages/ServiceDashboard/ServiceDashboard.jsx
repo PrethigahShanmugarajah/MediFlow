@@ -1,6 +1,5 @@
 // MediFlow / Admin / src / pages / ServiceDashboard / ServiceDashboard.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, X } from "lucide-react";
 import {
   computeServiceTotals,
   filterServices,
@@ -11,7 +10,6 @@ import RefreshBlock from "./Components/RefreshBlock";
 import StatsSection from "./Components/StatsSection";
 import ServiceTable from "./Components/ServiceTable";
 import ShowMoreButton from "../../components/ShowMoreButton";
-import { InputField } from "../../components/FormField/InputField";
 import Title from "../../components/Title";
 import SearchField from "../../components/SearchField";
 
@@ -175,22 +173,9 @@ const ServiceDashboard = ({ services: servicesProp = null }) => {
               onChange={(val) => setSearchQuery(val)}
               placeholder="Search services..."
               size="s"
-              widthClass=""
-              className=""
-              inputClassName=""
+              showClear
               unstyled={false}
             />
-
-            {searchQuery.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-rose-500"
-                aria-label="Clear search"
-              >
-                <X size={20} />
-              </button>
-            )}
           </div>
         </div>
 
