@@ -182,3 +182,64 @@ export const deleteService = async (id) => {
     throw error6;
   }
 };
+
+/* -------- Update Service Appointments -------- */
+export const updateServiceAppointment = async (id, payload = {}) => {
+  try {
+    const response7 = await api.put(
+      API_ROUTES.SERVICEAPPOINTMENTS.SERVICEAPPOINTMENT_UPDATE(id),
+      payload,
+    );
+
+    const data7 = response7.data;
+    console.log("Update Service Appointments API Response:", data7);
+
+    if (data7?.success) {
+      toast.success(data7?.message);
+      console.log("Update Service Appointments Success:", data7?.message);
+    } else {
+      toast.warn(data7?.message || "Update service appointments with warning");
+      console.warn(
+        "Update Service Appointments Warning:",
+        data7?.message || "Update Service Appointments with warning",
+      );
+    }
+
+    return data7;
+  } catch (error7) {
+    toast.error(error7?.response?.data?.message || error7?.message);
+    console.error("Update Service Appointments Error:", error7);
+
+    throw error7;
+  }
+};
+
+/* -------- Cancel Service Appointment -------- */
+export const cancelServiceAppointment = async (id) => {
+  try {
+    const response8 = await api.post(
+      API_ROUTES.SERVICEAPPOINTMENTS.SERVICEAPPOINTMENT_CANCEL(id),
+    );
+
+    const data8 = response8.data;
+    console.log("Cancel Service Appointments API Response:", data8);
+
+    if (data8?.success) {
+      toast.success(data8?.message);
+      console.log("Cancel Service Appointments Success:", data8?.message);
+    } else {
+      toast.warn(data8?.message || "Cancel service appointments with warning");
+      console.warn(
+        "Cancel Service Appointments Warning:",
+        data8?.message || "Cancel Service Appointments with warning",
+      );
+    }
+
+    return data8;
+  } catch (error8) {
+    toast.error(error8?.response?.data?.message || error8?.message);
+    console.error("Cancel Service Appointments Error:", error8);
+
+    throw error8;
+  }
+};
