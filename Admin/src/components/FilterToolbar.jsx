@@ -27,8 +27,12 @@ const FilterToolbar = ({
   onSearchChange,
   placeholder = "Search...",
   containerClassName = "",
-  searchRight = null,
   searchWidthClass = "md:w-96",
+  onClear = null,
+  showClearButton = false,
+  clearText = "Clear",
+  clearClassName = "",
+  clearButtonClassName = "",
 }) => {
   return (
     <div className={`flex flex-col gap-3 w-full ${containerClassName}`}>
@@ -61,7 +65,17 @@ const FilterToolbar = ({
           widthClass={`w-full ${searchWidthClass}`}
         />
 
-        {searchRight ? <div className="shrink-0">{searchRight}</div> : null}
+        {showClearButton && onClear ? (
+          <div className={`shrink-0 ${clearClassName}`}>
+            <button
+              type="button"
+              onClick={onClear}
+              className={`px-4 py-2 rounded-full bg-indigo-600 text-white shadow hover:opacity-95 transition ${clearButtonClassName}`}
+            >
+              {clearText}
+            </button>
+          </div>
+        ) : null}
       </div>
     </div>
   );
