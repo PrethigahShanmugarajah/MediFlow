@@ -146,7 +146,7 @@ const ListServices = () => {
   }
 
   return (
-    <div className="p-4 sm:p-6 max-w-6xl font-serif mx-auto min-h-screen bg-linear-to-b from-blue-50 via-white to-white">
+    <div className="p-4 sm:p-6 max-w-6xl font-serif mx-auto min-h-screen from-indigo-100 via-white to-blue-100">
       <Header
         search={search}
         setSearch={setSearch}
