@@ -113,18 +113,9 @@ const Dashboard = () => {
               size="s"
               widthClass=""
               className="flex-1"
+              showClear
               unstyled={false}
             />
-
-            <button
-              onClick={() => {
-                setQuery("");
-                setShowAll(false);
-              }}
-              className="px-3 py-2 bg-blue-500 text-white rounded-full shadow hover:bg-blue-600"
-            >
-              Clear
-            </button>
           </div>
         </div>
 
