@@ -1,5 +1,5 @@
 // MediFlow / Admin / src / components / SearchField.jsx
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { InputField } from "./FormField/InputField";
 
 const SearchField = ({
@@ -11,7 +11,10 @@ const SearchField = ({
   inputClassName = "",
   widthClass = "md:w-72",
   unstyled = false,
+  showClear = false,
 }) => {
+  const hasValue = !!value;
+
   return (
     <div
       className={`relative ${
@@ -33,6 +36,16 @@ const SearchField = ({
         onChange={(val) => onChange?.(val)}
         inputClassName={`${!unstyled ? "pl-12" : ""} ${inputClassName}`}
       />
+
+      {showClear && hasValue && (
+        <button
+          type="button"
+          onClick={() => onChange?.("")}
+          className="absolute inset-y-0 right-3 flex items-center text-red-500 hover:text-red-600"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      )}
     </div>
   );
 };
