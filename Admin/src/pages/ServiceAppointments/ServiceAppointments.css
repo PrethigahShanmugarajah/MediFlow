@@ -1,0 +1,45 @@
+/* MediFlow / Admin / src / pages / ServiceAppointments / ServiceAppointments.css */
+
+.animated-border {
+  position: relative;
+}
+
+.animated-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 0;
+  border-radius: 1rem;
+  padding: 1px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(99, 102, 241, 0.12),
+    rgba(238, 242, 255, 0.1),
+    rgba(99, 102, 241, 0.12)
+  );
+
+  background-size: 200% 100%;
+  filter: blur(8px);
+  opacity: 0.95;
+  transition: opacity 0.3s ease;
+
+  animation: shift 6s linear infinite;
+}
+
+.animated-border .card-inner {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
