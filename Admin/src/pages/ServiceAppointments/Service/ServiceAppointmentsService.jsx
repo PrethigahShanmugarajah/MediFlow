@@ -1,8 +1,8 @@
 // MediFlow / Admin / src / pages / ServiceAppointments / Service / ServiceAppointmentsService.jsx
 import { fetchServiceAppointments } from "../../../services/fetch";
 import {
-  cancelServiceAppointments,
-  updateServiceAppointments,
+  cancelServiceAppointment,
+  updateServiceAppointment,
 } from "../../../services/mutations";
 import {
   applyRescheduleResult,
@@ -47,7 +47,7 @@ export async function changeAppointmentStatusApi(
   );
 
   try {
-    const body = await updateServiceAppointments(id, { status: newStatus });
+    const body = await updateServiceAppointment(id, { status: newStatus });
     const updated = extractUpdatedAppointment(body);
 
     setAppointments((prev) =>
@@ -87,7 +87,7 @@ export async function rescheduleAppointmentApi(
   );
 
   try {
-    const body = await updateServiceAppointments(id, {
+    const body = await updateServiceAppointment(id, {
       rescheduledTo: { date: dateStr, time: timeStr },
       status: "Rescheduled",
     });
@@ -117,7 +117,7 @@ export async function cancelAppointmentApi(
   );
 
   try {
-    const body = await cancelServiceAppointments(id);
+    const body = await cancelServiceAppointment(id);
     const updated = extractUpdatedAppointment(body);
 
     setAppointments((prev) =>
