@@ -9,6 +9,7 @@ import {
   isStatusLocked,
 } from "../../../utils/serviceAppointmentsUtils";
 import { SelectInput } from "../../../components/FormField/SelectInput";
+import "../ServiceAppointments.css";
 
 const Card = ({ a, onChangeStatus, onReschedule, onCancel }) => {
   const isLocked = isStatusLocked(a.status);
