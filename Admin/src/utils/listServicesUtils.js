@@ -579,3 +579,30 @@ export function removeSlotFromForm(editForm, slotId) {
   const nextSlots = (editForm?.slots || []).filter((s) => s.id !== slotId);
   return { ...(editForm || {}), slots: nextSlots };
 }
+
+/* -------- Options for service availability dropdown -------- */
+export const availabilityOptions = [
+  { value: "true", label: "Available" },
+  { value: "false", label: "Unavailable" },
+];
+
+/* -------- Generate hours 1-12 for time selection -------- */
+export const hourOptions = Array.from({ length: 12 }, (_, i) => {
+  const h = i + 1;
+  return {
+    value: String(h),
+    label: String(h).padStart(2, "0"),
+  };
+});
+
+/* -------- Generate minutes 00-59 for time selection -------- */
+export const minuteOptions = Array.from({ length: 60 }, (_, i) => {
+  const value = String(i).padStart(2, "0");
+  return { value, label: value };
+});
+
+/* -------- Options for AM/PM dropdown -------- */
+export const ampmOptions = [
+  { value: "AM", label: "AM" },
+  { value: "PM", label: "PM" },
+];
