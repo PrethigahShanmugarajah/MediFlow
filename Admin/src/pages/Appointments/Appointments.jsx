@@ -18,6 +18,7 @@ import DeletePopup from "../../components/DeletePopup";
 import { ClipLoader } from "react-spinners";
 import AppointmentsHeader from "./Components/AppointmentsHeader";
 import ShowMoreButton from "../../components/ShowMoreButton";
+import { Search } from "lucide-react";
 
 const Appointments = () => {
   const isAdmin = true;
@@ -150,8 +151,18 @@ const Appointments = () => {
             {error}
           </div>
         ) : sortedFiltered.length === 0 ? (
-          <div className="col-span-full text-center text-indigo-600 py-12 rounded-lg bg-white/60 border border-indigo-100">
-            No appointments found.
+          <div className="col-span-full rounded-2xl p-8 flex items-center justify-center flex-col gap-3">
+            <div className="text-3xl text-indigo-300">
+              <Search />
+            </div>
+
+            <div className="text-sm text-gray-600">
+              No appointments match your search
+            </div>
+
+            <div className="text-xs text-gray-400">
+              Try a different patient name or service
+            </div>
           </div>
         ) : (
           <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
