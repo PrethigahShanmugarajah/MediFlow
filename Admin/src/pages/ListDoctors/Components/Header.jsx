@@ -30,15 +30,8 @@ const Header = ({
           placeholder="Search doctors or specialization"
           containerClassName="md:items-end"
           searchWidthClass="md:w-96"
-          searchRight={
-            <button
-              type="button"
-              onClick={onClear}
-              className="px-4 py-2 rounded-full bg-indigo-600 text-white shadow hover:opacity-95 transition"
-            >
-              Clear
-            </button>
-          }
+          showClearButton
+          onClear={onClear}
         />
       </div>
     </header>
