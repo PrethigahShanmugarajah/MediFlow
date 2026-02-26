@@ -1,8 +1,9 @@
 // MediFlow / Client / src / pages / Home / Home.jsx
-import Banner from "../../components/Banner/Banner";
-import Certification from "../../components/Certification/Certification";
-import HomeDoctors from "../../components/HomeDoctors/HomeDoctors";
-import Testimonial from "../../components/Testimonial/Testimonial";
+import Banner from "./Components/Banner";
+import Certification from "./Components/Certification";
+import HomeDoctors from "./Components/HomeDoctors";
+import HomeServices from "./Components/HomeServices";
+import Testimonial from "./Components/Testimonial";
 
 const Home = () => {
   return (
@@ -10,6 +11,7 @@ const Home = () => {
       <Banner />
       <Certification />
       <HomeDoctors />
+      <HomeServices />
       <Testimonial />
     </div>
   );
