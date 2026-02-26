@@ -8,8 +8,8 @@ const Title = ({ title, description }) => {
   return (
     <div>
       <div className="relative inline-block">
-        <div className="absolute -left-20 top-1/2 w-16 h-0.5 bg-linear-to-br from-transparent to-blue-400"></div>
-        <div className="absolute -right-20 top-1/2 w-16 h-0.5 bg-linear-to-br from-transparent to-cyan-400"></div>
+        <div className="absolute -left-20 top-1/2 w-16 h-0.5 bg-linear-to-br from-blue-100 to-indigo-500"></div>
+        <div className="absolute -right-20 top-1/2 w-16 h-0.5 bg-linear-to-br from-indigo-100 to-blue-500"></div>
         <h2 className="text-3xl lg:text-6xl font-serif mb-4 tracking-tight uppercase">
           {words.map((word, index) => (
             <span
