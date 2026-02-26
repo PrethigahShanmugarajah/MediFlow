@@ -19,7 +19,7 @@ const HomeServices = ({ previewCount = 8 }) => {
   const preview = services.slice(0, previewCount);
 
   return (
-    <section className="py-10 bg-linear-to-br from-indigo-100 via-white to-blue-100">
+    <section className="py-10 bg-linear-to-br from-indigo-100 via-white to-blue-100 border-b border-indigo-200">
       <div className="homesers-max-w mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <Title

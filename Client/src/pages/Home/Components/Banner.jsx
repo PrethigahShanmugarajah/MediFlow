@@ -17,7 +17,7 @@ const Banner = () => {
   const EMERGENCY_PHONE = import.meta.env.VITE_EMERGENCY_PHONE;
 
   return (
-    <div className="bg-linear-to-br from-blue-100 via-white to-indigo-100 w-full min-h-screen">
+    <div className="bg-linear-to-br from-blue-100 via-white to-indigo-100 w-full border-b border-indigo-200 min-h-screen">
       <div className="relative w-full max-w-7xl mx-auto my-0 px-4 py-16">
         <div className="relative rounded-3xl shadow-2xl overflow-hidden group">
           <div className="absolute inset-0 rounded-3xl p-0.75 pointer-events-none">

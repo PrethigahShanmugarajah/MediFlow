@@ -69,7 +69,7 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`sticky top-0 z-50 bg-white/95 backdrop-blur-md transition-transform duration-500 bg-linear-to-br from-indigo-100 via-white to-blue-100 ${
+        className={`sticky top-0 z-50 bg-white/95 backdrop-blur-md transition-transform duration-500 bg-linear-to-br from-indigo-100 via-white to-blue-100 border-b border-indigo-200 ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         }`}
       >

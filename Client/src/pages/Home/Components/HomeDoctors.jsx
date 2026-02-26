@@ -18,7 +18,7 @@ const HomeDoctors = ({ previewCount = 8 }) => {
   const preview = doctors.slice(0, previewCount);
 
   return (
-    <section className="py-10 bg-linear-to-br from-blue-100 via-white to-indigo-100">
+    <section className="py-10 bg-linear-to-br from-blue-100 via-white to-indigo-100 border-b border-indigo-200">
       <div className="homedocs-max-w mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <Title

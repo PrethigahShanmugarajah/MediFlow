@@ -11,7 +11,7 @@ const Certification = () => {
   ];
 
   return (
-    <div className="relative py-6 bg-linear-to-br from-indigo-100 via-white to-blue-100 overflow-hidden">
+    <div className="relative py-6 bg-linear-to-br from-indigo-100 via-white to-blue-100 border-b border-indigo-200 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <Title
