@@ -1,0 +1,51 @@
+/* MediFlow / Client / src / components / Footer / Footer.css */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.footer-activity {
+  animation-delay: 3s;
+}
+
+.social-icons a:nth-child(1) {
+  animation-delay: 0ms;
+}
+.social-icons a:nth-child(2) {
+  animation-delay: 120ms;
+}
+.social-icons a:nth-child(3) {
+  animation-delay: 240ms;
+}
+.social-icons a:nth-child(4) {
+  animation-delay: 360ms;
+}
+.social-icons a:nth-child(5) {
+  animation-delay: 480ms;
+}
+
+.quick-links li:nth-child(1) a {
+  animation-delay: 0ms;
+}
+.quick-links li:nth-child(2) a {
+  animation-delay: 60ms;
+}
+.quick-links li:nth-child(3) a {
+  animation-delay: 120ms;
+}
+.quick-links li:nth-child(4) a {
+  animation-delay: 180ms;
+}
+.quick-links li:nth-child(5) a {
+  animation-delay: 240ms;
+}
