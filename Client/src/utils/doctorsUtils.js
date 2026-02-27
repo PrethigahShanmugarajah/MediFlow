@@ -30,3 +30,30 @@ export function normalizeDoctorsResponse(json) {
     };
   });
 }
+
+/* -------- Smart Doctor Name Formatter -------- */
+export function formatDoctorName(name) {
+  if (!name) return "";
+
+  let trimmed = name.trim();
+
+  trimmed = trimmed.replace(/\s+/g, " ");
+
+  const capitalizeWords = (str) =>
+    str
+      .toLowerCase()
+      .split(" ")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+
+  if (/^prof\.?\s+dr\.?/i.test(trimmed)) {
+    return capitalizeWords(trimmed);
+  }
+
+  if (/^dr\.?/i.test(trimmed)) {
+    const withoutDuplicate = trimmed.replace(/^dr\.?\s*/i, "");
+    return `Dr. ${capitalizeWords(withoutDuplicate)}`;
+  }
+
+  return `Dr. ${capitalizeWords(trimmed)}`;
+}
