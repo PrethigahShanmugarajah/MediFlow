@@ -1,5 +1,5 @@
 // MediFlow / Client / src / pages / DoctorDetail / Service / DoctorDetailService.jsx
-import { fetchDoctorByID } from "../../../services/fetch";
+import { fetchBookedSlots, fetchDoctorByID } from "../../../services/fetch";
 import { createAppointment } from "../../../services/mutations";
 import {
   buildAppointmentPayload,
@@ -70,4 +70,18 @@ export async function bookAppointmentApi({
   handleAppointmentRedirect(body);
 
   return { ok: true, message: "" };
+}
+
+export async function fetchBookedSlotsApi(doctorId, dateISO) {
+  try {
+    const payload = await fetchBookedSlots(doctorId, dateISO);
+    const booked =
+      payload?.bookedSlots ||
+      payload?.data?.bookedSlots ||
+      payload?.appointments?.map((a) => a.time) ||
+      [];
+    return booked;
+  } catch (error) {
+    return [];
+  }
 }
