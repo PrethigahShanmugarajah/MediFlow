@@ -7,6 +7,7 @@ import {
   getAppointments,
   getAppointmentsByDoctor,
   getAppointmentsByPatient,
+  getBookedSlotsByDoctor,
   getRegisteredUserCount,
   getStatus,
   updateAppointment,
@@ -45,5 +46,10 @@ appointmentRouter.get(
 );
 
 appointmentRouter.put("/appointment-update/:id", updateAppointment);
+
+appointmentRouter.get(
+  "/appointments-get-slots-bydoctor/:doctorId",
+  getBookedSlotsByDoctor,
+);
 
 export default appointmentRouter;
