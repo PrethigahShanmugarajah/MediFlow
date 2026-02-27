@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SignedIn, SignedOut, useClerk, UserButton } from "@clerk/clerk-react";
-import Logo from "../../assets/Logo.png";
+import { Logo } from "../../assets";
 import { Key, Menu, Stethoscope, X } from "lucide-react";
 import "./Navbar.css";
 

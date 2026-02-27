@@ -1,10 +1,5 @@
 // MediFlow / Client / src / data / testimonialsData.js
-import TD1 from "../assets/TD1.png";
-import TD2 from "../assets/TD2.png";
-import TD3 from "../assets/TD3.png";
-import TP1 from "../assets/TP1.png";
-import TP2 from "../assets/TP2.png";
-import TP3 from "../assets/TP3.png";
+import { TD1, TD2, TD3, TP1, TP2, TP3 } from "../assets";
 
 export const testimonialsData = [
   {

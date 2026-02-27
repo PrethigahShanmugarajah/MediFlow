@@ -10,7 +10,7 @@ import {
   Users,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import BannerImg from "../../../assets/BannerImg.png";
+import { BannerImg } from "../../../assets";
 
 const Banner = () => {
   const navigate = useNavigate();

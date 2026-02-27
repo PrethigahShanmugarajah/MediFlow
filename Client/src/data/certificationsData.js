@@ -1,14 +1,5 @@
 // MediFlow / Client / src / data / certificationsData.js
-import C1 from "../assets/C1.png";
-import C2 from "../assets/C2.png";
-import C3 from "../assets/C3.png";
-import C4 from "../assets/C4.png";
-import C5 from "../assets/C5.png";
-import C6 from "../assets/C6.png";
-import C7 from "../assets/C7.png";
-import C8 from "../assets/C8.png";
-import C9 from "../assets/C9.png";
-import C10 from "../assets/C10.png";
+import { C1, C10, C2, C3, C4, C5, C6, C7, C8, C9 } from "../assets";
 
 export const certificationsData = [
   {

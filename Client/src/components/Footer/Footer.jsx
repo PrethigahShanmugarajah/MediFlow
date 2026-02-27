@@ -8,7 +8,7 @@ import {
   Send,
   Stethoscope,
 } from "lucide-react";
-import Logo from "../../assets/Logo.png";
+import { Logo } from "../../assets";
 import { quickLinks, services, socialLinks } from "../../data/footerData";
 import "./Footer.css";
 import { InputField } from "../FormField/InputField";
