@@ -5,11 +5,12 @@ import "./Doctors.css";
 import { fetchDoctorsApi } from "./Service/DoctorsService";
 import Title from "../../components/Title";
 import AvatarCard from "../../components/AvatarCard";
-import NoPersonImage from "../../assets/NoPersonImage.png";
+import { NoPersonImage } from "../../assets";
 import AvatarSkeletonCard from "../../components/AvatarSkeletonCard";
 import ApiError from "../../components/ApiError";
 import SearchField from "../../components/SearchField";
 import ShowMoreButton from "../../components/ShowMoreButton";
+import { formatDoctorName } from "../../utils/doctorsUtils";
 
 const Doctors = () => {
   const [allDoctors, setAllDoctors] = useState([]);
@@ -88,7 +89,7 @@ const Doctors = () => {
                   >
                     <AvatarCard
                       id={doctor.id}
-                      name={doctor.name}
+                      name={formatDoctorName(doctor.name)}
                       subtitle={doctor.specialization}
                       image={doctor.image}
                       available={doctor.available}
