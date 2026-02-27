@@ -1,0 +1,34 @@
+// MediFlow / Client / src / components / NotFoundState.jsx
+import { Link } from "react-router-dom";
+
+const NotFoundState = ({
+  icon: Icon,
+  title = "Not Found",
+  backText = "Back",
+  backTo = "/",
+  bgClass = "bg-white",
+  iconColor = "text-emerald-500",
+}) => {
+  return (
+    <div className={`min-h-screen flex items-center justify-center ${bgClass}`}>
+      <div className="text-center">
+        {Icon && (
+          <div className="mb-4 flex justify-center">
+            <Icon size={64} strokeWidth={1.5} className={iconColor} />
+          </div>
+        )}
+
+        <h1 className="text-2xl font-bold text-gray-700">{title}</h1>
+
+        <Link
+          to={backTo}
+          className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 transition-all"
+        >
+          {backText}
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default NotFoundState;
