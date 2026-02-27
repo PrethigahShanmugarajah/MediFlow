@@ -850,3 +850,57 @@ export async function getRegisteredUserCount(req, res) {
     });
   }
 }
+
+/* -------- Get Booked Slots By Doctor + Date -------- */
+export async function getBookedSlotsByDoctor(req, res) {
+  try {
+    const { doctorId } = req.params;
+    const { date } = req.query;
+
+    if (!doctorId) {
+      return res.status(400).json({
+        success: false,
+        message: "Doctor ID is required.",
+      });
+    }
+
+    if (!date) {
+      return res.status(400).json({
+        success: false,
+        message: "Date is required (YYYY-MM-DD).",
+      });
+    }
+
+    const items = await Appointment.find({
+      doctorId: String(doctorId),
+      date: String(date),
+      status: { $nin: ["Cancelled", "Canceled"] },
+    })
+      .select("time status")
+      .lean();
+
+    const bookedSlots = (items || [])
+      .map((a) => String(a.time || "").trim())
+      .filter(Boolean);
+
+    return res.status(200).json({
+      success: true,
+      message: "Booked slots fetched successfully!",
+      doctorId: String(doctorId),
+      date: String(date),
+      bookedSlots,
+      count: bookedSlots.length,
+    });
+  } catch (error) {
+    console.error(
+      "Get Booked Slots Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch booked slots.",
+      error: `Get Booked Slots Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
