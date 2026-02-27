@@ -8,6 +8,7 @@ import AvatarCard from "../../../components/AvatarCard";
 import AvatarSkeletonCard from "../../../components/AvatarSkeletonCard";
 import ApiError from "../../../components/ApiError";
 import { NoPersonImage } from "../../../assets";
+import { formatDoctorName } from "../../../utils/homeUtils";
 
 const HomeDoctors = ({ previewCount = 8 }) => {
   const [doctors, setDoctors] = useState([]);
@@ -52,7 +53,7 @@ const HomeDoctors = ({ previewCount = 8 }) => {
                 >
                   <AvatarCard
                     id={doctor.id}
-                    name={doctor.name}
+                    name={formatDoctorName(doctor.name)}
                     subtitle={doctor.specialization}
                     image={doctor.image}
                     available={doctor.available}
