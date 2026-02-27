@@ -90,3 +90,36 @@ export const fetchDoctorByID = async (id) => {
     throw error3;
   }
 };
+
+/* -------- Fetch Booked Slots -------- */
+export const fetchBookedSlots = async (doctorId, dateISO) => {
+  try {
+    if (!doctorId || !dateISO) return null;
+
+    const response4 = await api.get(
+      API_ROUTES.APPOINTMENTS.APPOINTMENTS_GET_SLOTS_BYDOCTOR(doctorId),
+      { params: { date: dateISO } },
+    );
+
+    const data4 = response4.data;
+    console.log("Fetch Booked Slots API Response:", data4);
+
+    if (data4?.success) {
+      // toast.success(data4?.message);
+      console.log("Fetch Booked Slots Success:", data4?.message);
+    } else {
+      toast.warn(data4?.message || "Fetch booked slots with warning");
+      console.warn(
+        "Fetch Booked Slots Warning:",
+        data4?.message || "Fetch Booked Slots with warning",
+      );
+    }
+
+    return data4;
+  } catch (error4) {
+    toast.error(error4?.response?.data?.message || error4?.message);
+    console.error("Fetch Booked Slots Error:", error4);
+
+    throw error4;
+  }
+};
