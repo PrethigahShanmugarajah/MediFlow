@@ -210,3 +210,16 @@ export function formatDoctorName(name) {
 
   return `Dr. ${capitalizeWords(trimmed)}`;
 }
+
+/* -------- Options for patient gender selection -------- */
+export const genderOptions = [
+  { value: "Male", label: "Male" },
+  { value: "Female", label: "Female" },
+  { value: "Other", label: "Other" },
+];
+
+/* -------- Options for payment method selection -------- */
+export const paymentOptions = [
+  { value: "Cash", label: "Cash" },
+  { value: "Online", label: "Online" },
+];
