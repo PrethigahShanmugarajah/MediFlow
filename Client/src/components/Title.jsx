@@ -10,7 +10,7 @@ const Title = ({ title, description }) => {
       <div className="relative inline-block">
         <div className="absolute -left-20 top-1/2 w-16 h-0.5 bg-linear-to-br from-blue-100 to-indigo-500"></div>
         <div className="absolute -right-20 top-1/2 w-16 h-0.5 bg-linear-to-br from-indigo-100 to-blue-500"></div>
-        <h2 className="text-3xl lg:text-6xl font-serif mb-4 tracking-tight uppercase">
+        <h2 className="text-3xl lg:text-4xl font-serif mb-4 tracking-tight uppercase">
           {words.map((word, index) => (
             <span
               key={index}
@@ -23,7 +23,7 @@ const Title = ({ title, description }) => {
       </div>
 
       {description && (
-        <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed font-light tracking-wide">
+        <p className="text-md text-gray-500 max-w-2xl mx-auto leading-relaxed font-light tracking-wide">
           {description}
         </p>
       )}
