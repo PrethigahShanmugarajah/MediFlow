@@ -60,3 +60,33 @@ export const fetchServices = async () => {
     throw error2;
   }
 };
+
+/* -------- Fetch Doctor By ID -------- */
+export const fetchDoctorByID = async (id) => {
+  try {
+    if (!id) throw new Error("Doctor ID is required.");
+
+    const response3 = await api.get(API_ROUTES.DOCTORS.DOCTOR_GET(id));
+
+    const data3 = response3.data;
+    console.log("Fetch Doctor API Response:", data3);
+
+    if (data3?.success) {
+      // toast.success(data3?.message);
+      console.log("Fetch Doctor Success:", data3?.message);
+    } else {
+      toast.warn(data3?.message || "Fetch doctor with warning");
+      console.warn(
+        "Fetch Doctor Warning:",
+        data3?.message || "Fetch Doctor with warning",
+      );
+    }
+
+    return data3;
+  } catch (error3) {
+    toast.error(error3?.response?.data?.message || error3?.message);
+    console.error("Fetch Doctor Error:", error3);
+
+    throw error3;
+  }
+};
