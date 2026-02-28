@@ -14,17 +14,17 @@ import {
   fetchBookedSlotsApi,
   fetchDoctorByIdApi,
 } from "./Service/DoctorDetailService";
-import Summary from "./Components/Summary";
-import PatientDetailsForm from "./Components/PatientDetailsForm";
-import DoctorInformation from "./Components/DoctorInformation";
-import DoctorProfile from "./Components/DoctorProfile";
-import NotFoundState from "../../components/NotFoundState";
-import DateSelector from "./Components/DateSelector";
-import TimeSlotSelector from "./Components/TimeSlotSelector";
-import Header from "./Components/Header";
 import DetailPageLoader from "../../components/DetailPageLoader";
 import DetailErrorState from "../../components/DetailErrorState";
+import NotFoundState from "../../components/NotFoundState";
+import Header from "./Components/Header";
+import DoctorProfile from "./Components/DoctorProfile";
+import DoctorInformation from "./Components/DoctorInformation";
+import DateSelector from "../../components/DateSelector";
+import PatientDetailsForm from "../../components/PatientDetailsForm";
 import { BeatLoader } from "react-spinners";
+import TimeSlotSelector from "../../components/TimeSlotSelector";
+import Summary from "./Components/Summary";
 
 const DoctorDetail = () => {
   const { id } = useParams();
@@ -80,6 +80,14 @@ const DoctorDetail = () => {
   };
 
   useEffect(() => {
+    fetchDoctorService();
+  }, [id]);
+
+  const retry = () => {
+    fetchDoctorService();
+  };
+
+  useEffect(() => {
     const doctorId = doctor?._id || doctor?.id;
     if (!doctorId || !selectedDate) return;
 
@@ -108,14 +116,6 @@ const DoctorDetail = () => {
       mounted = false;
     };
   }, [doctor?._id, doctor?.id, selectedDate]);
-
-  useEffect(() => {
-    fetchDoctorService();
-  }, [id]);
-
-  const retry = () => {
-    fetchDoctorService();
-  };
 
   const next7 = useMemo(() => getScheduleDates(doctor?.schedule), [doctor]);
   const fee = Number(doctor?.fee ?? doctor?.fees ?? 0);
