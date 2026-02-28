@@ -1,8 +1,11 @@
-// MediFlow / Admin / src / pages / DoctorDetail / Components / Summary.jsx
+// MediFlow / Client / src / pages / DoctorDetail / Components / Summary.jsx
 import { Phone } from "lucide-react";
 import { CURRENCY } from "../../../utils/helpers";
 import { RadioInput } from "../../../components/FormField/RadioInput";
-import { paymentOptions } from "../../../utils/doctorDetailUtils";
+import {
+  formatDoctorName,
+  paymentOptions,
+} from "../../../utils/doctorDetailUtils";
 import { ClipLoader } from "react-spinners";
 
 const Summary = ({
@@ -21,7 +24,7 @@ const Summary = ({
         <div className="flex justify-between">
           <span className="text-md text-gray-600">Selected Doctor:</span>
           <span className="font-semibold text-indigo-700 text-sm sm:text-base">
-            {doctor?.name || "—"}
+            {formatDoctorName(doctor?.name) || "—"}
           </span>
         </div>
 
