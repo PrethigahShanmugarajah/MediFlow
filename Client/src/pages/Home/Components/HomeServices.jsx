@@ -9,6 +9,7 @@ import { NoImage } from "../../../assets";
 import { CURRENCY } from "../../../utils/helpers";
 import AvatarSkeletonCard from "../../../components/AvatarSkeletonCard";
 import ApiError from "../../../components/ApiError";
+import { formatServiceName } from "../../../utils/homeUtils";
 
 const HomeServices = ({ previewCount = 8 }) => {
   const [services, setServices] = useState([]);
@@ -38,7 +39,7 @@ const HomeServices = ({ previewCount = 8 }) => {
         <ApiError message={error} onRetry={retry} />
 
         {loading ? (
-          <AvatarSkeletonCard count={previewCount} />
+          <AvatarSkeletonCard count={previewCount} imageVariant="rectangle" />
         ) : (
           <div
             className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 transition-all duration-300 ${
@@ -52,8 +53,9 @@ const HomeServices = ({ previewCount = 8 }) => {
                   style={{ animationDelay: `${index * 90}ms` }}
                 >
                   <AvatarCard
+                    imageVariant="rectangle"
                     id={service.id}
-                    name={service.name}
+                    name={formatServiceName(service.name)}
                     subtitle={service.description}
                     image={service.image}
                     available={service.available}
