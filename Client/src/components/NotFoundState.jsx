@@ -22,7 +22,7 @@ const NotFoundState = ({
 
         <Link
           to={backTo}
-          className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 transition-all"
+          className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-indigo-500 text-white rounded-full hover:bg-indigo-600 transition-all"
         >
           {backText}
         </Link>
