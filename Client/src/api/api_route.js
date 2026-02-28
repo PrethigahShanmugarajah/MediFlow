@@ -8,11 +8,17 @@ const API_ROUTES = {
   },
   SERVICES: {
     SERVICES_GET: `${BASE_URL}/api/services/services-get`,
+    SERVICE_GET: (id) => `${BASE_URL}/api/services/service-get/${id}`,
   },
   APPOINTMENTS: {
     APPOINTMENT_CREATE: `${BASE_URL}/api/appointments/appointment-create`,
     APPOINTMENTS_GET_SLOTS_BYDOCTOR: (doctorId) =>
       `${BASE_URL}/api/appointments/appointments-get-slots-bydoctor/${doctorId}`,
+  },
+  SERVICEAPPOINTMENTS: {
+    SERVICEAPPOINTMENTS_CREATE: `${BASE_URL}/api/serviceAppointments/serviceAppointment-create`,
+    SERVICEAPPOINTMENTS_GET_SLOTS_BYSERVICE: (serviceId) =>
+      `${BASE_URL}/api/serviceAppointments/serviceAppointment-get-slots-byService/${serviceId}`,
   },
 };
 
