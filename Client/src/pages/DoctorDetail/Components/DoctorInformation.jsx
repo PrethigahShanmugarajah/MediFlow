@@ -1,7 +1,7 @@
 // MediFlow / Client / src / pages / DoctorDetail / Components / DoctorInformation.jsx
 import {
   BadgeInfo,
-  Clock,
+  Banknote,
   GraduationCap,
   MapPin,
   Shield,
@@ -63,7 +63,7 @@ const DoctorInformation = ({ doctor, fee }) => {
         </div>
 
         <div className="flex items-start gap-3 md:p-3 p-4 bg-white rounded-full shadow-sm border border-indigo-50">
-          <Clock className="w-5 h-5 text-indigo-500 mt-1" />
+          <Banknote className="w-5 h-5 text-indigo-500 mt-1" />
           <div>
             <div className="text-sm font-semibold text-indigo-600">
               Consultation Fee
