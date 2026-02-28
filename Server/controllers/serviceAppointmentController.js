@@ -904,3 +904,73 @@ export async function getServiceAppointmentsByPatient(req, res) {
     });
   }
 }
+
+/* -------- Get Booked Slots By Service + Date -------- */
+export async function getBookedSlotsByService(req, res) {
+  try {
+    const { serviceId } = req.params;
+    const { date } = req.query;
+
+    if (!serviceId) {
+      return res.status(400).json({
+        success: false,
+        message: "Service ID is required.",
+      });
+    }
+
+    if (!date) {
+      return res.status(400).json({
+        success: false,
+        message: "Date is required (YYYY-MM-DD).",
+      });
+    }
+
+    const items = await ServiceAppointment.find({
+      serviceId: String(serviceId),
+      date: String(date),
+      status: { $nin: ["Cancelled", "Canceled"] },
+    })
+      .select("time hour minute ampm status")
+      .lean();
+
+    const bookedSlots = (items || [])
+      .map((a) => {
+        if (a?.time) return String(a.time).trim();
+
+        const h = Number(a?.hour);
+        const m = Number(a?.minute);
+        const ap = String(a?.ampm || "").trim();
+
+        if (
+          !Number.isFinite(h) ||
+          !Number.isFinite(m) ||
+          (ap !== "AM" && ap !== "PM")
+        ) {
+          return "";
+        }
+
+        return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")} ${ap}`;
+      })
+      .filter(Boolean);
+
+    return res.status(200).json({
+      success: true,
+      message: "Booked slots fetched successfully!",
+      serviceId: String(serviceId),
+      date: String(date),
+      bookedSlots,
+      count: bookedSlots.length,
+    });
+  } catch (error) {
+    console.error(
+      "Get Booked Slots By Service Error:",
+      error?.stack || error?.message || error,
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch booked slots.",
+      error: `Get Booked Slots By Service Error: ${error?.stack || error?.message || error}`,
+    });
+  }
+}
