@@ -70,12 +70,6 @@ const DoctorDetail = () => {
     try {
       const doc = await fetchDoctorByIdApi(id);
       setDoctor(doc);
-      console.log("Doctor API response (doc):", doc);
-      console.log("Doctor keys:", doc ? Object.keys(doc) : []);
-      console.log(
-        "Doctor schedule keys:",
-        doc?.schedule ? Object.keys(doc.schedule) : [],
-      );
     } catch (error) {
       setError(
         error?.message || "Unable to fetch doctor. Please try again later.",
@@ -146,13 +140,6 @@ const DoctorDetail = () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    console.log("BOOKING TRY:", {
-      selectedDate,
-      dateISO: selectedDate ? selectedDate.toISOString().split("T")[0] : null,
-      selectedSlot,
-      doctorId: doctor?.id || doctor?._id,
-    });
-
     try {
       await bookAppointmentApi({
         doctor,
@@ -177,9 +164,6 @@ const DoctorDetail = () => {
 
   useEffect(() => {
     if (!selectedDateISO) return;
-    const bookedForDate = doctor?.bookedSlots?.[selectedDateISO] || [];
-    console.log("Selected Date:", selectedDateISO);
-    console.log("Already Booked Slots:", bookedForDate);
   }, [selectedDateISO, doctor]);
 
   if (loading)
