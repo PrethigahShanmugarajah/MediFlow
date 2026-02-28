@@ -1,5 +1,4 @@
 // MediFlow / Client / src / App.jsx
-import React from "react";
 import { ToastContainer } from "react-toastify";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
@@ -23,6 +22,14 @@ const isDoctorLoggedIn = () => {
   return false;
 };
 
+const Layout = ({ children }) => (
+  <>
+    <Navbar />
+    {children}
+    <Footer />
+  </>
+);
+
 const App = () => {
   return (
     <>
@@ -30,36 +37,80 @@ const App = () => {
 
       <Routes>
         <Route
-          path="/*"
+          path="/"
           element={
-            <>
-              <Navbar />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/doctors" element={<Doctors />} />
-                <Route path="/doctors/:id" element={<DoctorDetail />} />
-                <Route path="/services" element={<Service />} />
-                <Route path="/services/:id" element={<ServiceDetail />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/appointments" element={<Appointments />} />
-                <Route
-                  path="/appointment/success"
-                  element={<VerifyPayment />}
-                />
-                <Route path="/appointment/cancel" element={<VerifyPayment />} />
-                <Route
-                  path="/service-appointment/success"
-                  element={<VerifyServicePayment />}
-                />
-                <Route
-                  path="/service-appointment/cancel"
-                  element={<VerifyServicePayment />}
-                />
-              </Routes>
-              <Footer />
-            </>
+            <Layout>
+              <Home />
+            </Layout>
           }
         />
+        <Route
+          path="/doctors"
+          element={
+            <Layout>
+              <Doctors />
+            </Layout>
+          }
+        />
+        <Route
+          path="/services"
+          element={
+            <Layout>
+              <Service />
+            </Layout>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <Layout>
+              <Contact />
+            </Layout>
+          }
+        />
+        <Route
+          path="/appointments"
+          element={
+            <Layout>
+              <Appointments />
+            </Layout>
+          }
+        />
+        <Route
+          path="/appointment/success"
+          element={
+            <Layout>
+              <VerifyPayment />
+            </Layout>
+          }
+        />
+        <Route
+          path="/appointment/cancel"
+          element={
+            <Layout>
+              <VerifyPayment />
+            </Layout>
+          }
+        />
+        <Route
+          path="/service-appointment/success"
+          element={
+            <Layout>
+              <VerifyServicePayment />
+            </Layout>
+          }
+        />
+        <Route
+          path="/service-appointment/cancel"
+          element={
+            <Layout>
+              <VerifyServicePayment />
+            </Layout>
+          }
+        />
+
+        <Route path="/doctors/:id" element={<DoctorDetail />} />
+        <Route path="/services/:id" element={<ServiceDetail />} />
 
         <Route
           path="/doctor-admin/*"
