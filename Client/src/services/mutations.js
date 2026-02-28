@@ -41,3 +41,42 @@ export const createAppointment = async ({ payload, token }) => {
     throw error1;
   }
 };
+
+/* -------- Create Service Appointment -------- */
+export const createServiceAppointment = async ({ payload, token }) => {
+  if (!payload) throw new Error("Service Appointment payload is required.");
+  if (!token) throw new Error("Authentication token is required.");
+
+  try {
+    const response2 = await api.post(
+      API_ROUTES.SERVICEAPPOINTMENTS.SERVICEAPPOINTMENTS_CREATE,
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    const data2 = response2.data;
+    console.log("Create Service Appointment API Response:", data2);
+
+    if (data2?.success) {
+      toast.success(data2?.message);
+      console.log("Create Service Appointment Success:", data2?.message);
+    } else {
+      toast.warn(data2?.message || "Create service appointment with warning");
+      console.warn(
+        "Create Service Appointment Warning:",
+        data2?.message || "Create Service Appointment with warning",
+      );
+    }
+
+    return data2;
+  } catch (error2) {
+    toast.error(error2?.response?.data?.message || error2?.message);
+    console.error("Create Service Appointment Error:", error2);
+
+    throw error2;
+  }
+};
