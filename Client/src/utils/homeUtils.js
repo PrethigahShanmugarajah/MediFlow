@@ -29,7 +29,6 @@ export function normalizeHomeDoctorsResponse(json) {
   });
 }
 
-/* -------- Smart Doctor Name Formatter -------- */
 export function formatDoctorName(name) {
   if (!name) return "";
 
@@ -72,4 +71,10 @@ export function normalizeHomeServicesResponse(json) {
         : s.available === "Available",
     raw: s,
   }));
+}
+
+export function formatServiceName(name) {
+  if (!name || typeof name !== "string") return "";
+
+  return name.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 }
