@@ -4,6 +4,7 @@ import {
   cancelServiceAppointment,
   confirmServiceAppointmentPayment,
   createServiceAppointment,
+  getBookedSlotsByService,
   getServiceAppointmentById,
   getServiceAppointments,
   getServiceAppointmentsByPatient,
@@ -56,6 +57,11 @@ serviceAppointmentRouter.put(
 serviceAppointmentRouter.post(
   "/:id/serviceAppointment-cancel",
   cancelServiceAppointment,
+);
+
+serviceAppointmentRouter.get(
+  "/serviceAppointment-get-slots-byService/:serviceId",
+  getBookedSlotsByService,
 );
 
 export default serviceAppointmentRouter;
