@@ -6,7 +6,7 @@ import { Logo } from "../../../assets";
 import { Key, Menu, Stethoscope, X } from "lucide-react";
 import "./Navbar.css";
 
-const STORAGE_KEY = import.meta.env.STORAGE_KEY;
+const STORAGE_KEY = import.meta.env.VITE_STORAGE_KEY;
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

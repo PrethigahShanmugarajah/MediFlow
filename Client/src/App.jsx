@@ -21,7 +21,7 @@ import DoctorHome from "./pages/doctor/DoctorHome/View/DoctorHome";
 import DoctorList from "./pages/doctor/DoctorList/View/DoctorList";
 import DoctorEditProfile from "./pages/doctor/DoctorEditProfile/View/DoctorEditProfile";
 
-const STORAGE_KEY = import.meta.env.STORAGE_KEY;
+const STORAGE_KEY = import.meta.env.VITE_STORAGE_KEY;
 
 const isDoctorLoggedIn = () => {
   try {
