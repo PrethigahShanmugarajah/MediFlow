@@ -5,6 +5,7 @@ import {
   uploadToCloudinary,
 } from "../utils/cloudinary.js";
 import {
+  formatDoctorDisplayName,
   normalizeDocForClient,
   parseScheduleInput,
 } from "../utils/doctorHelper.js";
@@ -566,7 +567,7 @@ export async function doctorLogin(req, res) {
 
     return res.status(200).json({
       success: true,
-      message: `${doc.name} logged in successfully!`,
+      message: `Welcome back, ${formatDoctorDisplayName(doc.name)}. You have successfully signed in.`,
       token,
       data: loginDoctor,
     });
