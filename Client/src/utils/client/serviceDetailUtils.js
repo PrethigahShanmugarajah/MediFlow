@@ -1,4 +1,4 @@
-// MediFlow / Client / src / utils / serviceDetailUtils.js
+// MediFlow / Client / src / utils / client / serviceDetailUtils.js
 
 /* -------- Get all dates from slots map, past first then future -------- */
 export function getScheduleDates(slots) {

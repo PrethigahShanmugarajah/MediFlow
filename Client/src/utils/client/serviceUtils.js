@@ -1,4 +1,4 @@
-// MediFlow / Client / src / utils / serviceUtils.js
+// MediFlow / Client / src / utils / client / serviceUtils.js
 
 /* -------- Converts raw services API data into a clean, consistent service object format. -------- */
 export function normalizeServicesResponse(json) {

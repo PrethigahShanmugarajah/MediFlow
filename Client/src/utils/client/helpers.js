@@ -1,4 +1,4 @@
-// MediFlow / Client / src / utils / helpers.js
+// MediFlow / Client / src / utils / client / helpers.js
 
 /* -------- Get the currency symbol -------- */
 export const CURRENCY = import.meta.env.VITE_CURRENCY;

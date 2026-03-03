@@ -1,4 +1,4 @@
-// MediFlow / Client / src / utils / doctorDetailUtils.js
+// MediFlow / Client / src / utils / client / doctorDetailUtils.js
 
 /* -------- Get all dates from schedule, past first then future -------- */
 export function getScheduleDates(schedule) {

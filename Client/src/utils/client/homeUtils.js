@@ -1,7 +1,7 @@
-// MediFlow / Client / src / utils / doctorsUtils.js
+// MediFlow / Client / src / utils / client / homeUtils.js
 
-/* -------- Converts raw doctors API data into a clean, consistent doctor object format. -------- */
-export function normalizeDoctorsResponse(json) {
+/* -------- Home Doctors -------- */
+export function normalizeHomeDoctorsResponse(json) {
   const items = (json && (json.data || json)) || [];
 
   return (Array.isArray(items) ? items : []).map((d) => {
@@ -9,13 +9,11 @@ export function normalizeDoctorsResponse(json) {
     const image = d.imageUrl || d.image || d.imageSmall || d.imageSrc || "";
 
     const available =
-      typeof d.availability === "string"
+      (typeof d.availability === "string"
         ? d.availability.toLowerCase() === "available"
         : typeof d.available === "boolean"
           ? d.available
-          : typeof d.availability === "boolean"
-            ? d.availability
-            : d.availability === "Available" || d.available === true;
+          : d.availability === true) || d.availability === "Available";
 
     return {
       id,
@@ -23,7 +21,7 @@ export function normalizeDoctorsResponse(json) {
       specialization: d.specialization || "",
       image,
       experience:
-        (d.experience ?? d.experience === 0) ? String(d.experience) : "—",
+        d.experience || d.experience === 0 ? String(d.experience) : "",
       fee: d.fee ?? d.price ?? 0,
       available,
       raw: d,
@@ -31,7 +29,6 @@ export function normalizeDoctorsResponse(json) {
   });
 }
 
-/* -------- Smart Doctor Name Formatter -------- */
 export function formatDoctorName(name) {
   if (!name) return "";
 
@@ -56,4 +53,28 @@ export function formatDoctorName(name) {
   }
 
   return `Dr. ${capitalizeWords(trimmed)}`;
+}
+
+/* -------- Home Services -------- */
+export function normalizeHomeServicesResponse(json) {
+  const items = (json && (json.data || json)) || [];
+
+  return (Array.isArray(items) ? items : []).map((s) => ({
+    id: s._id || s.id,
+    name: s.name || "Unknown Service",
+    description: s.shortDescription || s.about || "",
+    price: s.price ?? 0,
+    image: s.imageUrl || s.image || "",
+    available:
+      typeof s.available === "boolean"
+        ? s.available
+        : s.available === "Available",
+    raw: s,
+  }));
+}
+
+export function formatServiceName(name) {
+  if (!name || typeof name !== "string") return "";
+
+  return name.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 }

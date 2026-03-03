@@ -1,4 +1,4 @@
-// MediFlow / Client / src / utils / contactUtils.js
+// MediFlow / Client / src / utils / client / contactUtils.js
 
 /* -------- Validate email format -------- */
 export const emailRegex = /^\S+@\S+\.\S+$/;
