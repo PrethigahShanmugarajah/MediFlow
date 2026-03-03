@@ -162,7 +162,9 @@ export const RadioInput = ({
 
       {(labelPosition === "right" || labelPosition === "bottom") && renderLabel}
 
-      {!!error && <p className={errorClassName}>{error}</p>}
+      {!!error && (
+        <p className={`text-red-500 text-sm mt-1 ${errorClassName}`}>{error}</p>
+      )}
     </div>
   );
 };
