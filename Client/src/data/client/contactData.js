@@ -1,4 +1,4 @@
-// MediFlow / Client / src / data / contactData.js
+// MediFlow / Client / src / data / client / contactData.js
 
 export const departments = [
   "General Physician",
