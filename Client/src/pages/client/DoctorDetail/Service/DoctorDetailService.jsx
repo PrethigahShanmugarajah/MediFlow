@@ -1,0 +1,87 @@
+// MediFlow / Client / src / pages client / DoctorDetail / Service / DoctorDetailService.jsx
+import { fetchBookedSlots, fetchDoctorByID } from "../../../../services/fetch";
+import { createAppointment } from "../../../../services/mutations";
+import {
+  buildAppointmentPayload,
+  handleAppointmentRedirect,
+  validateBooking,
+} from "../../../../utils/client/doctorDetailUtils";
+
+/* -------- Fetch doctor by id (used in useEffect) -------- */
+export async function fetchDoctorByIdApi(id) {
+  if (!id) return null;
+  try {
+    const payload = await fetchDoctorByID(id);
+    return payload?.data || null;
+  } catch (error) {
+    const status = error?.response?.status;
+    if (status === 404) {
+      return null;
+    }
+    throw error;
+  }
+}
+
+/* -------- Create appointment + redirect -------- */
+export async function bookAppointmentApi({
+  doctor,
+  formData,
+  selectedDate,
+  selectedSlot,
+  fee,
+  paymentMethod,
+  authLoaded,
+  userLoaded,
+  isSignedIn,
+  getToken,
+}) {
+  const check = validateBooking({
+    formData,
+    selectedDate,
+    selectedSlot,
+    authLoaded,
+    userLoaded,
+    isSignedIn,
+  });
+
+  if (!check.ok) {
+    return { ok: false, message: check.message };
+  }
+
+  const token = await getToken?.();
+  if (!token) {
+    return {
+      ok: false,
+      message: "Unable to retrieve the authentication token. Please try again.",
+    };
+  }
+
+  const payload = buildAppointmentPayload({
+    doctor,
+    formData,
+    selectedDate,
+    selectedSlot,
+    fee,
+    paymentMethod,
+  });
+
+  const body = await createAppointment({ payload, token });
+
+  handleAppointmentRedirect(body);
+
+  return { ok: true, message: "" };
+}
+
+export async function fetchBookedSlotsApi(doctorId, dateISO) {
+  try {
+    const payload = await fetchBookedSlots(doctorId, dateISO);
+    const booked =
+      payload?.bookedSlots ||
+      payload?.data?.bookedSlots ||
+      payload?.appointments?.map((a) => a.time) ||
+      [];
+    return booked;
+  } catch (error) {
+    return [];
+  }
+}

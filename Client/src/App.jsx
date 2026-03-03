@@ -1,22 +1,22 @@
 // MediFlow / Client / src / App.jsx
 import { ToastContainer } from "react-toastify";
 import { Route, Routes, Navigate } from "react-router-dom";
-import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/Footer/Footer";
-import Home from "./pages/Home/Home";
-import Doctors from "./pages/Doctors/Doctors";
-import DoctorDetail from "./pages/DoctorDetail/DoctorDetail";
-import Service from "./pages/Service/Service";
-import ServiceDetail from "./pages/ServiceDetail/ServiceDetail";
-import Contact from "./pages/Contact/Contact";
-import Appointments from "./pages/Appointments/Appointments";
-import VerifyPayment from "./pages/VerifyPayment/VerifyPayment";
-import VerifyServicePayment from "./pages/VerifyServicePayment/VerifyServicePayment";
-import DoctorNavbar from "./Doctors/components/DoctorNavbar/DoctorNavbar";
-import Login from "./pages/Login/Login";
-import DoctorHome from "./Doctors/pages/DoctorHome/DoctorHome";
-import DoctorList from "./Doctors/pages/DoctorList/DoctorList";
-import DoctorEditProfile from "./Doctors/pages/DoctorEditProfile/DoctorEditProfile";
+import Navbar from "./components/client/Navbar/Navbar";
+import Footer from "./components/client/Footer/Footer";
+import Home from "./pages/client/Home/View/Home";
+import Doctors from "./pages/client/Doctors/View/Doctors";
+import Service from "./pages/client/Service/View/Service";
+import Contact from "./pages/client/Contact/View/Contact";
+import Appointments from "./pages/client/Appointments/View/Appointments";
+import VerifyPayment from "./pages/client/VerifyPayment/View/VerifyPayment";
+import VerifyServicePayment from "./pages/client/VerifyServicePayment/View/VerifyServicePayment";
+import DoctorDetail from "./pages/client/DoctorDetail/View/DoctorDetail";
+import ServiceDetail from "./pages/client/ServiceDetail/View/ServiceDetail";
+import DoctorNavbar from "./components/doctor/DoctorNavbar/DoctorNavbar";
+import Login from "./pages/doctor/Login/View/Login";
+import DoctorHome from "./pages/doctor/DoctorHome/View/DoctorHome";
+import DoctorList from "./pages/doctor/DoctorList/View/DoctorList";
+import DoctorEditProfile from "./pages/doctor/DoctorEditProfile/View/DoctorEditProfile";
 
 const isDoctorLoggedIn = () => {
   return false;
@@ -44,6 +44,7 @@ const App = () => {
             </Layout>
           }
         />
+
         <Route
           path="/doctors"
           element={
@@ -52,6 +53,7 @@ const App = () => {
             </Layout>
           }
         />
+
         <Route
           path="/services"
           element={
@@ -60,6 +62,7 @@ const App = () => {
             </Layout>
           }
         />
+
         <Route
           path="/contact"
           element={
@@ -68,6 +71,7 @@ const App = () => {
             </Layout>
           }
         />
+
         <Route
           path="/appointments"
           element={
@@ -76,6 +80,7 @@ const App = () => {
             </Layout>
           }
         />
+
         <Route
           path="/appointment/success"
           element={
@@ -84,6 +89,7 @@ const App = () => {
             </Layout>
           }
         />
+
         <Route
           path="/appointment/cancel"
           element={
@@ -92,6 +98,7 @@ const App = () => {
             </Layout>
           }
         />
+
         <Route
           path="/service-appointment/success"
           element={
@@ -100,6 +107,7 @@ const App = () => {
             </Layout>
           }
         />
+        
         <Route
           path="/service-appointment/cancel"
           element={
