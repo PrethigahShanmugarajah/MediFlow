@@ -30,7 +30,6 @@ export const RadioInput = ({
   value = "",
   onChange,
   size,
-  required = false,
   className = "",
   labelClassName = "",
   groupClassName = "",
@@ -96,10 +95,7 @@ export const RadioInput = ({
         : "";
 
   const renderLabel = label ? (
-    <label className={`font-medium text-black ${labelClassName}`}>
-      {label}
-      {required && <span className="text-red-500 ml-1">*</span>}
-    </label>
+    <span className={labelClassName}>{label}</span>
   ) : null;
 
   return (
@@ -166,7 +162,9 @@ export const RadioInput = ({
 
       {(labelPosition === "right" || labelPosition === "bottom") && renderLabel}
 
-      {!!error && <p className={errorClassName}>{error}</p>}
+      {!!error && (
+        <p className={`text-red-500 text-sm mt-1 ${errorClassName}`}>{error}</p>
+      )}
     </div>
   );
 };
