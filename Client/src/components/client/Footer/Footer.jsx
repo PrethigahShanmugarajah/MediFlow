@@ -15,7 +15,7 @@ import {
   socialLinks,
 } from "../../../data/client/footerData";
 import "./Footer.css";
-import { InputField } from "../../comman/FormField/InputField";
+import { InputField } from "../../common/FormField/InputField";
 
 const Footer = () => {
   const PHONE = import.meta.env.VITE_PHONE;
