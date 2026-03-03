@@ -1,7 +1,7 @@
 // MediFlow / Client / src / components / common / PatientDetailsForm.jsx
-import { InputField } from "../components/FormField/InputField";
-import { SelectInput } from "../components/FormField/SelectInput";
-import { genderOptions } from "../utils/helpers";
+import { InputField } from "./FormField/InputField";
+import { SelectInput } from "./FormField/SelectInput";
+import { genderOptions } from "../../utils/client/helpers";
 
 const PatientDetailsForm = ({
   formData,
