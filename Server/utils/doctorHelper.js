@@ -56,3 +56,23 @@ export function normalizeDocForClient(raw = {}) {
 
   return doc;
 }
+
+/* -------- Format doctor display name -------- */
+export const formatDoctorDisplayName = (name = "") => {
+  const cleaned = String(name)
+    .replace(/^dr\.?\s*/i, "")
+    .trim();
+
+  const spaced = cleaned.replace(/([a-z])([A-Z])/g, "$1 $2");
+
+  const compact = spaced.replace(/\s+/g, " ").trim();
+
+  const titled = compact
+    .toLowerCase()
+    .split(" ")
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+
+  return `Dr. ${titled}`;
+};
