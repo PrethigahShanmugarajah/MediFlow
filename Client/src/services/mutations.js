@@ -80,3 +80,34 @@ export const createServiceAppointment = async ({ payload, token }) => {
     throw error2;
   }
 };
+
+/* -------- Login Doctor -------- */
+export const loginDoctor = async ({ email, password }) => {
+  try {
+    const response3 = await api.post(API_ROUTES.DOCTORS.DOCTOR_LOGIN, {
+      email,
+      password,
+    });
+
+    const data3 = response3.data;
+    console.log("Login Doctor API Response:", data3);
+
+    if (data3?.success) {
+      toast.success(data3?.message);
+      console.log("Login Doctor Success:", data3?.message);
+    } else {
+      toast.warn(data3?.message || "Login doctor with warning");
+      console.warn(
+        "Login Doctor Warning:",
+        data3?.message || "Login Doctor with warning",
+      );
+    }
+
+    return data3;
+  } catch (error3) {
+    toast.error(error3?.response?.data?.message || error3?.message);
+    console.error("Login Doctor Error:", error3);
+
+    throw error3;
+  }
+};
