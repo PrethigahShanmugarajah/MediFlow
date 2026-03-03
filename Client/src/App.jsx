@@ -1,34 +1,55 @@
 // MediFlow / Client / src / App.jsx
 import { ToastContainer } from "react-toastify";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, Outlet } from "react-router-dom";
+
 import Navbar from "./components/client/Navbar/Navbar";
 import Footer from "./components/client/Footer/Footer";
+
 import Home from "./pages/client/Home/View/Home";
 import Doctors from "./pages/client/Doctors/View/Doctors";
+import DoctorDetail from "./pages/client/DoctorDetail/View/DoctorDetail";
 import Service from "./pages/client/Service/View/Service";
+import ServiceDetail from "./pages/client/ServiceDetail/View/ServiceDetail";
 import Contact from "./pages/client/Contact/View/Contact";
 import Appointments from "./pages/client/Appointments/View/Appointments";
 import VerifyPayment from "./pages/client/VerifyPayment/View/VerifyPayment";
 import VerifyServicePayment from "./pages/client/VerifyServicePayment/View/VerifyServicePayment";
-import DoctorDetail from "./pages/client/DoctorDetail/View/DoctorDetail";
-import ServiceDetail from "./pages/client/ServiceDetail/View/ServiceDetail";
+
 import DoctorNavbar from "./components/doctor/DoctorNavbar/DoctorNavbar";
 import Login from "./pages/doctor/Login/View/Login";
 import DoctorHome from "./pages/doctor/DoctorHome/View/DoctorHome";
 import DoctorList from "./pages/doctor/DoctorList/View/DoctorList";
 import DoctorEditProfile from "./pages/doctor/DoctorEditProfile/View/DoctorEditProfile";
 
+const STORAGE_KEY = import.meta.env.STORAGE_KEY;
+
 const isDoctorLoggedIn = () => {
-  return false;
+  try {
+    return Boolean(localStorage.getItem(STORAGE_KEY));
+  } catch {
+    return false;
+  }
 };
 
-const Layout = ({ children }) => (
+const ClientLayout = () => (
   <>
     <Navbar />
-    {children}
+    <Outlet />
     <Footer />
   </>
 );
+
+const DoctorLayout = () => (
+  <>
+    <DoctorNavbar />
+    <Outlet />
+  </>
+);
+
+const DoctorProtectedRoute = () => {
+  if (!isDoctorLoggedIn()) return <Navigate to="/doctor-admin/login" replace />;
+  return <DoctorLayout />;
+};
 
 const App = () => {
   return (
@@ -36,115 +57,44 @@ const App = () => {
       <ToastContainer />
 
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Layout>
-              <Home />
-            </Layout>
-          }
-        />
+        {/* -------- Client Routes -------- */}
+        <Route element={<ClientLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/doctors" element={<Doctors />} />
+          <Route path="/doctors/:id" element={<DoctorDetail />} />
+          <Route path="/services" element={<Service />} />
+          <Route path="/services/:id" element={<ServiceDetail />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/appointments" element={<Appointments />} />
+          <Route path="/appointment/success" element={<VerifyPayment />} />
+          <Route path="/appointment/cancel" element={<VerifyPayment />} />
 
-        <Route
-          path="/doctors"
-          element={
-            <Layout>
-              <Doctors />
-            </Layout>
-          }
-        />
+          <Route
+            path="/service-appointment/success"
+            element={<VerifyServicePayment />}
+          />
 
-        <Route
-          path="/services"
-          element={
-            <Layout>
-              <Service />
-            </Layout>
-          }
-        />
+          <Route
+            path="/service-appointment/cancel"
+            element={<VerifyServicePayment />}
+          />
+        </Route>
 
-        <Route
-          path="/contact"
-          element={
-            <Layout>
-              <Contact />
-            </Layout>
-          }
-        />
+        {/* -------- Doctor Routes -------- */}
+        <Route path="/doctor-admin">
+          <Route path="login" element={<Login />} />
 
-        <Route
-          path="/appointments"
-          element={
-            <Layout>
-              <Appointments />
-            </Layout>
-          }
-        />
+          <Route element={<DoctorProtectedRoute />}>
+            <Route path=":id" element={<DoctorHome />} />
+            <Route path=":id/appointments" element={<DoctorList />} />
+            <Route path=":id/profile/edit" element={<DoctorEditProfile />} />
+          </Route>
 
-        <Route
-          path="/appointment/success"
-          element={
-            <Layout>
-              <VerifyPayment />
-            </Layout>
-          }
-        />
-
-        <Route
-          path="/appointment/cancel"
-          element={
-            <Layout>
-              <VerifyPayment />
-            </Layout>
-          }
-        />
-
-        <Route
-          path="/service-appointment/success"
-          element={
-            <Layout>
-              <VerifyServicePayment />
-            </Layout>
-          }
-        />
-        
-        <Route
-          path="/service-appointment/cancel"
-          element={
-            <Layout>
-              <VerifyServicePayment />
-            </Layout>
-          }
-        />
-
-        <Route path="/doctors/:id" element={<DoctorDetail />} />
-        <Route path="/services/:id" element={<ServiceDetail />} />
-
-        <Route
-          path="/doctor-admin/*"
-          element={
-            isDoctorLoggedIn() ? (
-              <>
-                <DoctorNavbar />
-                <Routes>
-                  <Route path="login" element={<Login />} />
-                  <Route path=":id" element={<DoctorHome />} />
-                  <Route path=":id/appointments" element={<DoctorList />} />
-                  <Route
-                    path=":id/profile/edit"
-                    element={<DoctorEditProfile />}
-                  />
-                  <Route
-                    path="*"
-                    element={<Navigate to="/doctor-admin/login" />}
-                  />
-                </Routes>
-              </>
-            ) : (
-              <Navigate to="/doctor-admin/login" />
-            )
-          }
-        />
+          <Route
+            path="*"
+            element={<Navigate to="/doctor-admin/login" replace />}
+          />
+        </Route>
       </Routes>
     </>
   );
