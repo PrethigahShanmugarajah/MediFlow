@@ -108,9 +108,7 @@ const Navbar = () => {
                       key={item.href}
                       to={item.href}
                       className={`nav-item px-5 md:px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
-                        isActive
-                          ? "active"
-                          : "text-gray-700 hover:text-indigo-600"
+                        isActive ? "active" : "text-black hover:text-indigo-600"
                       }`}
                     >
                       {item.label}
