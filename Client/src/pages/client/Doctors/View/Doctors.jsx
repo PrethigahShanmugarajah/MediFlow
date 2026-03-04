@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Medal } from "lucide-react";
 import "../Doctors.css";
 import { fetchDoctorsApi } from "../Service/DoctorsService";
-import Title from "../../../../components/common/Title";
+import ClientTitle from "../../../../components/client/ClientTitle";
 import SearchField from "../../../../components/common/SearchField";
 import ApiError from "../../../../components/common/ApiError";
 import AvatarSkeletonCard from "../../../../components/common/AvatarSkeletonCard";
@@ -47,7 +47,7 @@ const Doctors = () => {
     <div className="min-h-screen bg-linear-to-br from-blue-100 via-white to-indigo-100 py-8 sm:py-10 px-3 sm:px-6 relative overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-10 font-serif">
         <div className="text-center mb-8 sm:mb-10 animate-fade-in">
-          <Title
+          <ClientTitle
             title="Our Medical Experts"
             description="Find your ideal doctor by name or specialization"
           />

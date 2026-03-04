@@ -1,7 +1,7 @@
 // MediFlow / Client / src / pages / client / DoctorDetail / Components / Header.jsx
 import { ArrowLeft, Star } from "lucide-react";
 import { Link } from "react-router-dom";
-import Title from "../../../../components/common/Title";
+import ClientTitle from "../../../../components/client/ClientTitle";
 
 const Header = ({ rating, backTo = "/doctors" }) => {
   return (
@@ -17,7 +17,7 @@ const Header = ({ rating, backTo = "/doctors" }) => {
           </Link>
 
           <div className="flex flex-col items-center gap-1 text-center">
-            <Title
+            <ClientTitle
               title="Doctor Profile Details"
               description="View doctor details, availability, and book your appointment
                 easily."

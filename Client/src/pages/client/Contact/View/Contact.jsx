@@ -17,7 +17,7 @@ import {
   validateContactForm,
 } from "../../../../utils/client/contactUtils";
 import ContactForm from "../Components/ContactForm";
-import Title from "../../../../components/common/Title";
+import ClientTitle from "../../../../components/client/ClientTitle";
 
 const Contact = () => {
   const PHONE = import.meta.env.VITE_PHONE;
@@ -94,7 +94,7 @@ const Contact = () => {
         <div className="space-y-6">
           <div className="bg-white/70 backdrop-blur-sm rounded-3xl p-4 sm:p-6 shadow-xl border border-indigo-100">
             <div className="text-center -mb-4">
-              <Title title=" Visit Our Clinic" />
+              <ClientTitle title=" Visit Our Clinic" />
             </div>
 
             <p className="mt-3 flex items-center gap-2 text-sm sm:text-md">
@@ -105,7 +105,7 @@ const Contact = () => {
             <p className="mt-3 flex items-center gap-2 text-sm sm:text-md">
               <Phone size={16} /> {PHONE}
             </p>
-            
+
             <p className="mt-3 flex items-center gap-2 text-sm sm:text-md">
               <Mail size={16} /> {EMAIL}
             </p>

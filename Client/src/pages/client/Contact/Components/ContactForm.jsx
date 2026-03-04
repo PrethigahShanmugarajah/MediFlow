@@ -9,7 +9,7 @@ import {
   User,
 } from "lucide-react";
 import { ClipLoader } from "react-spinners";
-import Title from "../../../../components/common/Title";
+import ClientTitle from "../../../../components/client/ClientTitle";
 import { InputField } from "../../../../components/common/FormField/InputField";
 import { SelectInput } from "../../../../components/common/FormField/SelectInput";
 import { TextAreaField } from "../../../../components/common/FormField/TextAreaField";
@@ -36,7 +36,7 @@ const ContactForm = ({
   return (
     <div className="relative bg-white/60 backdrop-blur-sm shadow-2xl rounded-3xl border border-indigo-200 p-6 sm:p-8 md:p-10 transition-all">
       <div className="text-center justify-center mb-4">
-        <Title
+        <ClientTitle
           title="Get In Touch"
           description="Complete the form and instantly reach us on WhatsApp."
         />
