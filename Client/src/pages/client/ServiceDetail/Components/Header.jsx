@@ -1,7 +1,7 @@
 // MediFlow / Client / src / pages / ServiceDetail / Components / Header.jsx
 import { ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import Title from "../../../../components/common/Title";
+import ClientTitle from "../../../../components/client/ClientTitle";
 
 const Header = ({ backTo = "/services", backText = "Back" }) => {
   return (
@@ -19,7 +19,7 @@ const Header = ({ backTo = "/services", backText = "Back" }) => {
           </div>
 
           <div className="justify-self-center text-center">
-            <Title
+            <ClientTitle
               title="Service Profile Details"
               description="View service information, and book your slot easily."
             />

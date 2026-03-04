@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Banknote } from "lucide-react";
 import "../Home.css";
 import { fetchHomeServicesApi } from "../Service/HomeService";
-import Title from "../../../../components/common/Title";
+import ClientTitle from "../../../../components/client/ClientTitle";
 import ApiError from "../../../../components/common/ApiError";
 import AvatarSkeletonCard from "../../../../components/common/AvatarSkeletonCard";
 import AvatarCard from "../../../../components/common/AvatarCard";
@@ -30,7 +30,7 @@ const HomeServices = ({ previewCount = 8 }) => {
     <section className="py-10 bg-linear-to-br from-indigo-100 via-white to-blue-100 border-b border-indigo-200">
       <div className="homesers-max-w mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <Title
+          <ClientTitle
             title="Our Medical Services"
             description="Choose from our trusted lab tests and healthcare services"
           />

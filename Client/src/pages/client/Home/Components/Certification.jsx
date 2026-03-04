@@ -1,6 +1,6 @@
 // MediFlow / Client / src / pages / Home / Components / Certification.jsx
 import { certificationsData } from "../../../../data/client/certificationsData";
-import Title from "../../../../components/common/Title";
+import ClientTitle from "../../../../components/client/ClientTitle";
 import "../Home.css";
 
 const Certification = () => {
@@ -14,7 +14,7 @@ const Certification = () => {
     <div className="relative py-6 bg-linear-to-br from-indigo-100 via-white to-blue-100 border-b border-indigo-200 overflow-hidden">
       <div className="relative max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <Title
+          <ClientTitle
             title="Accredited & Trusted"
             description="Recognized by government authorities and certified by international healthcare bodies"
           />

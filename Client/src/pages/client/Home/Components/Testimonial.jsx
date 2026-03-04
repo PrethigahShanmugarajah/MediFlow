@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Star, Stethoscope, User } from "lucide-react";
 import "../Home.css";
 import { testimonialsData } from "../../../../data/client/testimonialsData";
-import Title from "../../../../components/common/Title";
+import ClientTitle from "../../../../components/client/ClientTitle";
 
 const Testimonial = () => {
   const scrollRefLeft = useRef(null);
@@ -100,7 +100,7 @@ const Testimonial = () => {
   return (
     <div className="min-h-[70vh] bg-linear-to-br from-blue-100 via-white to-indigo-100 py-10 px-4 relative overflow-hidden">
       <div className="max-w-6xl font-serif mx-auto text-center mb-8 sm:mb-12">
-        <Title
+        <ClientTitle
           title="Trusted Care Stories"
           description="Hear genuine experiences from doctors and patients using MediFlow to simplify and enhance their healthcare journey."
         />

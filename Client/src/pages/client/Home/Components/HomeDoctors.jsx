@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Medal } from "lucide-react";
 import { fetchDoctorsApi } from "../Service/HomeService";
 import "../Home.css";
-import Title from "../../../../components/common/Title";
+import ClientTitle from "../../../../components/client/ClientTitle";
 import ApiError from "../../../../components/common/ApiError";
 import AvatarSkeletonCard from "../../../../components/common/AvatarSkeletonCard";
 import AvatarCard from "../../../../components/common/AvatarCard";
@@ -29,7 +29,7 @@ const HomeDoctors = ({ previewCount = 8 }) => {
     <section className="py-10 bg-linear-to-br from-blue-100 via-white to-indigo-100 border-b border-indigo-200">
       <div className="homedocs-max-w mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <Title
+          <ClientTitle
             title="Our Medical Team"
             description="Book appointments quickly with our verfied specialiests"
           />
