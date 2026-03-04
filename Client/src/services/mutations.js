@@ -111,3 +111,34 @@ export const loginDoctor = async ({ email, password }) => {
     throw error3;
   }
 };
+
+/* -------- Update Appointment -------- */
+export const updateAppointment = async (id, updates = {}) => {
+  try {
+    const response4 = await api.put(
+      API_ROUTES.APPOINTMENTS.APPOINTMENT_UPDATE(id),
+      updates,
+    );
+
+    const data4 = response4.data;
+    console.log("Update Appointment API Response:", data4);
+
+    if (data4?.success) {
+      toast.success(data4?.message);
+      console.log("Update Appointment Success:", data4?.message);
+    } else {
+      toast.warn(data4?.message || "Update appointment with warning");
+      console.warn(
+        "Update Appointment Warning:",
+        data4?.message || "Update Appointment with warning",
+      );
+    }
+
+    return data4;
+  } catch (error4) {
+    toast.error(error4?.response?.data?.message || error4?.message);
+    console.error("Update Appointment Error:", error4);
+
+    throw error4;
+  }
+};
