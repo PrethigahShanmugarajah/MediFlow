@@ -1,6 +1,6 @@
-// MediFlow / Client / src / components / common / Title.jsx
+// MediFlow / Client / src / components / common / ClientTitle.jsx
 
-const Title = ({ title, description }) => {
+const ClientTitle = ({ title, description }) => {
   const colors = ["text-indigo-600", "text-blue-600", "text-black"];
 
   const words = title.split(" ");
@@ -31,4 +31,4 @@ const Title = ({ title, description }) => {
   );
 };
 
-export default Title;
+export default ClientTitle;
