@@ -1,10 +1,8 @@
 // MediFlow / Client / src / App.jsx
 import { ToastContainer } from "react-toastify";
 import { Route, Routes, Navigate, Outlet } from "react-router-dom";
-
 import Navbar from "./components/client/Navbar/Navbar";
 import Footer from "./components/client/Footer/Footer";
-
 import Home from "./pages/client/Home/View/Home";
 import Doctors from "./pages/client/Doctors/View/Doctors";
 import DoctorDetail from "./pages/client/DoctorDetail/View/DoctorDetail";
@@ -14,10 +12,9 @@ import Contact from "./pages/client/Contact/View/Contact";
 import Appointments from "./pages/client/Appointments/View/Appointments";
 import VerifyPayment from "./pages/client/VerifyPayment/View/VerifyPayment";
 import VerifyServicePayment from "./pages/client/VerifyServicePayment/View/VerifyServicePayment";
-
 import DoctorNavbar from "./components/doctor/DoctorNavbar/DoctorNavbar";
 import Login from "./pages/doctor/Login/View/Login";
-import DoctorHome from "./pages/doctor/DoctorHome/View/DoctorHome";
+import DoctorDashboard from "./pages/doctor/DoctorDashboard/View/DoctorDashboard";
 import DoctorList from "./pages/doctor/DoctorList/View/DoctorList";
 import DoctorEditProfile from "./pages/doctor/DoctorEditProfile/View/DoctorEditProfile";
 
@@ -85,7 +82,7 @@ const App = () => {
           <Route path="login" element={<Login />} />
 
           <Route element={<DoctorProtectedRoute />}>
-            <Route path=":id" element={<DoctorHome />} />
+            <Route path=":id" element={<DoctorDashboard />} />
             <Route path=":id/appointments" element={<DoctorList />} />
             <Route path=":id/profile/edit" element={<DoctorEditProfile />} />
           </Route>
