@@ -15,6 +15,10 @@ const API_ROUTES = {
     APPOINTMENT_CREATE: `${BASE_URL}/api/appointments/appointment-create`,
     APPOINTMENTS_GET_SLOTS_BYDOCTOR: (doctorId) =>
       `${BASE_URL}/api/appointments/appointments-get-slots-bydoctor/${doctorId}`,
+    APPOINTMENTS_GET_BY_DOCTOR: (doctorId) =>
+      `${BASE_URL}/api/appointments/appointments-get-by-doctor/${doctorId}`,
+    APPOINTMENT_UPDATE: (id) =>
+      `${BASE_URL}/api/appointments/appointment-update/${id}`,
   },
   SERVICEAPPOINTMENTS: {
     SERVICEAPPOINTMENTS_CREATE: `${BASE_URL}/api/serviceAppointments/serviceAppointment-create`,
