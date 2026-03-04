@@ -188,3 +188,33 @@ export const fetchServiceBookedSlots = async (serviceId, dateISO) => {
     throw error6;
   }
 };
+
+/* -------- Fetch Appointments By Doctor -------- */
+export const fetchAppointmentsByDoctor = async (doctorId) => {
+  try {
+    const response7 = await api.get(
+      API_ROUTES.APPOINTMENTS.APPOINTMENTS_GET_BY_DOCTOR(doctorId),
+    );
+
+    const data7 = response7.data;
+    console.log("Fetch Appointments By Doctor API Response:", data7);
+
+    if (data7?.success) {
+      // toast.success(data7?.message);
+      console.log("Fetch Appointments By Doctor Success:", data7?.message);
+    } else {
+      toast.warn(data7?.message || "Fetch appointments by doctor with warning");
+      console.warn(
+        "Fetch Appointments By Doctor Warning:",
+        data7?.message || "Fetch Appointments By Doctor with warning",
+      );
+    }
+
+    return data7;
+  } catch (error7) {
+    toast.error(error7?.response?.data?.message || error7?.message);
+    console.error("Fetch Service Booked Slots Error:", error7);
+
+    throw error7;
+  }
+};
