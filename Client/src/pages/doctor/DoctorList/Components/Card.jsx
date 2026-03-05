@@ -15,9 +15,9 @@ const Card = ({ appointment, onStatusChange, onReschedule }) => {
   const a = appointment;
 
   return (
-    <article className="rounded-2xl p-4 bg-white shadow-sm border border-emerald-100 hover:shadow-md transition flex flex-col justify-between self-start">
+    <article className="rounded-2xl p-4 bg-white shadow-sm border border-indigo-100 hover:shadow-md transition flex flex-col justify-between self-start">
       <header className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden bg-emerald-50 border border-emerald-100 flex items-center justify-center">
+        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden bg-indigo-50 border border-indigo-100 flex items-center justify-center">
           {a.doctorImage ? (
             <img
               src={a.doctorImage}
@@ -26,27 +26,27 @@ const Card = ({ appointment, onStatusChange, onReschedule }) => {
               onError={(e) => (e.currentTarget.style.display = "none")}
             />
           ) : (
-            <div className="text-emerald-700 font-bold">
+            <div className="text-indigo-700 font-bold">
               {(a.doctorName || "D").charAt(0)}
             </div>
           )}
         </div>
 
         <div className="flex-1 min-w-0">
-          <div className="mt-2 text-sm text-emerald-700 truncate">
-            <span className="font-semibold text-emerald-900">
+          <div className="mt-2 text-sm text-indigo-700 truncate">
+            <span className="font-semibold text-indigo-900">
               {formatDoctorName(a.doctorName)}
             </span>
           </div>
 
-          <div className="text-sm text-emerald-800 font-medium truncate">
+          <div className="text-sm text-indigo-800 font-medium truncate">
             {a.speciality}
           </div>
         </div>
       </header>
 
       <div className="mt-4 flex flex-col items-start gap-3">
-        <div className="text-emerald-800">
+        <div className="text-indigo-800">
           <div className="text-sm flex items-center gap-2 w-full">
             <User className="w-4 h-4" />
             <span className="truncate">
@@ -60,7 +60,7 @@ const Card = ({ appointment, onStatusChange, onReschedule }) => {
           </span>
         </div>
 
-        <div className="text-sm text-emerald-800 font-bold flex items-center gap-2 w-full">
+        <div className="text-sm text-indigo-800 font-bold flex items-center gap-2 w-full">
           <Calendar className="w-4 h-4" />
           <span className="truncate">
             <span className="whitespace-nowrap">{formatDate(a.date)}</span>
@@ -68,7 +68,7 @@ const Card = ({ appointment, onStatusChange, onReschedule }) => {
             <span>{formatTimeAMPM(a.time)}</span>
           </span>
         </div>
-        <div className="flex text-sm text-emerald-800 font-semibold gap-2 items-center justify-center">
+        <div className="flex text-sm text-indigo-800 font-semibold gap-2 items-center justify-center">
           <Banknote className="w-4 h-4" />{" "}
           <span className="truncate">
             {CURRENCY} {a.fee}
@@ -77,7 +77,7 @@ const Card = ({ appointment, onStatusChange, onReschedule }) => {
       </div>
 
       <div className="mt-4 flex flex-col items-start gap-3">
-        <div className="text-sm text-emerald-800 font-semibold flex items-center gap-2">
+        <div className="text-sm text-indigo-800 font-semibold flex items-center gap-2">
           <Phone className="w-4 h-4" />
           <span className="truncate">{a.mobile}</span>
         </div>
