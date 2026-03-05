@@ -157,7 +157,7 @@ const DoctorDashboard = () => {
   const doctorNameFromData = getDoctorNameFromAppointments(appointments);
 
   return (
-    <div className="min-h-screen font-serif pt-16 lg:pt-20 md:pt-15 p-4 sm:p-6 bg-linear-to-br from-indigo-50 to-white">
+    <div className="min-h-screen font-serif pt-16 lg:pt-20 md:pt-15 p-4 sm:p-6 bg-linear-to-br from-blue-100 via-white to-indigo-100">
       <div className="max-w-7xl mx-auto">
         <Header
           doctorName={doctorNameFromData}
