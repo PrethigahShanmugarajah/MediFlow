@@ -168,7 +168,10 @@ const DoctorDetail = () => {
 
   if (loading)
     return (
-      <DetailPageLoader bgClass="bg-linear-to-br from-blue-100 via-white to-indigo-100" />
+      <DetailPageLoader
+        fullPage
+        bgClass="bg-linear-to-br from-blue-100 via-white to-indigo-100"
+      />
     );
 
   if (error)

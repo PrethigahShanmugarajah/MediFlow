@@ -1,4 +1,4 @@
-// MediFlow / Client / src / pages / ServiceDetail / ServiceDetail.jsx
+// MediFlow / Client / src / pages / client / ServiceDetail / View / ServiceDetail.jsx
 import { useMemo, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { CalendarCheck, Clock, UserX } from "lucide-react";
@@ -167,7 +167,10 @@ const ServiceDetail = () => {
 
   if (loading)
     return (
-      <DetailPageLoader bgClass="bg-linear-to-br from-blue-100 via-white to-indigo-100" />
+      <DetailPageLoader
+        fullPage
+        bgClass="bg-linear-to-br from-blue-100 via-white to-indigo-100"
+      />
     );
 
   if (error)
