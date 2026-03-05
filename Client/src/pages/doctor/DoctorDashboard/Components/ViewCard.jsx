@@ -8,15 +8,15 @@ import {
   Stethoscope,
   Activity,
 } from "lucide-react";
-import StatusBadge from "./StatusBadge";
-import RescheduleButton from "./RescheduleButton";
-import StatusSelect from "./StatusSelect";
+import StatusSelect from "../../../../components/doctor/StatusSelect";
 import { CURRENCY } from "../../../../utils/doctor/helpers";
 import {
   formatDate,
   formatPatientName,
   formatTimeAMPM,
 } from "../../../../utils/doctor/doctorDashboardUtils";
+import RescheduleButton from "../../../../components/doctor/RescheduleButton";
+import StatusBadge from "../../../../components/doctor/StatusBadge";
 
 const ViewCard = ({ appointment, onUpdateStatus, onReschedule }) => {
   const a = appointment;
@@ -97,4 +97,3 @@ const ViewCard = ({ appointment, onUpdateStatus, onReschedule }) => {
 };
 
 export default ViewCard;
-
