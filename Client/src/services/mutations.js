@@ -142,3 +142,39 @@ export const updateAppointment = async (id, updates = {}) => {
     throw error4;
   }
 };
+
+/* -------- Update Doctor -------- */
+export const updateDoctor = async (id, formData, token) => {
+  try {
+    const response5 = await api.put(
+      API_ROUTES.DOCTORS.DOCTOR_UPDATE(id),
+      formData,
+      {
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+      },
+    );
+
+    const data5 = response5.data;
+    console.log("Update Doctor API Response:", data5);
+
+    if (data5?.success) {
+      toast.success(data5?.message);
+      console.log("Update Doctor Success:", data5?.message);
+    } else {
+      toast.warn(data5?.message || "Update doctor with warning");
+      console.warn(
+        "Update Doctor Warning:",
+        data5?.message || "Update Doctor with warning",
+      );
+    }
+
+    return data5;
+  } catch (error5) {
+    toast.error(error5?.response?.data?.message || error5?.message);
+    console.error("Update Doctor Error:", error5);
+
+    throw error5;
+  }
+};
