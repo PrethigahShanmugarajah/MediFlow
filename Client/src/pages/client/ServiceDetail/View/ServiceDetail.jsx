@@ -1,7 +1,7 @@
 // MediFlow / Client / src / pages / client / ServiceDetail / View / ServiceDetail.jsx
 import { useMemo, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { CalendarCheck, Clock, UserX } from "lucide-react";
+import { CalendarCheck, Clock, SearchX } from "lucide-react";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import {
   getPrefillFromClerkUser,
@@ -187,7 +187,7 @@ const ServiceDetail = () => {
   if (!service)
     return (
       <NotFoundState
-        icon={UserX}
+        icon={SearchX}
         title="Service Not Found"
         backText="Back to Services"
         backTo="/services"
