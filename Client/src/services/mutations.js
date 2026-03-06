@@ -178,3 +178,39 @@ export const updateDoctor = async (id, formData, token) => {
     throw error5;
   }
 };
+
+/* -------- Change Doctor Availability -------- */
+export const changeDoctorAvailability = async (id, token) => {
+  try {
+    const response6 = await api.post(
+      API_ROUTES.DOCTORS.DOCTOR_TOGGLE_AVAILABILITY(id),
+      {},
+      {
+        headers: {
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+      },
+    );
+
+    const data6 = response6.data;
+    console.log("Change Doctor Availability API Response:", data6);
+
+    if (data6?.success) {
+      toast.success(data6?.message);
+      console.log("Change Doctor Availability Success:", data6?.message);
+    } else {
+      toast.warn(data6?.message || "Change doctor availability with warning");
+      console.warn(
+        "Change Doctor Availability Warning:",
+        data6?.message || "Change Doctor Availability with warning",
+      );
+    }
+
+    return data6;
+  } catch (error6) {
+    toast.error(error6?.response?.data?.message || error6?.message);
+    console.error("Change Doctor Availability Error:", error6);
+
+    throw error6;
+  }
+};
