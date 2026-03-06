@@ -7,6 +7,8 @@ const API_ROUTES = {
     DOCTOR_GET: (id) => `${BASE_URL}/api/doctors/doctor-get/${id}`,
     DOCTOR_LOGIN: `${BASE_URL}/api/doctors/doctor-login`,
     DOCTOR_UPDATE: (id) => `${BASE_URL}/api/doctors/doctor-update/${id}`,
+    DOCTOR_TOGGLE_AVAILABILITY: (id) =>
+      `${BASE_URL}/api/doctors/${id}/doctor-toggle-availability/`,
   },
   SERVICES: {
     SERVICES_GET: `${BASE_URL}/api/services/services-get`,
