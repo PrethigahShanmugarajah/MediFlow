@@ -150,7 +150,7 @@ export const FileInputField = ({
             paddingRight: s.px,
           }}
         >
-          {TriggerIcon && <TriggerIcon size={s.fontSize} />}
+          {TriggerIcon && <TriggerIcon className="w-5 h-5" />}
           {triggerText}
         </button>
       )}
