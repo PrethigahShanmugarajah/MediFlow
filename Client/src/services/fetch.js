@@ -213,8 +213,147 @@ export const fetchAppointmentsByDoctor = async (doctorId) => {
     return data7;
   } catch (error7) {
     toast.error(error7?.response?.data?.message || error7?.message);
-    console.error("Fetch Service Booked Slots Error:", error7);
+    console.error("Fetch Appointments By Doctor Error:", error7);
 
     throw error7;
+  }
+};
+
+/* -------- Fetch Appointments By Patient -------- */
+export const fetchAppointmentsByPatient = async (token) => {
+  try {
+    const response8 = await api.get(
+      API_ROUTES.APPOINTMENTS.APPOINTMENT_GET_BY_PATIENT,
+      {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      },
+    );
+
+    const data8 = response8.data;
+    console.log("Fetch Appointments By Patient API Response:", data8);
+
+    if (data8?.success) {
+      // toast.success(data8?.message);
+      console.log("Fetch Appointments By Patient Success:", data8?.message);
+    } else {
+      toast.warn(
+        data8?.message || "Fetch appointments by patient with warning",
+      );
+      console.warn(
+        "Fetch Appointments By Patient Warning:",
+        data8?.message || "Fetch Appointments By Patient with warning",
+      );
+    }
+
+    return data8;
+  } catch (error8) {
+    toast.error(error8?.response?.data?.message || error8?.message);
+    console.error("Fetch Appointments By Patient Error:", error8);
+
+    throw error8;
+  }
+};
+
+/* -------- Fetch Service Appointments By Patient -------- */
+export const fetchServiceAppointmentsByPatient = async (token) => {
+  try {
+    const response9 = await api.get(
+      API_ROUTES.SERVICEAPPOINTMENTS.SERVICEAPPOINTMENTS_GET_BY_PATIENT,
+      {
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      },
+    );
+
+    const data9 = response9.data;
+    console.log("Fetch Service Appointments By Patient API Response:", data9);
+
+    if (data9?.success) {
+      // toast.success(data9?.message);
+      console.log(
+        "Fetch Service Appointments By Patient Success:",
+        data9?.message,
+      );
+    } else {
+      toast.warn(
+        data9?.message || "Fetch service appointments by patient with warning",
+      );
+      console.warn(
+        "Fetch Service Appointments By Patient Warning:",
+        data9?.message || "Fetch Service Appointments By Patient with warning",
+      );
+    }
+
+    return data9;
+  } catch (error9) {
+    toast.error(error9?.response?.data?.message || error9?.message);
+    console.error("Fetch Service Appointments By Patient Error:", error9);
+
+    throw error9;
+  }
+};
+
+/* -------- Verify Payment -------- */
+export const verifyPayment = async (sessionId) => {
+  try {
+    const response10 = await api.get(
+      API_ROUTES.APPOINTMENTS.APPOINTMENT_CONFIRM_PAYMENT,
+      {
+        params: { session_id: sessionId },
+      },
+    );
+
+    const data10 = response10.data;
+    console.log("Verify Payment API Response:", data10);
+
+    if (data10?.success) {
+      toast.success(data10?.message);
+      console.log("Verify Payment Success:", data10?.message);
+    } else {
+      toast.warn(data10?.message || "Verify payment with warning");
+      console.warn(
+        "Verify Payment Warning:",
+        data10?.message || "Verify Payment with warning",
+      );
+    }
+
+    return data10;
+  } catch (error10) {
+    toast.error(error10?.response?.data?.message || error10?.message);
+    console.error("Verify Payment Error:", error10);
+
+    throw error10;
+  }
+};
+
+/* -------- Verify Service Payment -------- */
+export const verifyServicePayment = async (sessionId) => {
+  try {
+    const response11 = await api.get(
+      API_ROUTES.SERVICEAPPOINTMENTS.SERVICEAPPOINTMENT_CONFIRM_PAYMENT,
+      {
+        params: { session_id: sessionId },
+      },
+    );
+
+    const data11 = response11.data;
+    console.log("Verify Service Payment API Response:", data11);
+
+    if (data11?.success) {
+      toast.success(data11?.message);
+      console.log("Verify Service Payment Success:", data11?.message);
+    } else {
+      toast.warn(data11?.message || "Verify service payment with warning");
+      console.warn(
+        "Verify Service Payment Warning:",
+        data11?.message || "Verify Service Payment with warning",
+      );
+    }
+
+    return data11;
+  } catch (error11) {
+    toast.error(error11?.response?.data?.message || error11?.message);
+    console.error("Verify Service Payment Error:", error11);
+
+    throw error11;
   }
 };
