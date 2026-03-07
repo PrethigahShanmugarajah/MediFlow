@@ -5,6 +5,7 @@ import RescheduleButton from "./RescheduleButton";
 import { CURRENCY } from "../../../utils/helpers";
 import {
   formatDateNice,
+  formatPatientName,
   formatTimeDisplay,
   isStatusLocked,
 } from "../../../utils/serviceAppointmentsUtils";
@@ -20,13 +21,9 @@ const Card = ({ a, onChangeStatus, onReschedule, onCancel }) => {
         <div>
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div className="flex items-start gap-4 min-w-0">
-              <div className="rounded-full w-12 h-12 flex items-center justify-center bg-indigo-100/70">
-                <User className="h-6 w-6 text-indigo-700" />
-              </div>
-
               <div>
                 <div className="text-lg md:text-sm lg:text-xs xl:text-md whitespace-nowrap font-bold leading-tight text-indigo-900 w-full line-clamp-2">
-                  {a.patientName}
+                  {formatPatientName(a.patientName)}
                 </div>
                 <div className="text-sm text-gray-500 mt-1">
                   {a.gender} • {a.age} yrs
