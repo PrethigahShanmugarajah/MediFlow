@@ -8,9 +8,14 @@ const NotFoundState = ({
   backTo = "/",
   bgClass = "bg-white",
   iconColor = "text-indigo-500",
+  fullPage = true,
 }) => {
   return (
-    <div className={`min-h-screen flex items-center justify-center ${bgClass}`}>
+    <div
+      className={`flex items-center justify-center ${
+        fullPage ? "min-h-screen" : "py-12"
+      } ${bgClass}`}
+    >
       <div className="text-center">
         {Icon && (
           <div className="mb-4 flex justify-center">
