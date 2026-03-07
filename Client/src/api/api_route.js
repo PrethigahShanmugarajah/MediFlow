@@ -22,11 +22,15 @@ const API_ROUTES = {
       `${BASE_URL}/api/appointments/appointments-get-by-doctor/${doctorId}`,
     APPOINTMENT_UPDATE: (id) =>
       `${BASE_URL}/api/appointments/appointment-update/${id}`,
+    APPOINTMENT_GET_BY_PATIENT: `${BASE_URL}/api/appointments/appointment-get-by-patient`,
+    APPOINTMENT_CONFIRM_PAYMENT: `${BASE_URL}/api/appointments/appointment-confirm-payment`,
   },
   SERVICEAPPOINTMENTS: {
     SERVICEAPPOINTMENTS_CREATE: `${BASE_URL}/api/serviceAppointments/serviceAppointment-create`,
     SERVICEAPPOINTMENTS_GET_SLOTS_BYSERVICE: (serviceId) =>
       `${BASE_URL}/api/serviceAppointments/serviceAppointment-get-slots-byService/${serviceId}`,
+    SERVICEAPPOINTMENTS_GET_BY_PATIENT: `${BASE_URL}/api/serviceAppointments/serviceAppointment-get-by-patient`,
+    SERVICEAPPOINTMENT_CONFIRM_PAYMENT: `${BASE_URL}/api/serviceAppointments/serviceAppointment-confirm-payment`,
   },
 };
 
