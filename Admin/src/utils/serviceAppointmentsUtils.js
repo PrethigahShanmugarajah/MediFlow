@@ -255,3 +255,14 @@ export function applyRescheduleResult(
     raw: updated || current.raw,
   };
 }
+
+/* -------- Capitalize each word -------- */
+export function formatPatientName(text) {
+  if (!text) return "";
+
+  return text
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
