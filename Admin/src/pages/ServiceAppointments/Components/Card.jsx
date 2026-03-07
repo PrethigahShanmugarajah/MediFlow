@@ -1,5 +1,5 @@
 // MediFlow / Admin / src / pages / ServiceAppointments / Components / Card.jsx
-import { Banknote, Calendar, Clock, Phone} from "lucide-react";
+import { Banknote, Calendar, Clock, Phone, User } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import RescheduleButton from "./RescheduleButton";
 import { CURRENCY } from "../../../utils/helpers";
