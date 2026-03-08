@@ -1,6 +1,6 @@
-// MediFlow / Client / src / pages / doctor / DoctorEditProfile / Components / ScheduleSection.jsx
 import { Calendar, Clock, Plus, Trash2, X } from "lucide-react";
 import AddDate from "./AddDate";
+import { BeatLoader } from "react-spinners";
 
 const ScheduleSection = ({
   doc,
@@ -29,14 +29,18 @@ const ScheduleSection = ({
           {saveMessage && (
             <div
               className={`px-4 py-2 rounded-lg border ${
-                saveMessage.type === "saving"
-                  ? "bg-green-50 text-green-700 border-green-200"
-                  : saveMessage.type === "error"
-                    ? "bg-red-50 text-red-700 border-red-200"
-                    : "bg-indigo-50 text-indigo-700 border-indigo-200"
+                saveMessage.type === "error"
+                  ? "bg-red-50 text-red-700 border-red-200"
+                  : "bg-indigo-50 text-indigo-700 border-indigo-200"
               }`}
             >
-              {saveMessage.text}
+              {saveMessage.type === "saving" ? (
+                <span className="inline-flex items-center gap-2">
+                  <BeatLoader size={6} color="#6366F1" />
+                </span>
+              ) : (
+                saveMessage.text
+              )}
             </div>
           )}
         </div>

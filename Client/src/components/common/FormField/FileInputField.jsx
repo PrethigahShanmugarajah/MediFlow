@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / common / FormField / FileInputField.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const SIZE_CONFIG = {

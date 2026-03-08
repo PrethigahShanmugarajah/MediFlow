@@ -1,5 +1,3 @@
-// MediFlow / Client / src / components / common / ApiError.jsx
-
 const ApiError = ({
   message,
   onRetry,

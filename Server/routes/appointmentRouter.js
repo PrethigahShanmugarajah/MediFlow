@@ -1,4 +1,3 @@
-// MediFlow / Server / routes / appointmentRouter.js
 import express from "express";
 import {
   cancelAppointment,

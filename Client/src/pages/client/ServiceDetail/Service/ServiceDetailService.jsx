@@ -1,16 +1,14 @@
-// MediFlow / Client / src / pages / ServiceDetail / Service / ServiceDetailService.jsx
 import {
   fetchServiceBookedSlots,
   fetchServiceByID,
 } from "../../../../services/fetch";
 import { createServiceAppointment } from "../../../../services/mutations";
 import {
-  buildServiceAppointmentPayload,
-  handleServiceAppointmentRedirect,
-  validateServiceBooking,
-} from "../../../../utils/client/serviceDetailUtils";
+  buildBookingPayload,
+  handleBookingRedirect,
+  validatePatientBooking,
+} from "../../../../utils/client/clientHelpers";
 
-/* -------- Fetch service by id (used in useEffect) -------- */
 export async function fetchServiceByIdApi(id) {
   if (!id) return null;
 
@@ -25,7 +23,6 @@ export async function fetchServiceByIdApi(id) {
   }
 }
 
-/* -------- Create service appointment + redirect -------- */
 export async function bookServiceAppointmentApi({
   service,
   formData,
@@ -38,13 +35,14 @@ export async function bookServiceAppointmentApi({
   isSignedIn,
   getToken,
 }) {
-  const check = validateServiceBooking({
+  const check = validatePatientBooking({
     formData,
     selectedDate,
     selectedSlot,
     authLoaded,
     userLoaded,
     isSignedIn,
+    actionLabel: "booking",
   });
 
   if (!check.ok) {
@@ -59,23 +57,29 @@ export async function bookServiceAppointmentApi({
     };
   }
 
-  const payload = buildServiceAppointmentPayload({
-    service,
-    formData,
-    selectedDate,
-    selectedSlot,
-    fee,
-    paymentMethod,
-  });
+  const payload = {
+    serviceId: service?._id || service?.id,
+    serviceName: service?.name || "",
+    serviceImageUrl: service?.imageUrl || service?.image || "",
+    serviceImagePublicId:
+      service?.imagePublicId || service?.image?.publicId || "",
+
+    ...buildBookingPayload({
+      formData,
+      selectedDate,
+      selectedSlot,
+      fee,
+      paymentMethod,
+    }),
+  };
 
   const body = await createServiceAppointment({ payload, token });
 
-  handleServiceAppointmentRedirect(body);
+  handleBookingRedirect(body);
 
   return { ok: true, message: "" };
 }
 
-/* -------- Fetch booked slots for selected date -------- */
 export async function fetchServiceBookedSlotsApi(serviceId, dateISO) {
   try {
     const payload = await fetchServiceBookedSlots(serviceId, dateISO);

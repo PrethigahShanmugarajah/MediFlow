@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / AddService / Components / Instructions.jsx
 import { Plus, Trash2 } from "lucide-react";
 import { InputField } from "../../../components/FormField/InputField";
 

@@ -1,5 +1,3 @@
-// MediFlow / Admin / src / components / Title.jsx
-
 const Title = ({
   title,
   subtitle,

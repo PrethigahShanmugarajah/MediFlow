@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / components / Navbar / Navbar.jsx
 import {
   useCallback,
   useEffect,
@@ -6,8 +5,8 @@ import {
   useRef,
   useState,
 } from "react";
-import Logo from "../../assets/Logo.png";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useAuth, useClerk, useUser } from "@clerk/clerk-react";
 import {
   Calendar,
   Grid,
@@ -19,7 +18,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useAuth, useClerk, useUser } from "@clerk/clerk-react";
+import { Logo } from "../../assets";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -30,7 +29,7 @@ const Navbar = () => {
 
   const clerk = useClerk();
   const { getToken, isLoaded: authLoaded } = useAuth();
-  const { isSignedIn, user, isLoaded: userLoaded } = useUser();
+  const { isSignedIn, isLoaded: userLoaded } = useUser();
 
   const moveIndicator = useCallback(() => {
     const container = navInnerRef.current;

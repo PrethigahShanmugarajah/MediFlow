@@ -1,13 +1,12 @@
-// MediFlow / Admin / src / pages / AddDoctor / Components / DoctorScheduleBuilder.jsx
 import { Calendar, Plus } from "lucide-react";
 import { InputField } from "../../../components/FormField/InputField";
 import { SelectInput } from "../../../components/FormField/SelectInput";
-import SlotList from "./SlotList";
 import {
   ampmOptions,
   hourOptions,
   minuteOptions,
-} from "../../../utils/addDoctorUtils";
+} from "../../../utils/helpers";
+import SlotList from "./SlotList";
 
 const DoctorScheduleBuilder = ({
   today,

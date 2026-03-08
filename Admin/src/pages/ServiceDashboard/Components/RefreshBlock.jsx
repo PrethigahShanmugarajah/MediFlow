@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / ServiceDashboard / Components / RefreshBlock.jsx
 import { BeatLoader } from "react-spinners";
 
 const RefreshBlock = ({ loading, count, isPropMode, onRefresh }) => {

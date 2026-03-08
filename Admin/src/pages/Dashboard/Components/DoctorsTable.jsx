@@ -1,6 +1,10 @@
-// MediFlow / Admin / src / pages / Dashboard / Components / DoctorsTable.jsx
 import { ScaleLoader } from "react-spinners";
-import { CURRENCY } from "../../../utils/helpers";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatDoctorName,
+} from "../../../utils/helpers";
+import { NoPersonImage } from "../../../assets";
 
 const DoctorsTable = ({ doctors, loading, query }) => {
   return (
@@ -59,7 +63,7 @@ const DoctorsTable = ({ doctors, loading, query }) => {
           ) : (
             doctors.map((d, idx) => (
               <tr
-                key={d.id}
+                key={d?.id}
                 className={`group transform transition-all duration-200 hover:shadow-lg hover:-translate-y-1 ${
                   idx % 2 === 0 ? "bg-white" : "bg-blue-50/40"
                 }`}
@@ -67,42 +71,42 @@ const DoctorsTable = ({ doctors, loading, query }) => {
                 <td className="px-6 py-4 whitespace-nowrap flex items-center gap-4">
                   <div className="w-1 h-12 rounded-md mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-linear-to-b from-indigo-400 to-blue-200" />
                   <img
-                    src={d.image}
-                    alt={d.name}
+                    src={d?.image || NoPersonImage}
+                    alt={formatDoctorName(d?.name)}
                     className="w-12 h-12 rounded-full object-cover border-2 border-blue-100"
                   />
                   <div>
                     <div className="text-sm font-medium text-slate-800">
-                      {d.name}
+                      {formatDoctorName(d?.name)}
                     </div>
                     <div className="text-xs text-slate-500 mt-0.5">
-                      ID: {d.id}
+                      ID: {d?.id}
                     </div>
                   </div>
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-slate-600">
-                  {d.specialization}
+                  {capitalizeWords(d?.specialization)}
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-slate-700">
-                  {CURRENCY} {d.fee}
+                  {CURRENCY} {d?.fee}
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-slate-700">
-                  {d.appointments.total}
+                  {d?.appointments.total}
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-indigo-600">
-                  {d.appointments.completed}
+                  {d?.appointments.completed}
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-rose-500">
-                  {d.appointments.canceled}
+                  {d?.appointments.canceled}
                 </td>
 
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-semibold text-slate-800">
-                  {CURRENCY} {d.earnings.toLocaleString()}
+                  {CURRENCY} {d?.earnings.toLocaleString()}
                 </td>
               </tr>
             ))

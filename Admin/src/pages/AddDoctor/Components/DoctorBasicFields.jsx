@@ -1,9 +1,8 @@
-// MediFlow / Admin / src / pages / AddDoctor / Components / DoctorBasicFields.jsx
-import { Eye, EyeOff } from "lucide-react";
 import { InputField } from "../../../components/FormField/InputField";
+import { Eye, EyeOff } from "lucide-react";
 import { SelectInput } from "../../../components/FormField/SelectInput";
+import { availabilityOptions } from "../../../utils/helpers";
 import { TextAreaField } from "../../../components/FormField/TextAreaField";
-import { availabilityOptions } from "../../../utils/addDoctorUtils";
 
 const DoctorBasicFields = ({
   form,

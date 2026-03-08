@@ -1,19 +1,6 @@
-// MediFlow / Admin / src / utils / serviceAppointmentsUtils.js
-
 /* -------- Pad number to two digits -------- */
 export function formatTwo(n) {
   return String(n).padStart(2, "0");
-}
-
-/* -------- Format date nicely -------- */
-export function formatDateNice(dateStr) {
-  if (!dateStr) return "";
-  const d = new Date(`${dateStr}T00:00:00`);
-  return d.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
 }
 
 /* -------- Parse "HH:MM AM/PM" into parts -------- */
@@ -54,15 +41,6 @@ export function timePartsToInputValue(a) {
 /* -------- Format time for display -------- */
 export function formatTimeDisplay(a) {
   return `${formatTwo(a.hour)}:${formatTwo(a.minute)} ${a.ampm}`;
-}
-
-/* -------- Get today's date in YYYY-MM-DD -------- */
-export function getTodayISO() {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
 }
 
 /* -------- Check if date A is before date B -------- */
@@ -155,7 +133,7 @@ export function normalizeAppointment(a) {
 }
 
 /* -------- Normalize MANY appointments -------- */
-export function normalizeAppointments(list) {
+export function normalizeServiceAppointments(list) {
   return (Array.isArray(list) ? list : [])
     .map(normalizeAppointment)
     .filter(Boolean);
@@ -197,7 +175,7 @@ export function time24To12HourString(time24) {
 }
 
 /* -------- Filter appointments by query + status -------- */
-export function filterAppointments(list, query, statusFilter) {
+export function filterServiceAppointments(list, query, statusFilter) {
   const q = String(query || "")
     .trim()
     .toLowerCase();
@@ -254,15 +232,4 @@ export function applyRescheduleResult(
     status: updated?.status || "Rescheduled",
     raw: updated || current.raw,
   };
-}
-
-/* -------- Capitalize each word -------- */
-export function formatPatientName(text) {
-  if (!text) return "";
-
-  return text
-    .toLowerCase()
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
 }

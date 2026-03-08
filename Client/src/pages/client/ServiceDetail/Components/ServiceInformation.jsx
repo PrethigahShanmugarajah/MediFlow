@@ -1,7 +1,9 @@
-// MediFlow / Client / src / pages / ServiceDetail / Components / ServiceInformation.jsx
 import { BadgeInfo, Banknote, Shield } from "lucide-react";
-import { formatServiceName } from "../../../../utils/client/serviceUtils";
-import { CURRENCY } from "../../../../utils/client/helpers";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatParagraph,
+} from "../../../../utils/helpers";
 
 const ServiceInformation = ({ service, fee }) => {
   const availability =
@@ -13,7 +15,7 @@ const ServiceInformation = ({ service, fee }) => {
     <div className="lg:col-span-2 space-y-6">
       <div className="space-y-3">
         <h1 className="text-2xl md:text-2xl lg:text-3xl xl:text-3xl sm:text-4xl font-bold bg-linear-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
-          {formatServiceName(service?.name)}
+          {capitalizeWords(service?.name)}
         </h1>
       </div>
 
@@ -50,7 +52,7 @@ const ServiceInformation = ({ service, fee }) => {
         </div>
 
         <p className="text-black leading-relaxed">
-          {service?.about || service?.description || "-"}
+          {formatParagraph(service?.about || service?.description || "-")}
         </p>
       </div>
     </div>

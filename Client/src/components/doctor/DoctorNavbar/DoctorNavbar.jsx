@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / doctor / DoctorNavbar / DoctorNavbar.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Link,

@@ -1,4 +1,3 @@
-// MediFlow / Server / controllers / serviceAppointmentController.js
 import Stripe from "stripe";
 import {
   buildFrontendBase,
@@ -8,6 +7,7 @@ import {
 } from "../utils/serviceAppointmentHelper.js";
 import ServiceAppointment from "../models/ServiceAppointment.js";
 import Service from "../models/Service.js";
+import { capitalizeWords } from "../utils/helper.js";
 
 const stripeKey = process.env.STRIPE_SECRET_KEY || null;
 const stripe = stripeKey
@@ -56,13 +56,6 @@ export async function createServiceAppointment(req, res) {
       });
     }
 
-    // if (!patientName || !String(patientName).trim()) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Patient name is required",
-    //   });
-    // }
-
     if (!patientName) {
       return res.status(400).json({
         success: false,
@@ -77,13 +70,6 @@ export async function createServiceAppointment(req, res) {
       });
     }
 
-    // if (!mobile || !String(mobile).trim()) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Mobile number is required",
-    //   });
-    // }
-
     if (!mobile) {
       return res.status(400).json({
         success: false,
@@ -97,13 +83,6 @@ export async function createServiceAppointment(req, res) {
         message: "Mobile number cannot be empty",
       });
     }
-
-    // if (!date || !String(date).trim()) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Date is required (YYYY-MM-DD)",
-    //   });
-    // }
 
     if (!date) {
       return res.status(400).json({
@@ -120,12 +99,6 @@ export async function createServiceAppointment(req, res) {
     }
 
     const numericAmount = safeNumber(amountFromBody ?? feesFromBody ?? 0);
-    // if (numericAmount === null || numericAmount < 0) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Amount or fees must be a valid number",
-    //   });
-    // }
 
     if (numericAmount === null) {
       return res.status(400).json({
@@ -144,20 +117,6 @@ export async function createServiceAppointment(req, res) {
     let finalHour = hour !== undefined ? safeNumber(hour) : null;
     let finalMinute = minute !== undefined ? safeNumber(minute) : null;
     let finalAmpm = ampm || null;
-
-    // if (time && (finalHour === null || finalHour === undefined)) {
-    //   const parsed = parseTimeString(time);
-    //   if (!parsed) {
-    //     return res.status(400).json({
-    //       success: false,
-    //       message: "Time string could not be parsed",
-    //     });
-    //   }
-
-    //   finalHour = parsed.hour;
-    //   finalMinute = parsed.minute;
-    //   finalAmpm = parsed.ampm;
-    // }
 
     if (time && finalHour === null) {
       const parsed = parseTimeString(time);
@@ -188,18 +147,6 @@ export async function createServiceAppointment(req, res) {
       finalMinute = parsed.minute;
       finalAmpm = parsed.ampm;
     }
-
-    // if (
-    //   finalHour === null ||
-    //   finalMinute === null ||
-    //   (finalAmpm !== "AM" && finalAmpm !== "PM")
-    // ) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message:
-    //       "Time is missing or invalid — provide time string or hour, minute, and AM/PM.",
-    //   });
-    // }
 
     if (finalHour === null) {
       return res.status(400).json({
@@ -378,9 +325,9 @@ export async function createServiceAppointment(req, res) {
         line_items: [
           {
             price_data: {
-              currency: "inr",
+              currency: "lkr",
               product_data: {
-                name: `Service: ${String(resolvedServiceName).slice(0, 60)}`,
+                name: `Service: ${capitalizeWords(String(resolvedServiceName)).slice(0, 60)}`,
                 description: `Appointment on ${base.date} ${base.hour}:${String(base.minute).padStart(2, "0")} ${base.ampm}`,
               },
               unit_amount: Math.round(numericAmount * 100),

@@ -1,14 +1,15 @@
-// MediFlow / Admin / src / pages / AddService / Components / SlotControls.jsx
 import { Calendar, Clock, Plus, Trash2 } from "lucide-react";
 import { SelectInput } from "../../../components/FormField/SelectInput";
 import {
-  ampmOptions,
   dayOptions,
-  hourOptions,
-  minuteOptions,
   monthOptions,
   yearOptions,
 } from "../../../utils/addServiceUtils";
+import {
+  ampmOptions,
+  hourOptions,
+  minuteOptions,
+} from "../../../utils/helpers";
 
 const SlotControls = ({
   slots,
@@ -47,9 +48,9 @@ const SlotControls = ({
     currentDate,
   });
 
-  const hourOptionsList = hourOptions();
-  const minuteOptionsList = minuteOptions(5);
-  const ampmOptionsList = ampmOptions();
+  const hourOptionsList = hourOptions;
+  const minuteOptionsList = minuteOptions;
+  const ampmOptionsList = ampmOptions;
 
   return (
     <div className="bg-linear-to-br from-white to-indigo-50 rounded-2xl p-4 border border-indigo-50 shadow-md">

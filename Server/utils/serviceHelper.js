@@ -1,5 +1,3 @@
-// MediFlow / Server / utils / serviceHelper.js
-
 /* -------- Make input an array -------- */
 export const parseJsonArrayField = (field) => {
   if (!field) return [];

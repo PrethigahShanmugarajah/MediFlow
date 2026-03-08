@@ -1,4 +1,3 @@
-// MediFlow / Client / src / services / fetch.js
 import api from "../api/axios";
 import API_ROUTES from "../api/api_route";
 import { toast } from "react-toastify";

@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / components / SearchField.jsx
 import { Search, X } from "lucide-react";
 import { InputField } from "./FormField/InputField";
 

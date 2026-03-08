@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / Home / Components / Testimonial.jsx
 import { useEffect, useRef, useState } from "react";
 import { Star, Stethoscope, User } from "lucide-react";
 import "../Home.css";

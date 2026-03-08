@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / components / FormField / RadioInput.jsx
 import { useEffect, useMemo, useState } from "react";
 
 const SIZE_CONFIG = {

@@ -1,10 +1,8 @@
-// MediFlow / Client / src / pages / doctor / DoctorDashboard / View / DoctorDashboard.jsx
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { Calendar } from "lucide-react";
 import {
   calculateAppointmentStats,
-  formatPatientName,
   getDoctorNameFromAppointments,
   sortAppointmentsByDate,
 } from "../../../../utils/doctor/doctorDashboardUtils";
@@ -18,7 +16,8 @@ import {
 import ShowMoreButton from "../../../../components/common/ShowMoreButton";
 import Header from "../Components/Header";
 import StatsSection from "../Components/StatsSection";
-import DeletePopup from "../../../../components/common/DeletePopup";
+import DeletePopup from "../../../../components/doctor/DeletePopup";
+import { capitalizeWords } from "../../../../utils/helpers";
 
 const DoctorDashboard = () => {
   const params = useParams();
@@ -248,7 +247,7 @@ const DoctorDashboard = () => {
           description={
             <>
               Change status for{" "}
-              <b>{formatPatientName(selectedStatusAppt.patient)}</b> to{" "}
+              <b>{capitalizeWords(selectedStatusAppt.patient)}</b> to{" "}
               <b>{pendingStatus === "cancelled" ? "CANCELLED" : "COMPLETED"}</b>
               ?
             </>

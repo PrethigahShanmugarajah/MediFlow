@@ -1,5 +1,3 @@
-// MediFlow / Admin / src / pages / AddDoctor / Components / DoctorPreviewList.jsx
-
 const DoctorPreviewList = ({ doctorList }) => {
   return (
     <div className="max-w-4xl mx-auto mt-8">

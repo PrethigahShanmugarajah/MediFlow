@@ -1,14 +1,13 @@
-// MediFlow / Client / src / pages / Home / Components / HomeDoctors.jsx
 import { useEffect, useState } from "react";
 import { Medal } from "lucide-react";
 import { fetchDoctorsApi } from "../Service/HomeService";
 import "../Home.css";
 import ClientTitle from "../../../../components/client/ClientTitle";
 import ApiError from "../../../../components/common/ApiError";
-import AvatarSkeletonCard from "../../../../components/common/AvatarSkeletonCard";
-import AvatarCard from "../../../../components/common/AvatarCard";
-import { formatDoctorName } from "../../../../utils/client/homeUtils";
+import AvatarSkeletonCard from "../../../../components/client/AvatarSkeletonCard";
+import AvatarCard from "../../../../components/client/AvatarCard";
 import { NoPersonImage } from "../../../../assets";
+import { capitalizeWords, formatDoctorName } from "../../../../utils/helpers";
 
 const HomeDoctors = ({ previewCount = 8 }) => {
   const [doctors, setDoctors] = useState([]);
@@ -54,7 +53,7 @@ const HomeDoctors = ({ previewCount = 8 }) => {
                   <AvatarCard
                     id={doctor.id}
                     name={formatDoctorName(doctor.name)}
-                    subtitle={doctor.specialization}
+                    subtitle={capitalizeWords(doctor.specialization)}
                     image={doctor.image}
                     available={doctor.available}
                     linkTo={`/doctors/${doctor.id}`}

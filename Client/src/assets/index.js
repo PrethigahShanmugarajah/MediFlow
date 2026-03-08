@@ -1,4 +1,3 @@
-// MediFlow / Client / src / assets / index.js
 import Logo from "./Logo.png";
 import BannerImg from "./BannerImg.png";
 import NoImage from "./NoImage.png";
@@ -44,4 +43,3 @@ export {
   TP2,
   TP3,
 };
-

@@ -1,10 +1,10 @@
-// MediFlow / Admin / src / pages / Appointments / Components / AppointmentsHeader.jsx
 import { useMemo } from "react";
 import Title from "../../../components/Title";
 import SearchField from "../../../components/SearchField";
 import { Calendar } from "lucide-react";
 import { InputField } from "../../../components/FormField/InputField";
 import { SelectInput } from "../../../components/FormField/SelectInput";
+import { capitalizeWords } from "../../../utils/helpers";
 
 const AppointmentsHeader = ({
   query,
@@ -20,7 +20,7 @@ const AppointmentsHeader = ({
     () =>
       (specialities || []).map((s) => ({
         value: s,
-        label: s === "all" ? "All Specialities" : s,
+        label: s === "all" ? "All Specialities" : capitalizeWords(s),
       })),
     [specialities],
   );

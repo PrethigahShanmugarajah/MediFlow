@@ -1,31 +1,3 @@
-// MediFlow / Admin / src / utils / listDoctorsUtils.js
-
-/* -------- Convert ISO date (YYYY-MM-DD) to "DD Mon YYYY" format -------- */
-export function formatDateISO(iso) {
-  if (!iso || typeof iso !== "string") return iso;
-  const parts = iso.split("-");
-  if (parts.length !== 3) return iso;
-  const [y, m, d] = parts;
-  const dateObj = new Date(Number(y), Number(m) - 1, Number(d));
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "June",
-    "July",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const day = String(Number(d));
-  const month = monthNames[dateObj.getMonth()] || "";
-  return `${day} ${month} ${y}`;
-}
-
 /* -------- Convert date input to ISO string "YYYY-MM-DD" -------- */
 export function normalizeToDateString(d) {
   if (!d) return null;
@@ -92,7 +64,7 @@ export function normalizeDoctors(list, buildScheduleMap) {
 }
 
 /* -------- Filter doctors by search query and availability status -------- */
-export function filterDoctors(doctors, query, filterStatus) {
+export function filterDoctorsList(doctors, query, filterStatus) {
   const q = (query || "").trim().toLowerCase();
   let list = doctors;
 
@@ -114,33 +86,4 @@ export function filterDoctors(doctors, query, filterStatus) {
       (d.specialization || "").toLowerCase().includes(q)
     );
   });
-}
-
-/* -------- Extract only number from experience string -------- */
-export function formatExperience(exp) {
-  if (exp == null) return "";
-
-  const n = String(exp).match(/\d+/)?.[0];
-  return n ? Number(n) : "";
-}
-
-/* -------- Extract only number from success rate string -------- */
-export function formatSuccessRate(val) {
-  if (val == null || val === "") return "";
-
-  const match = String(val).match(/\d+/);
-  return match ? match[0] : "";
-}
-
-/* -------- Ensure doctor name starts with "Dr" prefix -------- */
-export function ensureDoctorPrefix(name) {
-  if (!name) return "Dr";
-
-  const trimmed = name.trim();
-
-  if (/^dr\.?\s/i.test(trimmed)) {
-    return trimmed;
-  }
-
-  return `Dr ${trimmed}`;
 }

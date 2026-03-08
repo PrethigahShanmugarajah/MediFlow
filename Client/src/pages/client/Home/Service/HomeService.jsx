@@ -1,11 +1,9 @@
-// MediFlow / Client / src / pages / Home / Service / HomeService.jsx
 import { fetchDoctors, fetchServices } from "../../../../services/fetch";
 import {
-  normalizeHomeDoctorsResponse,
-  normalizeHomeServicesResponse,
-} from "../../../../utils/client/homeUtils";
+  normalizeDoctor,
+  normalizeService,
+} from "../../../../utils/client/clientHelpers";
 
-/* -------- HomeDoctors -------- */
 export async function fetchDoctorsApi(setDoctors, setError, setLoading) {
   setLoading?.(true);
   setError?.("");
@@ -14,7 +12,8 @@ export async function fetchDoctorsApi(setDoctors, setError, setLoading) {
     const json = await fetchDoctors();
 
     if (json?.success) {
-      const normalized = normalizeHomeDoctorsResponse(json);
+      const items = Array.isArray(json?.data) ? json.data : [];
+      const normalized = items.map(normalizeDoctor);
       setDoctors?.(normalized);
       return true;
     }
@@ -32,7 +31,6 @@ export async function fetchDoctorsApi(setDoctors, setError, setLoading) {
   }
 }
 
-/* -------- HomeServices -------- */
 export async function fetchHomeServicesApi(setServices, setError, setLoading) {
   setLoading?.(true);
   setError?.("");
@@ -41,7 +39,8 @@ export async function fetchHomeServicesApi(setServices, setError, setLoading) {
     const json = await fetchServices();
 
     if (json?.success) {
-      const normalized = normalizeHomeServicesResponse(json);
+      const items = Array.isArray(json?.data) ? json.data : [];
+      const normalized = items.map(normalizeService);
       setServices?.(normalized);
       return true;
     }

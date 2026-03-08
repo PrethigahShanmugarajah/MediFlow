@@ -1,4 +1,4 @@
-// MediFlow / Admin / src / utils / serviceDashboardUtils.js
+import { NoImage } from "../assets";
 
 /* -------- Convert a raw service object into a clean, consistent format -------- */
 export function normalizeService(doc) {
@@ -8,11 +8,7 @@ export function normalizeService(doc) {
   const price =
     Number(doc.price ?? doc.fee ?? doc.fees ?? doc.cost ?? doc.amount) || 0;
 
-  const image =
-    doc.imageUrl ||
-    doc.image ||
-    doc.avatar ||
-    `https://i.pravatar.cc/150?u=${id}`;
+  const image = doc.imageUrl || doc.image || doc.avatar || NoImage;
 
   const totalAppointments =
     doc.totalAppointments ??
@@ -63,7 +59,7 @@ export function extractArrayFromResponse(body) {
 
 /* -------- Filter services by name or price based on search query
  -------- */
-export function filterServices(services, searchQuery) {
+export function filterDashboardServices(services, searchQuery) {
   const q = (searchQuery || "").trim().toLowerCase();
   if (!q) return services;
 
@@ -106,11 +102,6 @@ export function computeServiceTotals(services) {
       totalEarning: 0,
     },
   );
-}
-
-/* -------- Format a number as LKR currency -------- */
-export function formatLKR(v) {
-  return `LKR${Number(v || 0).toLocaleString()}`;
 }
 
 /* -------- Take a response body and normalize all services -------- */

@@ -1,4 +1,3 @@
-// MediFlow / Server / utils / appointmentHelper.js
 import { getAuth } from "@clerk/express";
 
 const FRONTEND_URL = process.env.FRONTEND_URL;

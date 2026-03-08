@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / doctor / DoctorEditProfile / Components / PersonalInformation.jsx
 import {
   Banknote,
   Briefcase,
@@ -10,6 +9,7 @@ import {
   User,
 } from "lucide-react";
 import { InputField } from "../../../../components/common/FormField/InputField";
+import { capitalizeWords, formatDoctorName } from "../../../../utils/helpers";
 
 const PersonalInformation = ({ doc, setDoc, editing }) => {
   return (
@@ -41,7 +41,7 @@ const PersonalInformation = ({ doc, setDoc, editing }) => {
             labelPosition="top"
             name="name"
             type="text"
-            value={doc.name || ""}
+            value={`${formatDoctorName(doc?.name)}` || ""}
             onChange={(val) => editing && setDoc((d) => ({ ...d, name: val }))}
             disabled={!editing}
             readOnly={!editing}
@@ -70,7 +70,7 @@ const PersonalInformation = ({ doc, setDoc, editing }) => {
             labelPosition="top"
             name="specialization"
             type="text"
-            value={doc.specialization || ""}
+            value={`${capitalizeWords(doc?.specialization)}` || ""}
             onChange={(val) =>
               editing && setDoc((d) => ({ ...d, specialization: val }))
             }
@@ -100,8 +100,8 @@ const PersonalInformation = ({ doc, setDoc, editing }) => {
             }
             labelPosition="top"
             name="experience"
-            type="text"
-            value={doc.experience || ""}
+            type="number"
+            value={doc?.experience || ""}
             onChange={(val) =>
               editing && setDoc((d) => ({ ...d, experience: val }))
             }
@@ -132,7 +132,7 @@ const PersonalInformation = ({ doc, setDoc, editing }) => {
             labelPosition="top"
             name="qualifications"
             type="text"
-            value={doc.qualifications || ""}
+            value={`${capitalizeWords(doc?.qualifications)}` || ""}
             onChange={(val) =>
               editing && setDoc((d) => ({ ...d, qualifications: val }))
             }
@@ -163,7 +163,7 @@ const PersonalInformation = ({ doc, setDoc, editing }) => {
             labelPosition="top"
             name="location"
             type="text"
-            value={doc.location || ""}
+            value={`${capitalizeWords(doc?.location)}` || ""}
             onChange={(val) =>
               editing && setDoc((d) => ({ ...d, location: val }))
             }
@@ -195,7 +195,7 @@ const PersonalInformation = ({ doc, setDoc, editing }) => {
             name="patients"
             type="number"
             min={0}
-            value={doc.patients ?? ""}
+            value={doc?.patients ?? ""}
             onChange={(val) =>
               editing &&
               setDoc((d) => ({
@@ -231,7 +231,7 @@ const PersonalInformation = ({ doc, setDoc, editing }) => {
             name="success"
             type="number"
             min={0}
-            value={doc.success ?? ""}
+            value={doc?.success ?? ""}
             onChange={(val) =>
               editing &&
               setDoc((d) => ({
@@ -269,7 +269,7 @@ const PersonalInformation = ({ doc, setDoc, editing }) => {
             min={0}
             max={5}
             step={0.1}
-            value={doc.rating ?? ""}
+            value={doc?.rating ?? ""}
             onChange={(val) =>
               editing &&
               setDoc((d) => ({
@@ -306,7 +306,7 @@ const PersonalInformation = ({ doc, setDoc, editing }) => {
             type="number"
             min={0}
             step={1}
-            value={doc.fee ?? ""}
+            value={doc?.fee ?? ""}
             onChange={(val) =>
               editing &&
               setDoc((d) => ({

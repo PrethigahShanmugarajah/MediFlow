@@ -1,8 +1,10 @@
-// MediFlow / Admin / src / pages / ListDoctors / Components / DoctorExpandedDetails.jsx
+import {
+  capitalizeWords,
+  formatDateISO,
+  formatParagraph,
+} from "../../../utils/helpers";
 import {
   buildScheduleMap,
-  formatDateISO,
-  formatSuccessRate,
   getSortedScheduleDates,
 } from "../../../utils/listDoctorsUtils";
 
@@ -20,7 +22,7 @@ const DoctorExpandedDetails = ({ doc, isMobileScreen }) => {
         <div className="col-span-2">
           <h4 className="text-md font-bold text-indigo-700 mb-1">About</h4>
           <p className="text-sm text-indigo-600 wrap-break-word whitespace-normal">
-            {doc.about}
+            {formatParagraph(doc.about)}
           </p>
 
           <div className="mt-4">
@@ -28,7 +30,7 @@ const DoctorExpandedDetails = ({ doc, isMobileScreen }) => {
               Qualifications
             </div>
             <div className="text-sm text-indigo-600 wrap-break-word whitespace-normal">
-              {doc.qualifications}
+              {capitalizeWords(doc.qualifications)}
             </div>
           </div>
 
@@ -63,9 +65,7 @@ const DoctorExpandedDetails = ({ doc, isMobileScreen }) => {
         <aside className="col-span-1 flex flex-col sm:flex-row md:flex-col xl:flex-col lg:flex-col gap-3 items-start md:items-end">
           <div className="flex items-center justify-between gap-1">
             <div className="text-md text-indigo-700 font-bold">Success:</div>
-            <div className="text-md text-indigo-700">
-              {formatSuccessRate(doc.success)}%
-            </div>
+            <div className="text-md text-indigo-700">{doc.success}%</div>
           </div>
 
           <div className="flex items-center justify-between gap-1">
@@ -76,7 +76,7 @@ const DoctorExpandedDetails = ({ doc, isMobileScreen }) => {
           <div className="flex items-center justify-between gap-1">
             <div className="text-md text-indigo-700 font-bold">Location:</div>
             <div className="text-md sm:whitespace-nowrap whitespace-normal text-indigo-700">
-              {doc.location}
+              {capitalizeWords(doc.location)}
             </div>
           </div>
         </aside>

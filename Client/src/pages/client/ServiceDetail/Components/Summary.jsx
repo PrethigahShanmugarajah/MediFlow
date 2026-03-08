@@ -1,12 +1,8 @@
-// MediFlow / Client / src / pages / ServiceDetail / Components / Summary.jsx
 import { Phone } from "lucide-react";
 import { ClipLoader } from "react-spinners";
-import {
-  formatServiceName,
-  paymentOptions,
-} from "../../../../utils/client/serviceDetailUtils";
-import { CURRENCY } from "../../../../utils/client/helpers";
 import { RadioInput } from "../../../../components/common/FormField/RadioInput";
+import { capitalizeWords, CURRENCY } from "../../../../utils/helpers";
+import { paymentOptions } from "../../../../utils/client/clientHelpers";
 
 const Summary = ({
   service,
@@ -24,7 +20,7 @@ const Summary = ({
         <div className="flex justify-between">
           <span className="text-md text-gray-600">Selected Service:</span>
           <span className="font-semibold text-indigo-700 text-sm sm:text-base">
-            {formatServiceName(service?.name) || "—"}
+            {capitalizeWords(service?.name) || "—"}
           </span>
         </div>
 

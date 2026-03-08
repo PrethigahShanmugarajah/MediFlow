@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / client / DoctorDetail / Components / DoctorInformation.jsx
 import {
   BadgeInfo,
   Banknote,
@@ -7,8 +6,12 @@ import {
   Shield,
   Zap,
 } from "lucide-react";
-import { CURRENCY } from "../../../../utils/client/helpers";
-import { formatDoctorName } from "../../../../utils/client/doctorDetailUtils";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatDoctorName,
+  formatParagraph,
+} from "../../../../utils/helpers";
 
 const DoctorInformation = ({ doctor, fee }) => {
   const speciality =
@@ -31,7 +34,7 @@ const DoctorInformation = ({ doctor, fee }) => {
 
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-indigo-400 to-blue-500 text-white rounded-full text-sm font-semibold shadow-lg">
           <Zap className="w-4 h-4" />
-          {speciality}
+          {capitalizeWords(speciality)}
         </div>
       </div>
 
@@ -44,7 +47,7 @@ const DoctorInformation = ({ doctor, fee }) => {
             </div>
 
             <div className="text-black font-medium">
-              {doctor?.qualifications || "-"}
+              {capitalizeWords(doctor?.qualifications || "-")}
             </div>
           </div>
         </div>
@@ -57,7 +60,7 @@ const DoctorInformation = ({ doctor, fee }) => {
             </div>
 
             <div className="text-black font-medium">
-              {doctor?.location || "-"}
+              {capitalizeWords(doctor?.location || "-")}
             </div>
           </div>
         </div>
@@ -96,7 +99,7 @@ const DoctorInformation = ({ doctor, fee }) => {
         </div>
 
         <p className="text-black leading-relaxed">
-          {doctor?.about || doctor?.bio}
+          {formatParagraph(doctor?.about || doctor?.bio)}
         </p>
       </div>
     </div>

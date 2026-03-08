@@ -1,5 +1,3 @@
-// MediFlow / Client / src / data / client / contactData.js
-
 export const departments = [
   "General Physician",
   "Cardiology",

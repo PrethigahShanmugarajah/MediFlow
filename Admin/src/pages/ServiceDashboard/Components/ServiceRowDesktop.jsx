@@ -1,5 +1,5 @@
-// MediFlow / Admin / src / pages / ServiceDashboard / Components / ServiceRowDesktop.jsx
-import { formatLKR } from "../../../utils/serviceDashboardUtils";
+import { NoImage } from "../../../assets";
+import { capitalizeWords, CURRENCY } from "../../../utils/helpers";
 
 const ServiceRowDesktop = ({ s }) => {
   const earning = (s?.completed || 0) * (s?.price || 0);
@@ -9,18 +9,20 @@ const ServiceRowDesktop = ({ s }) => {
       <div className="col-span-5 flex items-center gap-4">
         <div className="w-16 h-16 rounded-xl overflow-hidden ring-1 ring-indigo-100 bg-gray-200">
           <img
-            src={s.image}
+            src={s.image || NoImage}
             alt={s.name}
             className="w-full h-full object-cover"
           />
         </div>
 
         <h3 className="font-semibold md:text-xs lg:text-lg xl:text-lg text-indigo-800">
-          {s.name}
+          {capitalizeWords(s.name)}
         </h3>
       </div>
 
-      <div className="col-span-2">{formatLKR(s.price)}</div>
+      <div className="col-span-2">
+        {CURRENCY} {s.price}
+      </div>
 
       <div className="col-span-1 text-center">{s.totalAppointments}</div>
 
@@ -28,7 +30,9 @@ const ServiceRowDesktop = ({ s }) => {
 
       <div className="col-span-1 text-center">{s.canceled}</div>
 
-      <div className="col-span-2 text-center">{formatLKR(earning)}</div>
+      <div className="col-span-2 text-center">
+        {CURRENCY} {earning}
+      </div>
     </div>
   );
 };

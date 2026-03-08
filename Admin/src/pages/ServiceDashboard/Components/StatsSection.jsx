@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / ServiceDashboard / Components / StatsSection.jsx
 import {
   Banknote,
   Calendar,
@@ -7,7 +6,7 @@ import {
   XCircle,
 } from "lucide-react";
 import StatCard from "../../../components/StatCard";
-import { formatLKR } from "../../../utils/serviceDashboardUtils";
+import { CURRENCY } from "../../../utils/helpers";
 
 const StatsSection = ({ totals }) => {
   return (
@@ -27,7 +26,7 @@ const StatsSection = ({ totals }) => {
       <StatCard
         icon={<Banknote size={18} />}
         label="Total Earnings"
-        value={formatLKR(totals.totalEarning)}
+        value={`${CURRENCY} ${totals.totalEarning}`}
       />
 
       <StatCard

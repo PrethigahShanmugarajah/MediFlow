@@ -1,4 +1,3 @@
-// MediFlow / Server / utils / serviceAppointmentHelper.js
 import { getAuth } from "@clerk/express";
 
 /* -------- Convert value to a safe number or return null -------- */

@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / ListServices / Components / EditCard.jsx
 import { Image, Plus, X } from "lucide-react";
 import { InputField } from "../../../components/FormField/InputField";
 import { SelectInput } from "../../../components/FormField/SelectInput";
@@ -9,7 +8,9 @@ import {
   availabilityOptions,
   hourOptions,
   minuteOptions,
-} from "../../../utils/listServicesUtils";
+} from "../../../utils/helpers";
+import { ClipLoader } from "react-spinners";
+import { NoImage } from "../../../assets";
 
 const EditCard = ({
   editForm,
@@ -21,6 +22,7 @@ const EditCard = ({
   removeSlot,
   cancelEdit,
   saveEdit,
+  saveLoading,
   setEditForm,
 }) => {
   return (
@@ -29,7 +31,7 @@ const EditCard = ({
         <div className="w-full sm:w-36 h-36 rounded-lg overflow-hidden bg-indigo-50 ring-1 ring-indigo-50 shrink-0">
           {editForm?.imagePreview ? (
             <img
-              src={editForm.imagePreview}
+              src={editForm.imagePreview || NoImage}
               alt="preview"
               className="w-full h-full object-cover"
             />
@@ -71,13 +73,13 @@ const EditCard = ({
               label="Availability"
               size="m"
               labelClassName="mb-0"
-              value={editForm.available ? "true" : "false"}
+              value={editForm.available ? "Available" : "Unavailable"}
               options={availabilityOptions}
               isClearable={false}
               onChange={(val) =>
                 setEditForm((p) => ({
                   ...p,
-                  available: val === "true",
+                  available: val === "Available",
                 }))
               }
               className="w-full sm:w-56 mt-2"
@@ -90,7 +92,7 @@ const EditCard = ({
               labelPosition="top"
               name="serviceImage"
               accept="image/*"
-              size="xs sm:s md:m lg:l xl:xl 2xl:xxl"
+              size="xs sm:s md:m lg:l"
               className="w-full"
               inputClassName="w-full"
               labelClassName="text-sm mb-1 text-indigo-700"
@@ -219,9 +221,16 @@ const EditCard = ({
 
         <button
           onClick={saveEdit}
-          className="px-3 py-2 rounded-full cursor-pointer bg-indigo-600 text-white w-full sm:w-auto"
+          disabled={saveLoading}
+          className={`rounded-full cursor-pointer bg-indigo-600 text-white w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 ${saveLoading ? "px-5 py-3" : "px-3 py-2"}`}
         >
-          Save
+          {saveLoading ? (
+            <>
+              <ClipLoader size={18} color="#FFFFFF" />
+            </>
+          ) : (
+            "Save"
+          )}
         </button>
       </div>
     </div>

@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / doctor / DoctorEditProfile / Components / ProfileActions.jsx
 import { Save } from "lucide-react";
 import { ClipLoader } from "react-spinners";
 

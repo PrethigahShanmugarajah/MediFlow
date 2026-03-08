@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / common / ShowMoreButton.jsx
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -69,3 +68,4 @@ const ShowMoreButton = ({
 };
 
 export default ShowMoreButton;
+

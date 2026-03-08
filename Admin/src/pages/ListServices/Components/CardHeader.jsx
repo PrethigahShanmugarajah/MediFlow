@@ -1,6 +1,10 @@
-// MediFlow / Admin / src / pages / ListServices / Components / CardHeader.jsx
 import { Calendar, Check, ChevronDown, Image, X } from "lucide-react";
-import { CURRENCY } from "../../../utils/helpers";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatParagraph,
+} from "../../../utils/helpers";
+import { NoImage } from "../../../assets";
 
 const CardHeader = ({ svc, isOpen, onToggle }) => {
   return (
@@ -11,7 +15,7 @@ const CardHeader = ({ svc, isOpen, onToggle }) => {
       <div className="w-full sm:w-20 h-40 sm:h-20 rounded-lg overflow-hidden bg-indigo-50 ring-1 ring-indigo-50 shrink-0">
         {svc.image ? (
           <img
-            src={svc.image}
+            src={svc.image || NoImage}
             alt={svc.name}
             className="w-full h-full object-cover"
           />
@@ -26,11 +30,11 @@ const CardHeader = ({ svc, isOpen, onToggle }) => {
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
           <div className="min-w-0">
             <h2 className="text-lg font-semibold text-indigo-700 truncate">
-              {svc.name}
+              {capitalizeWords(svc.name)}
             </h2>
 
             <p className="text-sm text-indigo-500 mt-1 line-clamp-2">
-              {svc.about}
+              {formatParagraph(svc.about)}
             </p>
           </div>
 
@@ -61,7 +65,7 @@ const CardHeader = ({ svc, isOpen, onToggle }) => {
         <div className="mt-2 flex items-center gap-2 font-bold text-sm text-indigo-600">
           <Calendar className="w-4 h-4" />
           <span>
-            {svc.slots.length} slot{svc.slots.length !== 1 ? "s" : ""}
+            {svc.slots.length} Slot{svc.slots.length !== 1 ? "s" : ""}
           </span>
         </div>
       </div>

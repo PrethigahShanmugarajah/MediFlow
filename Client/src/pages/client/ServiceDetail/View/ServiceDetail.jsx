@@ -1,30 +1,29 @@
-// MediFlow / Client / src / pages / client / ServiceDetail / View / ServiceDetail.jsx
 import { useMemo, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { CalendarCheck, Clock, SearchX } from "lucide-react";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import {
-  getPrefillFromClerkUser,
-  getScheduleDates,
-  getSlotsForSelectedDate,
-  sanitizeMobile10,
-} from "../../../../utils/client/serviceDetailUtils";
 import {
   bookServiceAppointmentApi,
   fetchServiceBookedSlotsApi,
   fetchServiceByIdApi,
 } from "../Service/ServiceDetailService";
 import DetailPageLoader from "../../../../components/common/DetailPageLoader";
-import DetailErrorState from "../../../../components/common/DetailErrorState";
+import DetailErrorState from "../../../../components/client/DetailErrorState";
 import NotFoundState from "../../../../components/common/NotFoundState";
 import Header from "../Components/Header";
 import ServiceProfile from "../Components/ServiceProfile";
 import ServiceInformation from "../Components/ServiceInformation";
-import DateSelector from "../../../../components/common/DateSelector";
-import PatientDetailsForm from "../../../../components/common/PatientDetailsForm";
-import TimeSlotSelector from "../../../../components/common/TimeSlotSelector";
+import DateSelector from "../../../../components/client/DateSelector";
+import PatientDetailsForm from "../../../../components/client/PatientDetailsForm";
+import TimeSlotSelector from "../../../../components/client/TimeSlotSelector";
 import Summary from "../Components/Summary";
 import { BeatLoader } from "react-spinners";
+import {
+  getPrefillFromClerkUser,
+  getScheduleDates,
+  getSlotsForSelectedDate,
+  sanitizeMobile10,
+} from "../../../../utils/client/clientHelpers";
 
 const ServiceDetail = () => {
   const { id } = useParams();

@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / doctor / DoctorDashboard / Components / ViewCard.jsx
 import {
   User,
   Phone,
@@ -9,14 +8,17 @@ import {
   Activity,
 } from "lucide-react";
 import StatusSelect from "../../../../components/doctor/StatusSelect";
-import { CURRENCY } from "../../../../utils/doctor/helpers";
-import {
-  formatDate,
-  formatPatientName,
-  formatTimeAMPM,
-} from "../../../../utils/doctor/doctorDashboardUtils";
 import RescheduleButton from "../../../../components/doctor/RescheduleButton";
 import StatusBadge from "../../../../components/doctor/StatusBadge";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatDoctorName,
+} from "../../../../utils/helpers";
+import {
+  formatDate,
+  formatTimeAMPM,
+} from "../../../../utils/doctor/doctorHelpers";
 
 const ViewCard = ({ appointment, onUpdateStatus, onReschedule }) => {
   const a = appointment;
@@ -39,20 +41,20 @@ const ViewCard = ({ appointment, onUpdateStatus, onReschedule }) => {
           <div className="mt-4 flex flex-col gap-3 text-black text-sm sm:text-base">
             <div className="flex items-center gap-3">
               <User className="w-4 h-4 text-indigo-500" />
-              <span className="font-medium">
-                {formatPatientName(a.patient)}
-              </span>
+              <span className="font-medium">{capitalizeWords(a.patient)}</span>
             </div>
 
             <div className="flex items-center gap-3">
               <Stethoscope className="w-4 h-4 text-indigo-500" />
-              <span className="font-medium">{a.doctorName}</span>
+              <span className="font-medium">
+                {formatDoctorName(a.doctorName)}
+              </span>
             </div>
 
             {!!a.speciality && (
               <div className="flex items-center gap-3">
                 <Activity className="w-4 h-4 text-indigo-500" />
-                <span>{a.speciality}</span>
+                <span>{capitalizeWords(a.speciality)}</span>
               </div>
             )}
 

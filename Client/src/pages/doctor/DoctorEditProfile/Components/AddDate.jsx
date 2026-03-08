@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / doctor / DoctorEditProfile / Components / AddDate.jsx
 import { useState } from "react";
 import { InputField } from "../../../../components/common/FormField/InputField";
 import { Plus } from "lucide-react";

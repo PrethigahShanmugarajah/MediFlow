@@ -1,4 +1,3 @@
-// MediFlow / Client / src / data / client / footerData.js
 import { Facebook, Instagram, Linkedin, Github } from "lucide-react";
 
 export const quickLinks = [

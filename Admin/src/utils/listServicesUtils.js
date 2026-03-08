@@ -1,39 +1,4 @@
-// MediFlow / Admin / src / utils / listServicesUtils.js
-
-/* -------- List of month -------- */
-export const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-/* -------- Return today's date as "YYYY-MM-DD" -------- */
-export function getTodayISO() {
-  const d = new Date();
-  const yyyy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
-}
-
-/* -------- Convert "YYYY-MM-DD" to human readable "DD Mon YYYY" -------- */
-export function formatDateHuman(dateStr, months = MONTHS) {
-  if (!dateStr) return "";
-  const parts = String(dateStr).split("-");
-  if (parts.length !== 3) return dateStr;
-  const [y, m, d] = parts;
-  const mon = months[Number(m) - 1] || m;
-  return `${String(Number(d))} ${mon} ${y}`;
-}
+import { formatDateISO, MONTHS } from "./helpers";
 
 /* -------- Convert slot object to milliseconds timestamp -------- */
 export function slotDateTimeToMs(slot) {
@@ -111,7 +76,7 @@ export function convertSlotsForUI(slotStrings = [], months = MONTHS) {
       const day = m[1].padStart(2, "0");
       const monthShort = m[2];
       const year = m[3];
-      const hour = String(Number(m[4]));
+      const hour = String(Number(m[4])).padStart(2, "0");
       const minute = String(m[5]).padStart(2, "0");
       const ampm = (m[6] || "AM").toUpperCase();
       const mi = months.findIndex(
@@ -140,10 +105,10 @@ export function convertSlotsForUI(slotStrings = [], months = MONTHS) {
           hour = "12";
           ampm = "PM";
         } else if (hh > 12) {
-          hour = String(hh - 12);
+          hour = String(hh - 12).padStart(2, "0");
           ampm = "PM";
         } else {
-          hour = String(hh);
+          hour = String(hh).padStart(2, "0");
           ampm = "AM";
         }
       }
@@ -200,10 +165,10 @@ export function parseFrontendSlotString(date, timeStr) {
       slot.hour = "12";
       slot.ampm = "PM";
     } else if (hh24 > 12) {
-      slot.hour = String(hh24 - 12);
+      slot.hour = String(hh24 - 12).padStart(2, "0");
       slot.ampm = "PM";
     } else {
-      slot.hour = String(hh24);
+      slot.hour = String(hh24).padStart(2, "0");
       slot.ampm = "AM";
     }
 
@@ -212,11 +177,10 @@ export function parseFrontendSlotString(date, timeStr) {
 
   const m = raw.match(/(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
   if (m) {
-    slot.hour = String(Number(m[1]));
+    slot.hour = String(Number(m[1])).padStart(2, "0");
     slot.minute = String(m[2]).padStart(2, "0");
     slot.ampm = (m[3] || "AM").toUpperCase();
   }
-
   return slot;
 }
 
@@ -300,10 +264,10 @@ export function validateSlots(slots = [], nowMs = Date.now()) {
         message:
           "Please provide a valid date (year-month-day) for all slots. Example: 2025-12-31.",
       };
-    if (!slot.hour || !/^(?:[1-9]|1[0-2])$/.test(String(slot.hour)))
+    if (!slot.hour || !/^(?:0[1-9]|1[0-2])$/.test(String(slot.hour)))
       return {
         valid: false,
-        message: "Please select hour (1-12) for all slots.",
+        message: "Please select hour (01-12) for all slots.",
       };
     if (!slot.minute || !/^\d{2}$/.test(String(slot.minute)))
       return {
@@ -349,7 +313,11 @@ export function getNextSlotId(slots = []) {
 }
 
 /* -------- Filter services by search text and availability -------- */
-export function filterServices(services = [], search = "", filterMode = "all") {
+export function filterServiceList(
+  services = [],
+  search = "",
+  filterMode = "all",
+) {
   const q = String(search || "")
     .trim()
     .toLowerCase();
@@ -410,7 +378,7 @@ export function parseInstructionsText(text = "") {
 }
 
 /* -------- Build FormData for sending service form to API -------- */
-export function buildServiceFormData(editForm, instructionsArray) {
+export function buildEditServiceFormData(editForm, instructionsArray) {
   const fd = new FormData();
   fd.append("name", editForm?.name || "");
   fd.append("about", editForm?.about || "");
@@ -513,7 +481,7 @@ export function updateSlotInEditForm(editForm, slotId, field, value, todayISO) {
 
   if (dupKey) {
     const [date, hour, minute, ampm] = dupKey.split("|");
-    dupMsg = `A duplicate time slot has been detected for ${formatDateHuman(date)} at ${hour}:${minute} ${ampm}.`;
+    dupMsg = `A duplicate time slot has been detected for ${formatDateISO(date)} at ${hour}:${minute} ${ampm}.`;
   }
 
   return {
@@ -562,7 +530,7 @@ export function safeReplaceImagePreview(prevPreview, file) {
 /* -------- Build payload (FormData + instructions + id) for updating service -------- */
 export function buildUpdatePayloadFromEditForm(editForm) {
   const instructions = parseInstructionsText(editForm?.instructionsText);
-  const fd = buildServiceFormData(editForm, instructions);
+  const fd = buildEditServiceFormData(editForm, instructions);
   const id = editForm?.id;
   return { id, fd, instructions };
 }
@@ -579,30 +547,3 @@ export function removeSlotFromForm(editForm, slotId) {
   const nextSlots = (editForm?.slots || []).filter((s) => s.id !== slotId);
   return { ...(editForm || {}), slots: nextSlots };
 }
-
-/* -------- Options for service availability dropdown -------- */
-export const availabilityOptions = [
-  { value: "true", label: "Available" },
-  { value: "false", label: "Unavailable" },
-];
-
-/* -------- Generate hours 1-12 for time selection -------- */
-export const hourOptions = Array.from({ length: 12 }, (_, i) => {
-  const h = i + 1;
-  return {
-    value: String(h),
-    label: String(h).padStart(2, "0"),
-  };
-});
-
-/* -------- Generate minutes 00-59 for time selection -------- */
-export const minuteOptions = Array.from({ length: 60 }, (_, i) => {
-  const value = String(i).padStart(2, "0");
-  return { value, label: value };
-});
-
-/* -------- Options for AM/PM dropdown -------- */
-export const ampmOptions = [
-  { value: "AM", label: "AM" },
-  { value: "PM", label: "PM" },
-];

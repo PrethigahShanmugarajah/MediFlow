@@ -1,4 +1,3 @@
-// MediFlow / Server / controllers / serviceController.js
 import Service from "../models/Service.js";
 import {
   deleteFromCloudinary,
@@ -22,15 +21,15 @@ export async function createService(req, res) {
     const numericPrice = sanitizePrice(b.price);
     const available = parseAvailability(b.availability);
 
-    let imageUrl = null;
+    let imageUrl = b.imageUrl || null;
     let imagePublicId = null;
     if (req.file) {
       try {
         const up = await uploadToCloudinary(req.file.path, "services");
         imageUrl = up?.secure_url || null;
         imagePublicId = up?.public_id || null;
-      } catch (err) {
-        console.error("Cloudinary upload error:", err);
+      } catch (error) {
+        console.error("Cloudinary upload error:", error);
       }
     }
 

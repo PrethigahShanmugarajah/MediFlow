@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / Home / Components / Banner.jsx
 import {
   Calendar,
   Clock,

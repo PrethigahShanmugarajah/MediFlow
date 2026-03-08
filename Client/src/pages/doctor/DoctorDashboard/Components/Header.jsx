@@ -1,7 +1,6 @@
-// MediFlow / Client / src / pages / doctor / DoctorDashboard / Components / Header.jsx
 import { BeatLoader } from "react-spinners";
 import DocTitle from "../../../../components/doctor/DocTitle";
-import { formatDoctorName } from "../../../../utils/doctor/doctorDashboardUtils";
+import { formatDoctorName } from "../../../../utils/helpers";
 
 const Header = ({
   doctorName,

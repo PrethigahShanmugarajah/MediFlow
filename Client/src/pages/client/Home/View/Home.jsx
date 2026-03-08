@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / Home / View / Home.jsx
 import Banner from "../Components/Banner";
 import Certification from "../Components/Certification";
 import HomeDoctors from "../Components/HomeDoctors";

@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / AddService / Components / AddServiceHeader.jsx
 import Title from "../../../components/Title";
 import { CheckCircle } from "lucide-react";
 import { ClipLoader } from "react-spinners";

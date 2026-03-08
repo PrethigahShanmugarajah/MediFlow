@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / components / FilterToolbar.jsx
 import SearchField from "./SearchField";
 
 const COLOR_MAP = {

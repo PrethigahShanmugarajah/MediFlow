@@ -1,5 +1,3 @@
-// MediFlow / Client / src / components / common / ClientTitle.jsx
-
 const ClientTitle = ({ title, description }) => {
   const colors = ["text-indigo-600", "text-blue-600", "text-black"];
 

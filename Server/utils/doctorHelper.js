@@ -1,5 +1,3 @@
-// MediFlow / Server / utils / doctorHelper.js
-
 /* -------- Convert time like "9:30 AM" to minutes -------- */
 export const parseTimeToMinutes = (t = "") => {
   const [time = "0:00", ampm = ""] = (t || "").split(" ");

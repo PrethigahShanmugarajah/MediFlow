@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / Home / Components / Certification.jsx
 import { certificationsData } from "../../../../data/client/certificationsData";
 import ClientTitle from "../../../../components/client/ClientTitle";
 import "../Home.css";

@@ -1,6 +1,5 @@
-// MediFlow / Client / src / pages / Doctors / Service / DoctorsService.jsx
 import { fetchDoctors } from "../../../../services/fetch";
-import { normalizeDoctorsResponse } from "../../../../utils/client/doctorsUtils";
+import { normalizeDoctor } from "../../../../utils/client/clientHelpers";
 
 export async function fetchDoctorsApi(setAllDoctors, setError, setLoading) {
   setLoading(true);
@@ -18,7 +17,8 @@ export async function fetchDoctorsApi(setAllDoctors, setError, setLoading) {
       return false;
     }
 
-    const normalized = normalizeDoctorsResponse(json);
+    const items = Array.isArray(json?.data) ? json.data : [];
+    const normalized = items.map(normalizeDoctor);
     setAllDoctors(normalized);
     return true;
   } catch {

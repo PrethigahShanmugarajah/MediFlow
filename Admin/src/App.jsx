@@ -1,16 +1,15 @@
-// MediFlow / Admin / src / App.jsx
 import { ToastContainer } from "react-toastify";
 import Navbar from "./components/Navbar/Navbar";
 import { Link, Route, Routes } from "react-router-dom";
-import Hero from "./pages/Hero/Hero";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import AddDoctor from "./pages/AddDoctor/AddDoctor";
-import ListDoctors from "./pages/ListDoctors/ListDoctors";
-import Appointments from "./pages/Appointments/Appointments";
-import ServiceDashboard from "./pages/ServiceDashboard/ServiceDashboard";
-import AddService from "./pages/AddService/AddService";
-import ListServices from "./pages/ListServices/ListServices";
-import ServiceAppointments from "./pages/ServiceAppointments/ServiceAppointments";
+import Hero from "./pages/Hero/View/Hero";
+import Dashboard from "./pages/Dashboard/View/Dashboard";
+import AddDoctor from "./pages/AddDoctor/View/AddDoctor";
+import ListDoctors from "./pages/ListDoctors/View/ListDoctors";
+import Appointments from "./pages/Appointments/View/Appointments";
+import ServiceDashboard from "./pages/ServiceDashboard/View/ServiceDashboard";
+import AddService from "./pages/AddService/View/AddService";
+import ListServices from "./pages/ListServices/View/ListServices";
+import ServiceAppointments from "./pages/ServiceAppointments/View/ServiceAppointments";
 import { useUser } from "@clerk/clerk-react";
 
 function RequireAuth({ children }) {

@@ -1,4 +1,3 @@
-// MediFlow / Client / src / data / client / testimonialsData.js
 import { TD1, TD2, TD3, TP1, TP2, TP3 } from "../../assets";
 
 export const testimonialsData = [

@@ -1,22 +1,21 @@
-// MediFlow / Client / src / pages / doctor / DoctorDashboard / Service / DoctorDashboardService.jsx
 import { fetchAppointmentsByDoctor } from "../../../../services/fetch";
 import { updateAppointment } from "../../../../services/mutations";
 import {
   extractAppointments,
-  frontendToBackendStatus,
+  mergeDashboardUpdatedAppointment,
   mergeRescheduledAppointment,
-  mergeUpdatedAppointment,
-  to12HourFrom24,
 } from "../../../../utils/doctor/doctorDashboardUtils";
+import {
+  frontendToBackendStatus,
+  to12HourFrom24,
+} from "../../../../utils/doctor/doctorHelpers";
 
-/* -------- Fetch appointments for doctor -------- */
 export async function fetchDoctorAppointmentsApi(doctorId) {
   if (!doctorId) return [];
   const data = await fetchAppointmentsByDoctor(doctorId);
   return extractAppointments(data);
 }
 
-/* -------- Update status (optimistic + merge) -------- */
 export async function updateAppointmentStatusApi({
   prevAppointments,
   id,
@@ -39,7 +38,7 @@ export async function updateAppointmentStatusApi({
     const data = await updateAppointment(id, { status: backendStatus });
     const updated = data?.appointment || data;
 
-    const merged = mergeUpdatedAppointment(
+    const merged = mergeDashboardUpdatedAppointment(
       optimistic,
       id,
       updated,
@@ -63,7 +62,6 @@ export async function updateAppointmentStatusApi({
   }
 }
 
-/* -------- Reschedule (optimistic + merge) -------- */
 export async function rescheduleAppointmentApi({
   prevAppointments,
   id,

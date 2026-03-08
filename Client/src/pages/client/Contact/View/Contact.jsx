@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / client / Contact / View / Contact.jsx
 import { useState } from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 import "../Contact.css";

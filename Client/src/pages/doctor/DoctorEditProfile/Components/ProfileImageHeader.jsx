@@ -1,6 +1,6 @@
-// MediFlow / Client / src / pages / doctor / DoctorEditProfile / Components / ProfileImageHeader.jsx
 import { Image } from "lucide-react";
 import { FileInputField } from "../../../../components/common/FormField/FileInputField";
+import { NoPersonImage } from "../../../../assets";
 
 const ProfileImageHeader = ({
   doc,
@@ -13,7 +13,7 @@ const ProfileImageHeader = ({
       <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 md:left-8 md:transform-none">
         <div className="relative group">
           <img
-            src={imagePreview || ""}
+            src={imagePreview || NoPersonImage}
             alt={doc.name}
             className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 md:ml-23 rounded-full object-cover border-4 border-white shadow-2xl"
           />

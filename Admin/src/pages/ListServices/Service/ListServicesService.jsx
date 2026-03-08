@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / ListServices / Service / ListServicesService.jsx
 import { fetchServiceByID, fetchServices } from "../../../services/fetch";
 import { deleteService, updateService } from "../../../services/mutations";
 import {

@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / Dashboard / Components / StatsSection.jsx
 import { ClipLoader } from "react-spinners";
 import StatCard from "../../../components/StatCard";
 import {

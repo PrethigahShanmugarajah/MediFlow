@@ -1,4 +1,4 @@
-// MediFlow / Admin / src / utils / dashboardUtils.js
+import { NoPersonImage } from "../assets";
 
 /* -------- Safely convert a value to a number, fallback to default if invalid -------- */
 export const safeNumber = (v, fallback = 0) => {
@@ -25,11 +25,7 @@ export const normalizeDoctor = (doc) => {
     doc.fee ?? doc.fees ?? doc.consultationFee ?? doc.consultation_fee ?? 0,
     0,
   );
-  const image =
-    doc.imageUrl ||
-    doc.image ||
-    doc.avatar ||
-    `https://i.pravatar.cc/150?u=${id}`;
+  const image = doc.imageUrl || doc.image || doc.avatar || NoPersonImage;
 
   const appointments = {
     total:
@@ -108,7 +104,7 @@ export const computeDashboardTotals = (doctors = []) => {
 };
 
 /* -------- Filter doctors based on search query -------- */
-export const filterDoctors = (doctors = [], query = "") => {
+export const filterDashboardDoctors = (doctors = [], query = "") => {
   if (!query) return doctors;
 
   const q = query.trim().toLowerCase();
@@ -126,6 +122,3 @@ export const filterDoctors = (doctors = [], query = "") => {
     return false;
   });
 };
-
-/* -------- Number of doctors to show initially in the dashboard -------- */
-export const INITIAL_COUNT = 8;

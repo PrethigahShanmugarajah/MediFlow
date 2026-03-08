@@ -1,11 +1,14 @@
-// MediFlow / Admin / src / pages / Appointments / Components / AppointmentCard.jsx
 import { Calendar } from "lucide-react";
 import {
-  formatDateISO,
   getAppointmentStatusFlags,
   getStatusBadgeClass,
 } from "../../../utils/appointmentsUtils";
-import { CURRENCY } from "../../../utils/helpers";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatDateISO,
+  formatDoctorName,
+} from "../../../utils/helpers";
 import "../Appointments.css";
 
 const AppointmentCard = ({ appointment, index, isAdmin, onAdminCancel }) => {
@@ -26,7 +29,7 @@ const AppointmentCard = ({ appointment, index, isAdmin, onAdminCancel }) => {
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="text-base sm:text-lg font-medium text-indigo-800 truncate">
-              {appointment.patientName}
+              {capitalizeWords(appointment.patientName)}
             </h3>
 
             <div className="text-xs sm:text-sm text-indigo-500 flex items-center gap-2">
@@ -39,9 +42,9 @@ const AppointmentCard = ({ appointment, index, isAdmin, onAdminCancel }) => {
           </div>
 
           <div className="mt-1 text-xs sm:text-sm text-indigo-600 truncate">
-            {appointment.doctorName} :{" "}
+            {formatDoctorName(appointment.doctorName)} :{" "}
             <span className="font-medium text-indigo-700">
-              {appointment.speciality}
+              {capitalizeWords(appointment.speciality)}
             </span>
           </div>
         </div>

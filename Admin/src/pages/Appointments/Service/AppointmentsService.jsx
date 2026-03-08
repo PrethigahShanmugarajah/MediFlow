@@ -1,7 +1,6 @@
-// MediFlow / Admin / src / pages / Appointments / Service / AppointmentsService.jsx
 import { fetchAppointments } from "../../../services/fetch";
 import { cancelAppointment } from "../../../services/mutations";
-import { normalizeAppointments } from "../../../utils/appointmentsUtils";
+import { normalizeDoctorAppointments } from "../../../utils/appointmentsUtils";
 
 export async function getAppointmentsForPage({
   limit = 200,
@@ -12,7 +11,7 @@ export async function getAppointmentsForPage({
     ...(search ? { search } : {}),
   });
 
-  return normalizeAppointments(data);
+  return normalizeDoctorAppointments(data);
 }
 
 export async function adminCancelAppointmentById(id) {
@@ -25,5 +24,5 @@ export async function adminCancelAppointmentById(id) {
 
 export async function reloadAppointments(limit = 200) {
   const body = await fetchAppointments({ limit });
-  return normalizeAppointments(body);
+  return normalizeDoctorAppointments(body);
 }

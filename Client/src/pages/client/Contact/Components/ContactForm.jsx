@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / client / Contact / Components / ContactForm.jsx
 import {
   Mail,
   MapPin,

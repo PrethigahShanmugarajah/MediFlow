@@ -1,5 +1,3 @@
-// MediFlow / Admin / src / pages / Hero / components / InfoCard.jsx
-
 const InfoCard = ({ title, description }) => {
   return (
     <div className="p-4 rounded-lg bg-indigo-50 border border-indigo-100 text-left">

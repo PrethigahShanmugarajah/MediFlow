@@ -1,4 +1,3 @@
-// MediFlow / Server / models / ServiceAppointment.js
 import mongoose from "mongoose";
 
 const serviceAppointmentSchema = new mongoose.Schema(

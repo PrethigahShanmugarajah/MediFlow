@@ -1,19 +1,3 @@
-// MediFlow / Admin / src / utils / appointmentsUtils.js
-
-/* -------- Format ISO date to "DD MMM YYYY" string -------- */
-export function formatDateISO(iso) {
-  try {
-    const d = new Date(iso + "T00:00:00");
-    return d.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  } catch (e) {
-    return iso;
-  }
-}
-
 /* -------- Convert a slot object to a Date object -------- */
 export function dateTimeFromSlot(slot) {
   try {
@@ -26,13 +10,13 @@ export function dateTimeFromSlot(slot) {
     if (ampm === "AM" && hh === 12) hh = 0;
     base.setHours(hh, mm, 0, 0);
     return base;
-  } catch (e) {
+  } catch (error) {
     return new Date(slot.date + "T00:00:00");
   }
 }
 
 /* -------- Normalize raw appointments data into consistent structure -------- */
-export function normalizeAppointments(data) {
+export function normalizeDoctorAppointments(data) {
   return (data?.appointments || []).map((a) => ({
     id: a._id || a.id,
     patientName: a.patientName || "",
@@ -56,7 +40,7 @@ export function normalizeAppointments(data) {
 }
 
 /* -------- Filter appointments by search, date, and speciality -------- */
-export function filterAppointments(
+export function filterDoctorAppointments(
   appointments,
   { query = "", filterDate = "", filterSpeciality = "all" } = {},
 ) {

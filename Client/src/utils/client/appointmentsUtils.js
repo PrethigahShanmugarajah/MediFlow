@@ -1,8 +1,36 @@
-// MediFlow / Client / src / utils / client / appointmentsUtils.js
+import { NoImage, NoPersonImage } from "../../assets";
 
 /* -------- Pad a number with leading zero -------- */
 export function pad(n) {
   return String(n ?? 0).padStart(2, "0");
+}
+
+/* -------- Build appointment time string -------- */
+export function buildTimeString(item) {
+  let time = item.time || "";
+
+  if (!time) {
+    if (item.hour !== undefined && item.minute !== undefined && item.ampm) {
+      time = `${item.hour}:${pad(item.minute)} ${item.ampm}`;
+    } else if (item.hour !== undefined && item.ampm) {
+      time = `${item.hour}:00 ${item.ampm}`;
+    }
+  }
+
+  return time;
+}
+
+/* -------- Get payment method from appointment -------- */
+export function getPaymentMethod(item) {
+  return (item.payment && item.payment.method) || "Cash";
+}
+
+/* -------- Get basic appointment status -------- */
+export function getAppointmentStatus(item) {
+  return (
+    item.status ||
+    (item.payment && item.payment.status === "Paid" ? "Confirmed" : "Pending")
+  );
 }
 
 /* -------- Convert date + time string to JS Date -------- */
@@ -128,7 +156,7 @@ export function mapDoctorAppointment(a) {
     doctorObj.avatar ||
     a.doctorImage?.url ||
     a.doctorImage ||
-    "";
+    NoPersonImage;
 
   const doctorName =
     (doctorObj.name && String(doctorObj.name).trim()) ||
@@ -137,47 +165,24 @@ export function mapDoctorAppointment(a) {
     (a.patientName && String(a.patientName).trim()) ||
     "Doctor";
 
-  const patientName = a.patientName || a.patient || "Patient";
-
-  const specialization =
-    doctorObj.specialization || a.specialization || a.speciality || "";
-
-  const experience = doctorObj.experience || a.experience || "";
-  const date = a.date || "";
-
-  let time = a.time || "";
-  if (!time) {
-    if (a.hour !== undefined && a.minute !== undefined && a.ampm) {
-      time = `${a.hour}:${pad(a.minute)} ${a.ampm}`;
-    } else if (a.hour !== undefined && a.ampm) {
-      time = `${a.hour}:00 ${a.ampm}`;
-    }
-  }
-
-  const payment = (a.payment && a.payment.method) || "Cash";
-  const status =
-    a.status ||
-    (a.payment && a.payment.status === "Paid" ? "Confirmed" : "Pending");
-
-  const rescheduledTo = normalizeRescheduled(
-    a.rescheduledTo || {
-      date: a.rescheduledDate,
-      time: a.rescheduledTime,
-    },
-  );
-
   return {
     id,
     image,
     doctor: doctorName,
-    patientName,
-    specialization,
-    experience,
-    date,
-    time,
-    payment,
-    status,
-    rescheduledTo,
+    patientName: a.patientName || a.patient || "Patient",
+    specialization:
+      doctorObj.specialization || a.specialization || a.speciality || "",
+    experience: doctorObj.experience || a.experience || "",
+    date: a.date || "",
+    time: buildTimeString(a),
+    payment: getPaymentMethod(a),
+    status: getAppointmentStatus(a),
+    rescheduledTo: normalizeRescheduled(
+      a.rescheduledTo || {
+        date: a.rescheduledDate,
+        time: a.rescheduledTime,
+      },
+    ),
   };
 }
 
@@ -192,49 +197,28 @@ export function mapServiceAppointment(s) {
     svc.imageSmall ||
     s.serviceImage?.url ||
     s.serviceImage ||
-    "";
-
-  const name = s.serviceName || svc.name || svc.title || "Service";
-  const patientName = s.patientName || s.patient || "Patient";
-  const price = s.fees ?? s.amount ?? s.price ?? 0;
-  const date = s.date || "";
-
-  let time = s.time || "";
-  if (!time) {
-    if (s.hour !== undefined && s.minute !== undefined && s.ampm) {
-      time = `${s.hour}:${pad(s.minute)} ${s.ampm}`;
-    } else if (s.hour !== undefined && s.ampm) {
-      time = `${s.hour}:00 ${s.ampm}`;
-    }
-  }
-
-  const payment = (s.payment && s.payment.method) || "Cash";
-  const status =
-    s.status ||
-    (s.payment && s.payment.status === "Paid" ? "Confirmed" : "Pending");
-
-  const rescheduledTo =
-    status === "Rescheduled"
-      ? normalizeRescheduled({
-          date: s.rescheduledTo?.date || s.rescheduledDate || s.date,
-          time: s.rescheduledTo?.time,
-          hour: s.rescheduledTo?.hour ?? s.hour,
-          minute: s.rescheduledTo?.minute ?? s.minute,
-          ampm: s.rescheduledTo?.ampm ?? s.ampm,
-        })
-      : normalizeRescheduled(s.rescheduledTo || null);
+    NoImage;
 
   return {
     id,
     image,
-    name,
-    patientName,
-    price,
-    date,
-    time,
-    payment,
-    status,
-    rescheduledTo,
+    name: s.serviceName || svc.name || svc.title || "Service",
+    patientName: s.patientName || s.patient || "Patient",
+    price: s.fees ?? s.amount ?? s.price ?? 0,
+    date: s.date || "",
+    time: buildTimeString(s),
+    payment: getPaymentMethod(s),
+    status: getAppointmentStatus(s),
+    rescheduledTo:
+      getAppointmentStatus(s) === "Rescheduled"
+        ? normalizeRescheduled({
+            date: s.rescheduledTo?.date || s.rescheduledDate || s.date,
+            time: s.rescheduledTo?.time,
+            hour: s.rescheduledTo?.hour ?? s.hour,
+            minute: s.rescheduledTo?.minute ?? s.minute,
+            ampm: s.rescheduledTo?.ampm ?? s.ampm,
+          })
+        : normalizeRescheduled(s.rescheduledTo || null),
   };
 }
 
@@ -253,37 +237,4 @@ export function filterDoctorAppointments(arr) {
       !a.serviceId
     );
   });
-}
-
-/* -------- Smart Doctor Name Formatter -------- */
-export function formatDoctorName(name) {
-  if (!name) return "";
-
-  let trimmed = name.trim();
-
-  trimmed = trimmed.replace(/\s+/g, " ");
-
-  const capitalizeWords = (str) =>
-    str
-      .toLowerCase()
-      .split(" ")
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(" ");
-
-  if (/^prof\.?\s+dr\.?/i.test(trimmed)) {
-    return capitalizeWords(trimmed);
-  }
-
-  if (/^dr\.?/i.test(trimmed)) {
-    const withoutDuplicate = trimmed.replace(/^dr\.?\s*/i, "");
-    return `Dr. ${capitalizeWords(withoutDuplicate)}`;
-  }
-
-  return `Dr. ${capitalizeWords(trimmed)}`;
-}
-
-/* -------- Smart Service Name Formatter -------- */
-export function formatServiceName(name) {
-  if (!name || typeof name !== "string") return "";
-  return name.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase());
 }

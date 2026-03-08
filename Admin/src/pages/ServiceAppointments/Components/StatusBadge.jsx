@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / ServiceAppointments / Components / StatusBadge.jsx
 import {
   BadgeCheck,
   CheckCircle,

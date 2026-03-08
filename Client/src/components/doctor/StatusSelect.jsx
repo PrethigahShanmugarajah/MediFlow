@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / doctor / StatusSelect.jsx
 import { SelectInput } from "../common/FormField/SelectInput";
 
 const StatusSelect = ({ appointment, onChange }) => {

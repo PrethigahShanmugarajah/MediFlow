@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / client / Footer / Footer.jsx
 import {
   Activity,
   ArrowRight,

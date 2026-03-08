@@ -1,12 +1,12 @@
-// MediFlow / Client / src / pages / client / DoctorDetail / Components / Summary.jsx
 import { Phone } from "lucide-react";
-import { CURRENCY } from "../../../../utils/client/helpers";
 import { RadioInput } from "../../../../components/common/FormField/RadioInput";
-import {
-  formatDoctorName,
-  paymentOptions,
-} from "../../../../utils/client/doctorDetailUtils";
 import { ClipLoader } from "react-spinners";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatDoctorName,
+} from "../../../../utils/helpers";
+import { paymentOptions } from "../../../../utils/client/clientHelpers";
 
 const Summary = ({
   doctor,
@@ -31,7 +31,9 @@ const Summary = ({
         <div className="flex justify-between">
           <span className="text-md text-gray-600">Doctor Speciality:</span>
           <span className="font-semibold text-indigo-700 text-sm sm:text-base">
-            {doctor?.specialization || doctor?.speciality || "—"}
+            {capitalizeWords(
+              doctor?.specialization || doctor?.speciality || "—",
+            )}
           </span>
         </div>
 

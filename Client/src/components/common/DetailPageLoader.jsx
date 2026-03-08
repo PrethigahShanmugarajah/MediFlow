@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / common / DetailPageLoader.jsx
 import { ClipLoader } from "react-spinners";
 
 const DetailPageLoader = ({ bgClass, fullPage = false }) => {

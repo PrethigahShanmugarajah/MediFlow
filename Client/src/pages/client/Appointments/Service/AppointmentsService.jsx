@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / client / Appointments / Service / AppointmentsService.jsx
 import {
   fetchAppointmentsByPatient,
   fetchServiceAppointmentsByPatient,
@@ -8,7 +7,6 @@ import {
   getAppointmentsArray,
 } from "../../../../utils/client/appointmentsUtils";
 
-/* -------- Fetch doctor appointments by patient -------- */
 export async function fetchDoctorAppointmentsByPatientApi(getToken) {
   const token = await getToken?.();
   const data = await fetchAppointmentsByPatient(token);
@@ -16,7 +14,6 @@ export async function fetchDoctorAppointmentsByPatientApi(getToken) {
   return filterDoctorAppointments(arr);
 }
 
-/* -------- Fetch service appointments by patient -------- */
 export async function fetchServiceAppointmentsByPatientApi(getToken) {
   const token = await getToken?.();
   const data = await fetchServiceAppointmentsByPatient(token);

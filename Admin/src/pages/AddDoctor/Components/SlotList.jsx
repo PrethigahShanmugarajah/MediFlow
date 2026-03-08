@@ -1,6 +1,5 @@
-// MediFlow / Admin / src / pages / AddDoctor / Components / SlotList.jsx
+import { formatDateISO } from "../../../utils/helpers";
 import { Trash2 } from "lucide-react";
-import { formatDateISO } from "../../../utils/addDoctorUtils";
 
 const SlotList = ({ schedule, getFlatSlots, onRemove, className = "" }) => {
   const slots = getFlatSlots(schedule);

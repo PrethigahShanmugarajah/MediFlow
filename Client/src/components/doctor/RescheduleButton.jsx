@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / doctor / RescheduleButton.jsx
 import { useEffect, useMemo, useState } from "react";
 import { InputField } from "../common/FormField/InputField";
 

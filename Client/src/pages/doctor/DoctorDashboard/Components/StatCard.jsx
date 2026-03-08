@@ -1,5 +1,3 @@
-// MediFlow / Client / src / pages / doctor / DoctorDashboard / Components / StatCard.jsx
-
 const StatCard = ({ icon, label, value }) => {
   return (
     <div className="rounded-full bg-linear-to-br from-indigo-100 to-indigo-50 shadow-sm border border-blue-100 p-4 gap-4 flex items-center">

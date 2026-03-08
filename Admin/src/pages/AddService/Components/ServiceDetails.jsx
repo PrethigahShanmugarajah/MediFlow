@@ -1,8 +1,7 @@
-// MediFlow / Admin / src / pages / AddService / Components / ServiceDetails.jsx
 import { InputField } from "../../../components/FormField/InputField";
 import { SelectInput } from "../../../components/FormField/SelectInput";
 import { TextAreaField } from "../../../components/FormField/TextAreaField";
-import { availabilityOptions } from "../../../utils/addServiceUtils";
+import { availabilityOptions } from "../../../utils/helpers";
 
 const ServiceDetails = ({
   serviceName,

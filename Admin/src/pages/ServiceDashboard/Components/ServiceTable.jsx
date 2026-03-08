@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / ServiceDashboard / Components / ServiceTable.jsx
 import { ScaleLoader } from "react-spinners";
 import ServiceRowTablet from "./ServiceRowTablet";
 import ServiceRowDesktop from "./ServiceRowDesktop";

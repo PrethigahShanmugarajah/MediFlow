@@ -1,30 +1,29 @@
-// MediFlow / Client / src / pages / client / DoctorDetail / View / DoctorDetail.jsx
 import { useMemo, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { CalendarCheck, Clock, UserX } from "lucide-react";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import {
-  getPrefillFromClerkUser,
-  getScheduleDates,
-  getSlotsForSelectedDate,
-  sanitizeMobile10,
-} from "../../../../utils/client/doctorDetailUtils";
 import {
   bookAppointmentApi,
   fetchBookedSlotsApi,
   fetchDoctorByIdApi,
 } from "../Service/DoctorDetailService";
 import DetailPageLoader from "../../../../components/common/DetailPageLoader";
-import DetailErrorState from "../../../../components/common/DetailErrorState";
+import DetailErrorState from "../../../../components/client/DetailErrorState";
 import NotFoundState from "../../../../components/common/NotFoundState";
 import Header from "../Components/Header";
 import DoctorProfile from "../Components/DoctorProfile";
 import DoctorInformation from "../Components/DoctorInformation";
-import DateSelector from "../../../../components/common/DateSelector";
-import PatientDetailsForm from "../../../../components/common/PatientDetailsForm";
+import DateSelector from "../../../../components/client/DateSelector";
+import PatientDetailsForm from "../../../../components/client/PatientDetailsForm";
 import { BeatLoader } from "react-spinners";
-import TimeSlotSelector from "../../../../components/common/TimeSlotSelector";
+import TimeSlotSelector from "../../../../components/client/TimeSlotSelector";
 import Summary from "../Components/Summary";
+import {
+  getPrefillFromClerkUser,
+  getScheduleDates,
+  getSlotsForSelectedDate,
+  sanitizeMobile10,
+} from "../../../../utils/client/clientHelpers";
 
 const DoctorDetail = () => {
   const { id } = useParams();

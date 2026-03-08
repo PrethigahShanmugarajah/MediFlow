@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / ServiceDetail / Components / ServiceProfile.jsx
 import { NoImage } from "../../../../assets";
 
 const ServiceProfile = ({ service }) => {

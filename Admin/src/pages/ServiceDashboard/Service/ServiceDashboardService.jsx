@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / ServiceDashboard / Service / ServiceDashboardService.jsx
 import { fetchServiceAppointmentsStats } from "../../../services/fetch";
 import { buildNormalizedServicesFromResponse } from "../../../utils/serviceDashboardUtils";
 

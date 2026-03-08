@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / ListServices / Components / Header.jsx
 import FilterToolbar from "../../../components/FilterToolbar";
 import Title from "../../../components/Title";
 

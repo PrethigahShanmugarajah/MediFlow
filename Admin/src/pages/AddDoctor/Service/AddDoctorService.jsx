@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / AddDoctor / Service / AddDoctorService.jsx
 import { createDoctor } from "../../../services/mutations";
 import { makeDoctorPreviewFromResponse } from "../../../utils/addDoctorUtils";
 

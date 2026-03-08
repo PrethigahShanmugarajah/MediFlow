@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / AddDoctor / Components / DoctorImageCard.jsx
 import { Image, Plus, Trash2 } from "lucide-react";
 import { FileInputField } from "../../../components/FormField/FileInputField";
 

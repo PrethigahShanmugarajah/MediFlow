@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / doctor / Login / Service / loginService.jsx
 import { loginDoctor } from "../../../../services/mutations";
 import {
   extractDoctorAuth,

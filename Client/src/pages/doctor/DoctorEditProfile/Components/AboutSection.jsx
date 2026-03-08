@@ -1,6 +1,6 @@
-// MediFlow / Client / src / pages / doctor / DoctorEditProfile / Components / AboutSection.jsx
 import { Info } from "lucide-react";
 import { TextAreaField } from "../../../../components/common/FormField/TextAreaField";
+import { formatParagraph } from "../../../../utils/helpers";
 
 const AboutSection = ({ doc, setDoc, editing }) => {
   return (
@@ -15,7 +15,8 @@ const AboutSection = ({ doc, setDoc, editing }) => {
         <TextAreaField
           name="about"
           rows={4}
-          value={doc?.about || ""}
+          // value={doc?.about || ""}
+          value={editing ? doc?.about || "" : formatParagraph(doc?.about || "")}
           placeholder="Tell patients about your expertise, approach, and philosophy..."
           size="l"
           textareaClassName={`${editing ? "" : "text-gray-600 cursor-not-allowed"}`}

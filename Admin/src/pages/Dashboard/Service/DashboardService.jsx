@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / Dashboard / Service / DashboardService.jsx
 import {
   fetchDoctors,
   fetchRegisteredUserCount,

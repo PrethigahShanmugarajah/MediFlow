@@ -1,5 +1,3 @@
-// MediFlow / Admin / src / utils / addDoctorUtils.js
-
 /* -------- Convert a time string to total minutes -------- */
 export function timeStringToMinutes(t) {
   if (!t) return 0;
@@ -8,38 +6,6 @@ export function timeStringToMinutes(t) {
   if (ampm === "PM" && h !== 12) h += 12;
   if (ampm === "AM" && h === 12) h = 0;
   return h * 60 + m;
-}
-
-/* -------- Format a date string "YYYY-MM-DD" to "DD Mon YYYY" -------- */
-export function formatDateISO(iso) {
-  if (!iso) return "";
-  const [y, m, d] = iso.split("-");
-  const dateObj = new Date(Number(y), Number(m) - 1, Number(d));
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "June",
-    "July",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  const day = String(Number(d));
-  const month = monthNames[dateObj.getMonth()] || "";
-  return `${day} ${month} ${y}`;
-}
-
-/* -------- Get today's date in "YYYY-MM-DD" format -------- */
-export function getTodayISO() {
-  const d = new Date();
-  const tzOffset = d.getTimezoneOffset();
-  const local = new Date(d.getTime() - tzOffset * 60000);
-  return local.toISOString().split("T")[0];
 }
 
 /* -------- Flatten the schedule object into an array of {date, time} -------- */
@@ -224,45 +190,30 @@ export function makeDoctorPreviewFromResponse(data, form) {
   return { id: Date.now(), ...form, imageUrl: form.imagePreview };
 }
 
-/* -------- Options for availability dropdown -------- */
-export const availabilityOptions = [
-  { value: "Available", label: "Available" },
-  { value: "Unavailable", label: "Unavailable" },
-];
-
-/* -------- Hour options for time picker -------- */
-export const hourOptions = [
-  ...Array.from({ length: 12 }).map((_, i) => ({
-    value: String(i + 1),
-    label: String(i + 1),
-  })),
-];
-
-/* -------- Minute options for time picker -------- */
-export const minuteOptions = Array.from({ length: 60 }).map((_, i) => {
-  const value = String(i).padStart(2, "0");
-  return { value, label: value };
-});
-
-/* -------- AM/PM options for time picker -------- */
-export const ampmOptions = [
-  { value: "AM", label: "AM" },
-  { value: "PM", label: "PM" },
-];
-
-/* -------- Get current time (rounded) in 12-hour format -------- */
+/* -------- Get current time rounded up to next 5 minutes in 12-hour format -------- */
 export function getCurrentTimeNow() {
   const d = new Date();
 
   let hour24 = d.getHours();
-  const minute = d.getMinutes();
+  let minute = d.getMinutes();
+
+  const remainder = minute % 5;
+  if (remainder !== 0) {
+    minute += 5 - remainder;
+  }
+
+  if (minute === 60) {
+    minute = 0;
+    hour24 = (hour24 + 1) % 24;
+  }
+
   const ampm = hour24 >= 12 ? "PM" : "AM";
 
   let hour12 = hour24 % 12;
   if (hour12 === 0) hour12 = 12;
 
   return {
-    hour: String(hour12),
+    hour: String(hour12).padStart(2, "0"),
     minute: String(minute).padStart(2, "0"),
     ampm,
   };

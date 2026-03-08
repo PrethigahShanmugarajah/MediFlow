@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / client / Navbar / Navbar.jsx
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SignedIn, SignedOut, useClerk, UserButton } from "@clerk/clerk-react";

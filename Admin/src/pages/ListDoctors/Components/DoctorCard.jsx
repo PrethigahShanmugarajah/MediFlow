@@ -1,18 +1,21 @@
-// MediFlow / Admin / src / pages / ListDoctors / Components / DoctorCard.jsx
-import { ChevronDown, Star, Trash2, Users } from "lucide-react";
+import { Check, ChevronDown, Star, Trash2, Users, X } from "lucide-react";
 import DoctorExpandedDetails from "./DoctorExpandedDetails";
-import { CURRENCY } from "../../../utils/helpers";
-import { formatExperience } from "../../../utils/listDoctorsUtils";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatDoctorName,
+} from "../../../utils/helpers";
+import { NoPersonImage } from "../../../assets";
 
 const DoctorCard = ({ doc, isOpen, isMobileScreen, onToggle, onDelete }) => {
-  const isAvailable = doc.availability === "Available";
+  const isAvailable = doc?.availability === "Available";
 
   return (
     <article className="bg-linear-to-r from-indigo-100/50 to-white rounded-2xl shadow-md border border-indigo-100 overflow-hidden transition-all duration-300">
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-3 sm:p-4 md:p-5">
         <img
-          src={doc.imageUrl || doc.image || ""}
-          alt={doc.name}
+          src={doc?.imageUrl || doc?.image || NoPersonImage}
+          alt={formatDoctorName(doc?.name)}
           className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover border border-indigo-200 shadow-sm mx-auto sm:mx-0"
         />
 
@@ -21,33 +24,38 @@ const DoctorCard = ({ doc, isOpen, isMobileScreen, onToggle, onDelete }) => {
             <div className="min-w-0 w-full">
               <div className="flex items-center gap-2 flex-wrap">
                 <h3 className="text-base sm:text-lg md:text-xl text-indigo-800 font-medium truncate">
-                  {doc.name}
+                  {formatDoctorName(doc?.name)}
                 </h3>
 
                 <span
-                  className={`ml-0 sm:ml-2 mt-2 sm:mt-0 inline-flex items-center gap-2 text-xs font-medium px-2 py-0.5 rounded-full ${
+                  className={`ml-0 sm:ml-2 mt-2 sm:mt-0 inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
                     isAvailable
                       ? "bg-indigo-50 text-indigo-700"
                       : "bg-rose-50 text-rose-600"
                   }`}
                 >
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      isAvailable ? "bg-indigo-600" : "bg-rose-600"
-                    }`}
-                  />
-                  {isAvailable ? "Available" : "Unavailable"}
+                  {isAvailable ? (
+                    <>
+                      <Check className="w-3 h-3" />
+                      Available
+                    </>
+                  ) : (
+                    <>
+                      <X className="w-3 h-3" />
+                      Unavailable
+                    </>
+                  )}
                 </span>
               </div>
 
               <div className="text-sm text-indigo-600 truncate mt-2 sm:mt-1">
-                {doc.specialization} • {formatExperience(doc.experience)} years
+                {capitalizeWords(doc?.specialization)} • {doc?.experience} years
               </div>
             </div>
 
             <div className="flex items-center gap-3 mt-3 sm:mt-0 sm:ml-4">
               <div className="text-sm text-indigo-700 flex items-center gap-1">
-                <Star size={14} /> {doc.rating}
+                <Star size={14} /> {doc?.rating}
               </div>
 
               <button
@@ -64,7 +72,7 @@ const DoctorCard = ({ doc, isOpen, isMobileScreen, onToggle, onDelete }) => {
           <div className="mt-3 flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <div className="text-xs text-indigo-500">Patients</div>
             <div className="text-sm text-indigo-700 font-medium flex items-center gap-2">
-              <Users size={14} /> {doc.patients}
+              <Users size={14} /> {doc?.patients}
             </div>
 
             <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-2">
@@ -78,7 +86,7 @@ const DoctorCard = ({ doc, isOpen, isMobileScreen, onToggle, onDelete }) => {
 
                 <div className="text-md font-bold text-indigo-700">Fees:</div>
                 <div className="text-sm text-indigo-800 font-medium flex items-center gap-1">
-                  {CURRENCY} {doc.fee}
+                  {CURRENCY} {doc?.fee}
                 </div>
               </div>
             </div>

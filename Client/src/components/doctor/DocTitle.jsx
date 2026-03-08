@@ -1,5 +1,3 @@
-// MediFlow / Client / src / components / doctor / DocTitle.jsx
-
 const DocTitle = ({ title, description }) => {
   return (
     <div>

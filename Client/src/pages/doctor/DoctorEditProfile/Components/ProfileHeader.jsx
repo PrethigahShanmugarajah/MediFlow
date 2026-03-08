@@ -1,6 +1,5 @@
-// MediFlow / Client / src / pages / doctor / DoctorEditProfile / Components / ProfileHeader.jsx
 import { Edit2, MapPin, Stethoscope, X } from "lucide-react";
-import { formatDoctorName } from "../../../../utils/doctor/doctorEditProfileUtils";
+import { capitalizeWords, formatDoctorName } from "../../../../utils/helpers";
 
 const ProfileHeader = ({
   doc,
@@ -19,14 +18,14 @@ const ProfileHeader = ({
         <div className="text-sm sm:text-lg text-indigo-700 mt-2 flex items-center gap-4">
           <div className="flex gap-2 items-center justify-center">
             <Stethoscope className="w-4 h-4" />
-            <span>{doc.specialization}</span>
+            <span>{capitalizeWords(doc.specialization)}</span>
           </div>
 
           <div className="w-1.5 h-1.5 rounded-full bg-indigo-700 self-center"></div>
 
           <div className="flex gap-2 items-center justify-center">
             <MapPin className="w-4 h-4" />
-            <span>{doc.location}</span>
+            <span>{capitalizeWords(doc.location)}</span>
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / client / Appointments / Components / PaymentBadge.jsx
 import { CreditCard, Wallet } from "lucide-react";
 
 const PaymentBadge = ({ payment }) => {

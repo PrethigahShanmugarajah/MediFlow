@@ -1,4 +1,3 @@
-// MediFlow / Client / src / App.jsx
 import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import { Route, Routes, Navigate, Outlet, useLocation } from "react-router-dom";
@@ -11,14 +10,13 @@ import Service from "./pages/client/Service/View/Service";
 import ServiceDetail from "./pages/client/ServiceDetail/View/ServiceDetail";
 import Contact from "./pages/client/Contact/View/Contact";
 import Appointments from "./pages/client/Appointments/View/Appointments";
-import VerifyPayment from "./pages/client/VerifyPayment/View/VerifyPayment";
-import VerifyServicePayment from "./pages/client/VerifyServicePayment/View/VerifyServicePayment";
 import DoctorNavbar from "./components/doctor/DoctorNavbar/DoctorNavbar";
 import Login from "./pages/doctor/Login/View/Login";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard/View/DoctorDashboard";
 import DoctorList from "./pages/doctor/DoctorList/View/DoctorList";
 import DoctorEditProfile from "./pages/doctor/DoctorEditProfile/View/DoctorEditProfile";
 import { CircleChevronUp } from "lucide-react";
+import VerifyCheckoutPayment from "./pages/client/VerifyCheckoutPayment/View/VerifyCheckoutPayment";
 
 const STORAGE_KEY = import.meta.env.VITE_STORAGE_KEY;
 
@@ -112,17 +110,25 @@ const App = () => {
             <Route path="/services" element={<Service />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/appointments" element={<Appointments />} />
-            <Route path="/appointment/success" element={<VerifyPayment />} />
-            <Route path="/appointment/cancel" element={<VerifyPayment />} />
+
+            <Route
+              path="/appointment/success"
+              element={<VerifyCheckoutPayment />}
+            />
+
+            <Route
+              path="/appointment/cancel"
+              element={<VerifyCheckoutPayment />}
+            />
 
             <Route
               path="/service-appointment/success"
-              element={<VerifyServicePayment />}
+              element={<VerifyCheckoutPayment type="service" />}
             />
 
             <Route
               path="/service-appointment/cancel"
-              element={<VerifyServicePayment />}
+              element={<VerifyCheckoutPayment type="service" />}
             />
           </Route>
 

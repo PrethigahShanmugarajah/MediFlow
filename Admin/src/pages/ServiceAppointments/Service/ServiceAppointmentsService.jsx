@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / ServiceAppointments / Service / ServiceAppointmentsService.jsx
 import { fetchServiceAppointments } from "../../../services/fetch";
 import {
   cancelServiceAppointment,
@@ -9,7 +8,7 @@ import {
   applyUpdatedAppointmentFields,
   extractAppointmentsList,
   extractUpdatedAppointment,
-  normalizeAppointments,
+  normalizeServiceAppointments,
   time24ToParts,
 } from "../../../utils/serviceAppointmentsUtils";
 
@@ -24,7 +23,7 @@ export async function loadServiceAppointmentsApi(
   try {
     const data = await fetchServiceAppointments({ limit: 500 });
     const list = extractAppointmentsList(data);
-    setAppointments(normalizeAppointments(list));
+    setAppointments(normalizeServiceAppointments(list));
   } catch (error) {
     setError?.(error?.message || "Failed to load appointments.");
     setAppointments([]);

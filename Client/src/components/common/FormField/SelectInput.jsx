@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / common / FormField / SelectInput.jsx
 import { useEffect, useMemo, useState } from "react";
 import Select, { components } from "react-select";
 import { X } from "lucide-react";

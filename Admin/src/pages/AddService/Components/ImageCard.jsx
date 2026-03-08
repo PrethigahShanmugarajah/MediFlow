@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / pages / AddService / Components / ImageCard.jsx
 import { Image, Plus, Trash2 } from "lucide-react";
 import { FileInputField } from "../../../components/FormField/FileInputField";
 import { SingleCheckboxField } from "../../../components/FormField/CheckboxField";

@@ -1,5 +1,3 @@
-// MediFlow / Client / src / utils / doctor / loginUtils.js
-
 /* -------- Extract token and doctor ID from API response -------- */
 export const extractDoctorAuth = (json) => {
   const token = json?.token || json?.data?.token || null;

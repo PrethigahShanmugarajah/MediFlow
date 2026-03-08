@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / client / DoctorDetail / Components / DoctorProfile.jsx
 import { Award, Heart, Users } from "lucide-react";
 import { NoPersonImage } from "../../../../assets";
 

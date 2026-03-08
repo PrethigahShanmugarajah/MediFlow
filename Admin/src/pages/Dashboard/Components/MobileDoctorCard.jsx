@@ -1,5 +1,9 @@
-// MediFlow / Admin / src / pages / Dashboard / Components / MobileDoctorCard.jsx
-import { CURRENCY } from "../../../utils/helpers";
+import { NoPersonImage } from "../../../assets";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatDoctorName,
+} from "../../../utils/helpers";
 
 const MobileDoctorCard = ({ d }) => {
   return (
@@ -7,14 +11,18 @@ const MobileDoctorCard = ({ d }) => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <img
-            src={d.image}
-            alt={d.name}
+            src={d.image || NoPersonImage}
+            alt={formatDoctorName(d.name)}
             className="w-12 h-12 rounded-full object-cover"
           />
 
           <div>
-            <div className="text-sm font-medium text-slate-800">{d.name}</div>
-            <div className="text-xs text-slate-500">{d.specialization}</div>
+            <div className="text-sm font-medium text-slate-800">
+              {formatDoctorName(d.name)}
+            </div>
+            <div className="text-xs text-slate-500">
+              {capitalizeWords(d.specialization)}
+            </div>
           </div>
         </div>
 

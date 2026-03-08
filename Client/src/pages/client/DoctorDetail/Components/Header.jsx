@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / client / DoctorDetail / Components / Header.jsx
 import { ArrowLeft, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import ClientTitle from "../../../../components/client/ClientTitle";

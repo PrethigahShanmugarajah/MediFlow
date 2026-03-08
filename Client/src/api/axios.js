@@ -1,4 +1,3 @@
-// MediFlow / Client / src / api / axios.js
 import axios from "axios";
 
 const api = axios.create({

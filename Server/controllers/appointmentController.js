@@ -1,4 +1,3 @@
-// MediFlow / Server / controllers / appointmentController.js
 import dotenv from "dotenv";
 import Stripe from "stripe";
 import Appointment from "../models/Appointment.js";
@@ -9,6 +8,7 @@ import {
 } from "../utils/appointmentHelper.js";
 import Doctor from "../models/Doctor.js";
 import { clerkClient } from "@clerk/express";
+import { capitalizeWords } from "../utils/helper.js";
 
 dotenv.config();
 
@@ -186,13 +186,6 @@ export async function createAppointment(req, res) {
       });
     }
 
-    // if (!doctorId || !patientName || !mobile || !date || !time) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "All fields are required.",
-    //   });
-    // }
-
     if (!doctorId) {
       return res.status(400).json({
         success: false,
@@ -229,12 +222,6 @@ export async function createAppointment(req, res) {
     }
 
     const numericFee = safeNumber(fee ?? fees ?? 0);
-    // if (numericFee === null || numericFee < 0) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Fee must be a valid number.",
-    //   });
-    // }
 
     if (numericFee === null) {
       return res.status(400).json({
@@ -400,9 +387,9 @@ export async function createAppointment(req, res) {
         line_items: [
           {
             price_data: {
-              currency: "inr",
+              currency: "lkr",
               product_data: {
-                name: `Appointment - ${String(patientName).slice(0, 40)}`,
+                name: `Appointment - ${capitalizeWords(String(patientName)).slice(0, 40)}`,
               },
               unit_amount: Math.round(numericFee * 100),
             },

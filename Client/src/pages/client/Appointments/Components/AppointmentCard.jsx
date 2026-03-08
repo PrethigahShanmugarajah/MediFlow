@@ -1,6 +1,4 @@
-// MediFlow / Client / src / pages / client / Appointments / Components / AppointmentCard.jsx
 import { CalendarDays, Clock } from "lucide-react";
-import { NoImage } from "../../../../assets";
 import PaymentBadge from "./PaymentBadge";
 import StatusBadge from "./StatusBadge";
 
@@ -28,7 +26,7 @@ const AppointmentCard = ({
 
       <div className="w-24 h-24 rounded-full border-4 border-indigo-300 shadow-md bg-indigo-50 flex items-center justify-center overflow-hidden">
         <img
-          src={image || NoImage}
+          src={image}
           alt={title}
           className="w-full h-full object-cover"
           loading="lazy"

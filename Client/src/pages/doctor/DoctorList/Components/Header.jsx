@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / doctor / DoctorList / Components / Header.jsx
 import DocTitle from "../../../../components/doctor/DocTitle";
 import SearchField from "../../../../components/common/SearchField";
 import { SelectInput } from "../../../../components/common/FormField/SelectInput";

@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / doctor / DoctorEditProfile / Service DoctorEditProfileService.jsx
 import { fetchDoctorByID } from "../../../../services/fetch";
 import {
   changeDoctorAvailability,
@@ -9,7 +8,6 @@ import {
   normalizeDoctorFromApi,
 } from "../../../../utils/doctor/doctorEditProfileUtils";
 
-/* -------- Fetch doctor profile -------- */
 export async function fetchDoctorProfileApi(id) {
   if (!id)
     return { ok: false, doctor: null, message: "Doctor ID is required." };
@@ -30,7 +28,6 @@ export async function fetchDoctorProfileApi(id) {
   }
 }
 
-/* -------- Save doctor profile updates -------- */
 export async function saveDoctorProfileApi({ id, doc, localImageFile, token }) {
   if (!id || !doc) return { ok: false, doctor: null, message: "Invalid data." };
 
@@ -52,7 +49,6 @@ export async function saveDoctorProfileApi({ id, doc, localImageFile, token }) {
   }
 }
 
-/* -------- Toggle doctor availability -------- */
 export async function changeDoctorAvailabilityApi({ id, token }) {
   if (!id) {
     return {

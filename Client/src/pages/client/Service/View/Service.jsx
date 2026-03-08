@@ -1,14 +1,13 @@
-// MediFlow / Client / src / pages / Service / View / Service.jsx
 import { useEffect, useMemo, useState } from "react";
 import { fetchServicesApi } from "../Service/ServiceService";
 import ClientTitle from "../../../../components/client/ClientTitle";
 import SearchField from "../../../../components/common/SearchField";
 import ApiError from "../../../../components/common/ApiError";
-import AvatarSkeletonCard from "../../../../components/common/AvatarSkeletonCard";
-import AvatarCard from "../../../../components/common/AvatarCard";
-import { formatServiceName } from "../../../../utils/client/serviceUtils";
+import AvatarSkeletonCard from "../../../../components/client/AvatarSkeletonCard";
+import AvatarCard from "../../../../components/client/AvatarCard";
 import { NoImage } from "../../../../assets";
 import ShowMoreButton from "../../../../components/common/ShowMoreButton";
+import { capitalizeWords } from "../../../../utils/helpers";
 
 const Service = () => {
   const [services, setServices] = useState([]);
@@ -52,20 +51,22 @@ const Service = () => {
           />
         </div>
 
-        <div className="flex justify-center mb-8 sm:mb-12 animate-slide-up">
-          <div className="w-full max-w-xl px-2 sm:px-0">
-            <SearchField
-              value={searchTerm}
-              onChange={setSearchTerm}
-              placeholder="Search services by name or description..."
-              size="l"
-              widthClass=""
-              showClear
-              inputClassName=""
-              className="rounded-full border border-indigo-300"
-            />
+        {!error && (
+          <div className="flex justify-center mb-8 sm:mb-12 animate-slide-up">
+            <div className="w-full max-w-xl px-2 sm:px-0">
+              <SearchField
+                value={searchTerm}
+                onChange={setSearchTerm}
+                placeholder="Search services by name or description..."
+                size="l"
+                widthClass=""
+                showClear
+                inputClassName=""
+                className="rounded-full border border-indigo-300"
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         <ApiError message={error} onRetry={retry} />
 
@@ -90,7 +91,7 @@ const Service = () => {
                     <AvatarCard
                       imageVariant="rectangle"
                       id={service.id}
-                      name={formatServiceName(service.name)}
+                      name={capitalizeWords(service.name)}
                       subtitle={service.shortDescription}
                       image={service.image}
                       available={service.available}

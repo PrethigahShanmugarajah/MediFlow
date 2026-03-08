@@ -1,26 +1,4 @@
-// MediFlow / Admin / src / utils / addServiceUtils.js
-
-/* -------- List of month abbreviations -------- */
-export const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-
-/* --------  Options for availability dropdown -------- */
-export const availabilityOptions = [
-  { value: "available", label: "Available" },
-  { value: "unavailable", label: "Unavailable" },
-];
+import { MONTHS } from "./helpers";
 
 /* -------- Returns array of years from currentYear -------- */
 export function yearOptions(currentYear, count = 10) {
@@ -62,31 +40,6 @@ export function dayOptions({
       isDisabled: disabled,
     };
   });
-}
-
-/* -------- Returns 12-hour format hour options (01-12) -------- */
-export function hourOptions() {
-  return Array.from({ length: 12 }, (_, i) => {
-    const h = String(i + 1).padStart(2, "0");
-    return { value: h, label: h };
-  });
-}
-
-/* -------- Returns minute options with given step -------- */
-export function minuteOptions(step = 5) {
-  const count = 60 / step;
-  return Array.from({ length: count }, (_, i) => {
-    const m = String(i * step).padStart(2, "0");
-    return { value: m, label: m };
-  });
-}
-
-/* -------- Returns AM/PM options -------- */
-export function ampmOptions() {
-  return ["AM", "PM"].map((a) => ({
-    value: a,
-    label: a,
-  }));
 }
 
 /* -------- Get number of days in a given month -------- */
@@ -210,7 +163,7 @@ export function sanitizePrice(value) {
 }
 
 /* -------- Build FormData object from service form -------- */
-export function buildServiceFormData({
+export function buildAddServiceFormData({
   serviceName,
   about,
   price,

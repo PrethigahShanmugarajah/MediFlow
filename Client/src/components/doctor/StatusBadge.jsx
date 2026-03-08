@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / doctor / StatusBadge.jsx
 import {
   BadgeCheck,
   CheckCircle,

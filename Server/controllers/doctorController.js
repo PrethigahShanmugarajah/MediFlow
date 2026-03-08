@@ -1,4 +1,3 @@
-// MediFlow / Server / controllers / doctorController.js
 import Doctor from "../models/Doctor.js";
 import {
   deleteFromCloudinary,
@@ -15,12 +14,6 @@ import jwt from "jsonwebtoken";
 export async function createDoctor(req, res) {
   try {
     const body = req.body || {};
-    // if (!body.email || !body.password || !body.name) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Name, email, and password are required.",
-    //   });
-    // }
 
     if (!body.name) {
       return res.status(400).json({
@@ -298,13 +291,6 @@ export async function updateDoctor(req, res) {
     const { id } = req.params;
     const body = req.body || {};
 
-    // if (!req.doctor || String(req.doctor._id || req.doctor.id) !== String(id)) {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message: "Not authorized to update this doctor.",
-    //   });
-    // }
-
     if (!req.doctor) {
       return res.status(403).json({
         success: false,
@@ -443,13 +429,6 @@ export async function toggleAvailability(req, res) {
   try {
     const { id } = req.params;
 
-    // if (!req.doctor || String(req.doctor._id || req.doctor.id) !== String(id)) {
-    //   return res.status(403).json({
-    //     success: false,
-    //     message: "Not authorized to toggle availability of this doctor.",
-    //   });
-    // }
-
     if (!req.doctor) {
       return res.status(403).json({
         success: false,
@@ -505,12 +484,6 @@ export async function toggleAvailability(req, res) {
 export async function doctorLogin(req, res) {
   try {
     const { email, password } = req.body || {};
-    // if (!email || !password) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Email and password are required.",
-    //   });
-    // }
 
     if (!email) {
       return res.status(400).json({

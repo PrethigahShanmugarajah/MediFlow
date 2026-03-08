@@ -1,15 +1,17 @@
-// MediFlow / Client / src / pages / doctor / DoctorList / Components / Card.jsx
 import { Banknote, Calendar, Phone, User } from "lucide-react";
 import StatusBadge from "../../../../components/doctor/StatusBadge";
 import StatusSelect from "../../../../components/doctor/StatusSelect";
 import RescheduleButton from "../../../../components/doctor/RescheduleButton";
-import { CURRENCY } from "../../../../utils/doctor/helpers";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatDoctorName,
+} from "../../../../utils/helpers";
 import {
   formatDate,
-  formatDoctorName,
-  formatPatientName,
   formatTimeAMPM,
-} from "../../../../utils/doctor/doctorListUtils";
+} from "../../../../utils/doctor/doctorHelpers";
+import { NoPersonImage } from "../../../../assets";
 
 const Card = ({ appointment, onStatusChange, onReschedule }) => {
   const a = appointment;
@@ -20,14 +22,14 @@ const Card = ({ appointment, onStatusChange, onReschedule }) => {
         <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full overflow-hidden bg-indigo-50 border border-indigo-100 flex items-center justify-center">
           {a.doctorImage ? (
             <img
-              src={a.doctorImage}
+              src={a.doctorImage || NoPersonImage}
               alt={a.doctorName}
               className="w-full h-full object-cover"
               onError={(e) => (e.currentTarget.style.display = "none")}
             />
           ) : (
             <div className="text-indigo-700 font-bold">
-              {(a.doctorName || "D").charAt(0)}
+              {(formatDoctorName(a.doctorName) || "D").charAt(0)}
             </div>
           )}
         </div>
@@ -40,7 +42,7 @@ const Card = ({ appointment, onStatusChange, onReschedule }) => {
           </div>
 
           <div className="text-sm text-indigo-800 font-medium truncate">
-            {a.speciality}
+            {capitalizeWords(a.speciality)}
           </div>
         </div>
       </header>
@@ -51,7 +53,7 @@ const Card = ({ appointment, onStatusChange, onReschedule }) => {
             <User className="w-4 h-4" />
             <span className="truncate">
               <span className="font-bold">
-                {formatPatientName(a.patient) || "-"}{" "}
+                {capitalizeWords(a.patient) || "-"}{" "}
               </span>
             </span>
           </div>

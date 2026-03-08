@@ -1,11 +1,12 @@
-// MediFlow / Admin / src / pages / ServiceAppointments / Components / Card.jsx
-import { Banknote, Calendar, Clock, Phone} from "lucide-react";
+import { Banknote, Calendar, Clock, Phone } from "lucide-react";
 import StatusBadge from "./StatusBadge";
 import RescheduleButton from "./RescheduleButton";
-import { CURRENCY } from "../../../utils/helpers";
 import {
-  formatDateNice,
-  formatPatientName,
+  capitalizeWords,
+  CURRENCY,
+  formatDateISO,
+} from "../../../utils/helpers";
+import {
   formatTimeDisplay,
   isStatusLocked,
 } from "../../../utils/serviceAppointmentsUtils";
@@ -23,7 +24,7 @@ const Card = ({ a, onChangeStatus, onReschedule, onCancel }) => {
             <div className="flex items-start gap-4 min-w-0">
               <div>
                 <div className="text-lg md:text-sm lg:text-xs xl:text-md whitespace-nowrap font-bold leading-tight text-indigo-900 w-full line-clamp-2">
-                  {formatPatientName(a.patientName)}
+                  {capitalizeWords(a.patientName)}
                 </div>
                 <div className="text-sm text-gray-500 mt-1">
                   {a.gender} • {a.age} yrs
@@ -70,7 +71,7 @@ const Card = ({ a, onChangeStatus, onReschedule, onCancel }) => {
             <div className="flex items-center gap-3 text-base">
               <Calendar className="w-4 h-4 text-indigo-500" />
               <span className="font-medium truncate">
-                Date: {formatDateNice(a.date)}
+                Date: {formatDateISO(a.date)}
               </span>
             </div>
 
@@ -82,9 +83,9 @@ const Card = ({ a, onChangeStatus, onReschedule, onCancel }) => {
             </div>
 
             <div className="mt-2 text-base text-gray-600">
-              Service:
+              Service:{" "}
               <span className="font-semibold text-indigo-800">
-                {a.serviceName}
+                {capitalizeWords(a.serviceName)}
               </span>
             </div>
           </div>

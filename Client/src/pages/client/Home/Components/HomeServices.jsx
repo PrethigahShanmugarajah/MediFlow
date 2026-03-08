@@ -1,15 +1,17 @@
-// MediFlow / Client / src / pages / Home / Components / HomeServices.jsx
 import { useEffect, useState } from "react";
 import { Banknote } from "lucide-react";
 import "../Home.css";
 import { fetchHomeServicesApi } from "../Service/HomeService";
 import ClientTitle from "../../../../components/client/ClientTitle";
 import ApiError from "../../../../components/common/ApiError";
-import AvatarSkeletonCard from "../../../../components/common/AvatarSkeletonCard";
-import AvatarCard from "../../../../components/common/AvatarCard";
-import { formatServiceName } from "../../../../utils/client/homeUtils";
-import { CURRENCY } from "../../../../utils/client/helpers";
+import AvatarSkeletonCard from "../../../../components/client/AvatarSkeletonCard";
+import AvatarCard from "../../../../components/client/AvatarCard";
 import { NoImage } from "../../../../assets";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatParagraph,
+} from "../../../../utils/helpers";
 
 const HomeServices = ({ previewCount = 8 }) => {
   const [services, setServices] = useState([]);
@@ -55,8 +57,8 @@ const HomeServices = ({ previewCount = 8 }) => {
                   <AvatarCard
                     imageVariant="rectangle"
                     id={service.id}
-                    name={formatServiceName(service.name)}
-                    subtitle={service.description}
+                    name={capitalizeWords(service.name)}
+                    subtitle={formatParagraph(service.description)}
                     image={service.image}
                     available={service.available}
                     linkTo={`/services/${service.id}`}

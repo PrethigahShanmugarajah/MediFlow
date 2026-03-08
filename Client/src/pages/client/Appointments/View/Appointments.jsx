@@ -1,13 +1,9 @@
-// MediFlow / Client / src / pages / client / Appointments / View / Appointments.jsx
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import {
-  formatDoctorName,
-  formatServiceName,
   mapDoctorAppointment,
   mapServiceAppointment,
 } from "../../../../utils/client/appointmentsUtils";
-import { CURRENCY } from "../../../../utils/doctor/helpers";
 import {
   fetchDoctorAppointmentsByPatientApi,
   fetchServiceAppointmentsByPatientApi,
@@ -18,6 +14,13 @@ import ApiError from "../../../../components/common/ApiError";
 import NotFoundState from "../../../../components/common/NotFoundState";
 import AppointmentCard from "../Components/AppointmentCard";
 import ShowMoreButton from "../../../../components/common/ShowMoreButton";
+import {
+  capitalizeWords,
+  CURRENCY,
+  formatDoctorName,
+} from "../../../../utils/helpers";
+import { NoImage, NoPersonImage } from "../../../../assets";
+import SearchField from "../../../../components/common/SearchField";
 
 const Appointments = () => {
   const { isLoaded, isSignedIn, getToken } = useAuth();
@@ -28,6 +31,7 @@ const Appointments = () => {
   const [serviceAppts, setServiceAppts] = useState([]);
   const [error, setError] = useState(null);
   const [showAll, setShowAll] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchAppointmentsByPatientService = useCallback(async () => {
     if (!isLoaded || !isSignedIn) return;
@@ -102,12 +106,32 @@ const Appointments = () => {
     return [...doctors, ...services];
   }, [appointmentData, serviceData]);
 
+  const filteredAppointments = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) return allAppointments;
+
+    return allAppointments.filter((item) => {
+      if (item.type === "doctor") {
+        return (
+          (item.doctor || "").toLowerCase().includes(q) ||
+          (item.specialization || "").toLowerCase().includes(q)
+        );
+      }
+
+      return (item.name || "").toLowerCase().includes(q);
+    });
+  }, [allAppointments, searchTerm]);
+
   const visibleAppointments = useMemo(() => {
-    return showAll ? allAppointments : allAppointments.slice(0, 8);
-  }, [allAppointments, showAll]);
+    return showAll ? filteredAppointments : filteredAppointments.slice(0, 8);
+  }, [filteredAppointments, showAll]);
 
   const isLoading = loadingDoctors || loadingServices;
   const hasAnyError = error;
+
+  useEffect(() => {
+    setShowAll(false);
+  }, [searchTerm]);
 
   return (
     <div className="min-h-screen font-serif bg-linear-to-br from-blue-100 via-white to-indigo-100 py-10 px-4">
@@ -118,6 +142,23 @@ const Appointments = () => {
             description="View your doctor consultations and booked services together."
           />
         </div>
+
+        {!error && (
+          <div className="flex justify-center mb-8">
+            <div className="w-full max-w-xl px-2 sm:px-0">
+              <SearchField
+                value={searchTerm}
+                onChange={setSearchTerm}
+                placeholder="Search doctor or service..."
+                size="l"
+                widthClass=""
+                showClear
+                inputClassName=""
+                className="rounded-full border border-indigo-300"
+              />
+            </div>
+          </div>
+        )}
 
         {isLoading && (
           <DetailPageLoader bgClass="bg-linear-to-br from-blue-50 via-white to-indigo-100" />
@@ -141,14 +182,20 @@ const Appointments = () => {
             <AppointmentCard
               key={`${item.type}-${item.id}`}
               id={item.id}
-              image={item.image}
+              image={
+                item.type === "doctor"
+                  ? item.image || NoPersonImage
+                  : item.image || NoImage
+              }
               title={
                 item.type === "doctor"
                   ? formatDoctorName(item.doctor)
-                  : formatServiceName(item.name)
+                  : capitalizeWords(item.name)
               }
               specialization={
-                item.type === "doctor" ? item.specialization : undefined
+                item.type === "doctor"
+                  ? `${capitalizeWords(item.specialization)}`
+                  : undefined
               }
               experience={item.type === "doctor" ? item.experience : undefined}
               price={item.type === "service" ? item.price : undefined}

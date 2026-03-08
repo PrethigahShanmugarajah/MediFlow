@@ -1,24 +1,23 @@
-// MediFlow / Client / src / pages / doctor / DoctorList / Service / DoctorListService.jsx
 import { fetchAppointmentsByDoctor } from "../../../../services/fetch";
 import { updateAppointment } from "../../../../services/mutations";
 import {
   backendToFrontendStatus,
   frontendToBackendStatus,
-  mergeUpdatedAppointment,
+  to12HourFrom24,
+} from "../../../../utils/doctor/doctorHelpers";
+import {
+  mergeDoctorListUpdatedAppointment,
   normalizeAppointmentsList,
   optimisticRescheduleUpdate,
   optimisticStatusUpdate,
-  to12HourFrom24,
 } from "../../../../utils/doctor/doctorListUtils";
 
-/* -------- Fetch appointments for doctor -------- */
 export async function fetchDoctorAppointmentsApi(doctorId) {
   if (!doctorId) return [];
   const data = await fetchAppointmentsByDoctor(doctorId);
   return normalizeAppointmentsList(data);
 }
 
-/* -------- Update status (optimistic + merge) -------- */
 export async function updateAppointmentStatusApi({
   prevAppointments,
   id,
@@ -43,7 +42,7 @@ export async function updateAppointmentStatusApi({
     const data = await updateAppointment(id, { status: backendStatus });
     const updated = data?.appointment || data;
 
-    const merged = mergeUpdatedAppointment(optimistic, id, updated, {
+    const merged = mergeDoctorListUpdatedAppointment(optimistic, id, updated, {
       status: backendToFrontendStatus(updated?.status || backendStatus),
     });
 
@@ -64,7 +63,6 @@ export async function updateAppointmentStatusApi({
   }
 }
 
-/* -------- Reschedule (optimistic + merge) -------- */
 export async function rescheduleAppointmentApi({
   prevAppointments,
   id,
@@ -91,7 +89,7 @@ export async function rescheduleAppointmentApi({
     const data = await updateAppointment(id, { date: newDate, time: time12 });
     const updated = data?.appointment || data;
 
-    const merged = mergeUpdatedAppointment(optimistic, id, updated, {
+    const merged = mergeDoctorListUpdatedAppointment(optimistic, id, updated, {
       date: newDate,
       time: newTime24,
       status: backendToFrontendStatus(updated?.status || "Rescheduled"),

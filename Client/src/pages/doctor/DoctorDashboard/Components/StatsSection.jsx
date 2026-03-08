@@ -1,7 +1,6 @@
-// MediFlow / Client / src / pages / doctor / DoctorDashboard / Components / StatsSection.jsx
 import { Banknote, Calendar, CheckCircle, XCircle } from "lucide-react";
 import StatCard from "./StatCard";
-import { CURRENCY } from "../../../../utils/doctor/helpers";
+import { CURRENCY } from "../../../../utils/helpers";
 
 const StatsSection = ({
   totalAppointments,

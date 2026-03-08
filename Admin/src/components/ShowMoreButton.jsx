@@ -1,4 +1,3 @@
-// MediFlow / Admin / src / components / ShowMoreButton.jsx
 import { ChevronDown, ChevronUp } from "lucide-react";
 
 const ShowMoreButton = ({

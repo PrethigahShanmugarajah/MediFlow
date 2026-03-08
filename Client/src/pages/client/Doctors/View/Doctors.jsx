@@ -1,4 +1,3 @@
-// MediFlow / Client / src / pages / client / Doctors / View / Doctors.jsx
 import { useEffect, useMemo, useState } from "react";
 import { Medal } from "lucide-react";
 import "../Doctors.css";
@@ -6,11 +5,11 @@ import { fetchDoctorsApi } from "../Service/DoctorsService";
 import ClientTitle from "../../../../components/client/ClientTitle";
 import SearchField from "../../../../components/common/SearchField";
 import ApiError from "../../../../components/common/ApiError";
-import AvatarSkeletonCard from "../../../../components/common/AvatarSkeletonCard";
-import AvatarCard from "../../../../components/common/AvatarCard";
-import { formatDoctorName } from "../../../../utils/client/doctorsUtils";
+import AvatarSkeletonCard from "../../../../components/client/AvatarSkeletonCard";
+import AvatarCard from "../../../../components/client/AvatarCard";
 import { NoPersonImage } from "../../../../assets";
 import ShowMoreButton from "../../../../components/common/ShowMoreButton";
+import { capitalizeWords, formatDoctorName } from "../../../../utils/helpers";
 
 const Doctors = () => {
   const [allDoctors, setAllDoctors] = useState([]);
@@ -53,20 +52,22 @@ const Doctors = () => {
           />
         </div>
 
-        <div className="flex justify-center mb-8 sm:mb-12 animate-slide-up">
-          <div className="w-full max-w-xl px-2 sm:px-0">
-            <SearchField
-              value={searchTerm}
-              onChange={setSearchTerm}
-              placeholder="Search doctors by name or specialization..."
-              size="l"
-              widthClass=""
-              showClear
-              inputClassName=""
-              className="rounded-full border border-indigo-300"
-            />
+        {!error && (
+          <div className="flex justify-center mb-8 sm:mb-12 animate-slide-up">
+            <div className="w-full max-w-xl px-2 sm:px-0">
+              <SearchField
+                value={searchTerm}
+                onChange={setSearchTerm}
+                placeholder="Search doctors by name or specialization..."
+                size="l"
+                widthClass=""
+                showClear
+                inputClassName=""
+                className="rounded-full border border-indigo-300"
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         <ApiError message={error} onRetry={retry} />
 
@@ -90,7 +91,7 @@ const Doctors = () => {
                     <AvatarCard
                       id={doctor.id}
                       name={formatDoctorName(doctor.name)}
-                      subtitle={doctor.specialization}
+                      subtitle={capitalizeWords(doctor.specialization)}
                       image={doctor.image}
                       available={doctor.available}
                       linkTo={`/doctors/${doctor.id}`}

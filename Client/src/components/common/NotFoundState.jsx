@@ -1,4 +1,3 @@
-// MediFlow / Client / src / components / common / NotFoundState.jsx
 import { Link } from "react-router-dom";
 
 const NotFoundState = ({
